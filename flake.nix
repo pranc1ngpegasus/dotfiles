@@ -61,6 +61,22 @@
               ./home/users/pranc1ngpegasus/home.nix
             ];
           };
+        temma.fukaya = let
+          pkgs = import nixpkgs {
+            inherit system;
+          };
+        in
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+
+            extraSpecialArgs = {
+              inherit inputs outputs;
+            };
+
+            modules = [
+              ./home/users/temma.fukaya/home.nix
+            ];
+          };
       };
     })
     // {
@@ -81,6 +97,17 @@
 
           modules = [
             ./darwin/hosts/MacBookAirM2
+          ];
+
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+        "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+
+          modules = [
+            ./darwin/hosts/adminnoMacBook-Pro
           ];
 
           specialArgs = {
