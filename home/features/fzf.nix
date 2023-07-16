@@ -8,14 +8,14 @@
   programs.fzf = {
     enable = true;
     enableFishIntegration = true;
-    defaultCommand = "rg --files --hidden --follow --glob '!.git/*' --glob '!node_modules/*'";
+    defaultCommand = "rg --files --hidden --follow --glob '!.git/*' --glob '!node_modules/*' --glob '!targets/*'";
     defaultOptions = [
       "--height 40%"
       "--layout reverse-list"
       "--inline-info"
     ];
     fileWidgetOptions = [
-      "--preview \"bat --color=always --style=header,grid --line-range :100 {}\""
+      "--preview 'head -100 {}'"
     ];
     tmux = {
       enableShellIntegration = true;
