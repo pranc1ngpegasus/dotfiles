@@ -116,6 +116,20 @@
         };
       };
 
+      nixosConfigurations = {
+        "dinii" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+
+          modules = [
+            ./nixos/hosts/dinii
+          ];
+
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+      };
+
       nixConfig = {
         extra-substituers = [
           "https://nix-community.cachix.org"
