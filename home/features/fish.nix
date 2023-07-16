@@ -3,7 +3,7 @@
     enable = true;
     shellInit = ''
       fish_add_path $HOME/.tfenv/bin
-      fish_add_path $HOME/.cargo/bin
+      fish_add_path $HOME/.nodenv/bin
     '';
     plugins = [
       {
@@ -31,6 +31,15 @@
           repo = "fish-ghq";
           rev = "master";
           sha256 = "6b1zmjtemNLNPx4qsXtm27AbtjwIZWkzJAo21/aVZzM=";
+        };
+      }
+      {
+        name = "fish-rust";
+        src = pkgs.fetchFromGitHub {
+          owner = "halostatue";
+          repo = "fish-rust";
+          rev = "master";
+          sha256 = "fvKL10euckjVeaGqvZMzOB6WCdqiKQl3mN0fk0Okn18=";
         };
       }
     ];
