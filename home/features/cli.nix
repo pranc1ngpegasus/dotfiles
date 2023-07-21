@@ -11,16 +11,13 @@
       _1password
       alejandra
       chezmoi
-      discord
       docker
       gh
       ghq
-      google-cloud-sdk
       httpie
       hub
       mmv-go
       outputs.packages.${pkgs.system}.devenv
-      rectangle
       ripgrep
       rustup
       tailscale
