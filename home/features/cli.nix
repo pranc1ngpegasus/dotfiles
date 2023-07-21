@@ -10,11 +10,8 @@
     packages = with pkgs; [
       _1password
       alejandra
-      chezmoi
-      docker
       gh
       ghq
-      httpie
       hub
       mmv-go
       outputs.packages.${pkgs.system}.devenv
