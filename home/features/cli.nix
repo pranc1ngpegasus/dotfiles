@@ -10,6 +10,7 @@
     packages = with pkgs; [
       _1password
       alejandra
+      delta
       gh
       ghq
       hub
