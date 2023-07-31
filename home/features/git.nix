@@ -12,12 +12,28 @@
     extraConfig = {
       core = {
         editor = "nvim";
+        pager = "delta";
+      };
+      delta = {
+        navigate = true;
+        line-numbers = true;
+        side-by-side = true;
+        true-color = "always";
+      };
+      diff = {
+        colorMoved = "dimmed_zebra";
       };
       push = {
         default = "current";
       };
       init = {
         defaultBranch = "main";
+      };
+      interactive = {
+        diffFilter = "delta --color-only";
+      };
+      merge = {
+        conflictStyle = "diff3";
       };
       url = {
         "ssh://git@github.com/" = {
