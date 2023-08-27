@@ -17,6 +17,10 @@
     home-manager = {
       url = "github:nix-community/home-manager";
     };
+
+    devenv = {
+      url = "github:cachix/devenv";
+    };
   };
 
   outputs = {...}: {
