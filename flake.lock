@@ -39,6 +39,54 @@
         "type": "github"
       }
     },
+    "fish-done": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1633849654,
+        "narHash": "sha256-6oeyN9ngXWvps1c5QAUjlyPDQwRWAoxBiVTNmZ4sG8E=",
+        "owner": "franciscolourenco",
+        "repo": "done",
+        "rev": "d6abb267bb3fb7e987a9352bc43dcdb67bac9f06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "franciscolourenco",
+        "repo": "done",
+        "type": "github"
+      }
+    },
+    "fish-fzf": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1620776412,
+        "narHash": "sha256-28QW/WTLckR4lEfHv6dSotwkAKpNJFCShxmKFGQQ1Ew=",
+        "owner": "jethrokuan",
+        "repo": "fzf",
+        "rev": "479fa67d7439b23095e01b64987ae79a91a4e283",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jethrokuan",
+        "repo": "fzf",
+        "type": "github"
+      }
+    },
+    "fish-ghq": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1626409029,
+        "narHash": "sha256-6b1zmjtemNLNPx4qsXtm27AbtjwIZWkzJAo21/aVZzM=",
+        "owner": "decors",
+        "repo": "fish-ghq",
+        "rev": "cafaaabe63c124bf0714f89ec715cfe9ece87fa2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "decors",
+        "repo": "fish-ghq",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -431,6 +479,9 @@
       "inputs": {
         "darwin": "darwin",
         "devenv": "devenv",
+        "fish-done": "fish-done",
+        "fish-fzf": "fish-fzf",
+        "fish-ghq": "fish-ghq",
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils_2",
         "home-manager": "home-manager",

@@ -37,6 +37,21 @@
       url = "github:neovim/neovim?dir=contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    fish-done = {
+      url = "github:franciscolourenco/done";
+      flake = false;
+    };
+
+    fish-ghq = {
+      url = "github:decors/fish-ghq";
+      flake = false;
+    };
+
+    fish-fzf = {
+      url = "github:jethrokuan/fzf";
+      flake = false;
+    };
   };
 
   outputs = {...}: {
