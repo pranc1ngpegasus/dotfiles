@@ -26,32 +26,16 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1692700763,
-        "narHash": "sha256-pWbQEVSjlDfrrBoHv5XFe+IdYVpJXY8C9Wz7rO98yqU=",
+        "lastModified": 1693179221,
+        "narHash": "sha256-vfndyVSFhfWwO5b7d0j92YJ06obEaHsJZAa3MI0sYvc=",
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "6b84a85dd5cde41cbf992b6b2445bf25fe0abb21",
+        "rev": "68ea687ed567d578543d89b47281119a3511ac08",
         "type": "github"
       },
       "original": {
         "owner": "cachix",
         "repo": "devenv",
-        "type": "github"
-      }
-    },
-    "fish-done": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1633849654,
-        "narHash": "sha256-6oeyN9ngXWvps1c5QAUjlyPDQwRWAoxBiVTNmZ4sG8E=",
-        "owner": "franciscolourenco",
-        "repo": "done",
-        "rev": "d6abb267bb3fb7e987a9352bc43dcdb67bac9f06",
-        "type": "github"
-      },
-      "original": {
-        "owner": "franciscolourenco",
-        "repo": "done",
         "type": "github"
       }
     },
@@ -84,6 +68,22 @@
       "original": {
         "owner": "decors",
         "repo": "fish-ghq",
+        "type": "github"
+      }
+    },
+    "fish-rust": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1606672278,
+        "narHash": "sha256-fvKL10euckjVeaGqvZMzOB6WCdqiKQl3mN0fk0Okn18=",
+        "owner": "halostatue",
+        "repo": "fish-rust",
+        "rev": "f5c7c73463786aa7328e4991f699790261583637",
+        "type": "github"
+      },
+      "original": {
+        "owner": "halostatue",
+        "repo": "fish-rust",
         "type": "github"
       }
     },
@@ -234,14 +234,16 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1692763155,
-        "narHash": "sha256-qMrGKZ8c/q/mHO3ZdrcBPwiVVXPLLgXjY98Ejqb5kAA=",
+        "lastModified": 1693187908,
+        "narHash": "sha256-cTcNpsqi1llmUFl9bmCdD0mTyfjhBrNFPhu2W12WXzA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6a20e40acaebf067da682661aa67da8b36812606",
+        "rev": "8bde7a651b94ba30bd0baaa9c4a08aae88cc2e92",
         "type": "github"
       },
       "original": {
@@ -275,11 +277,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1693098204,
-        "narHash": "sha256-3qgRx+MiS/zz2Zc+KfMp3duwE9akl+IDeyng62lL/QE=",
+        "lastModified": 1693220718,
+        "narHash": "sha256-InT62FvuET67j2G9kkz3M1ehhk0x+QkvbBQrm3RlfaA=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "874b8172a69a0a5b0973f32410036823edc0dba7",
+        "rev": "1ad13e07d2d9a01fbadd59a84af601b2ab0d8c73",
         "type": "github"
       },
       "original": {
@@ -392,27 +394,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1692638711,
-        "narHash": "sha256-J0LgSFgJVGCC1+j5R2QndadWI1oumusg6hCtYAzLID4=",
+        "lastModified": 1693222658,
+        "narHash": "sha256-AtzjO+22+4ZTilFwdXvjd6xpE3QLBFNE65UyuqA/+EY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "91a22f76cd1716f9d0149e8a5c68424bb691de15",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_4": {
-      "locked": {
-        "lastModified": 1693103197,
-        "narHash": "sha256-vJU5u52DOe3DhuXH0+ZezpE0cRFjnixrH5g9QGtO15E=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "fcfa6f73f8adccdcaa8ed1a908e834a3afa06505",
+        "rev": "e79a33626481650cd9009649e0e24ec02dc71e2a",
         "type": "github"
       },
       "original": {
@@ -479,14 +465,14 @@
       "inputs": {
         "darwin": "darwin",
         "devenv": "devenv",
-        "fish-done": "fish-done",
         "fish-fzf": "fish-fzf",
         "fish-ghq": "fish-ghq",
+        "fish-rust": "fish-rust",
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils_2",
         "home-manager": "home-manager",
         "neovim": "neovim",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_3",
         "pre-commit-hooks": "pre-commit-hooks_2"
       }
     },

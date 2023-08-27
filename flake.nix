@@ -21,6 +21,7 @@
 
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     devenv = {
@@ -38,11 +39,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    fish-done = {
-      url = "github:franciscolourenco/done";
-      flake = false;
-    };
-
     fish-ghq = {
       url = "github:decors/fish-ghq";
       flake = false;
@@ -52,6 +48,11 @@
       url = "github:jethrokuan/fzf";
       flake = false;
     };
+
+    fish-rust = {
+      url = "github:halostatue/fish-rust";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -59,6 +60,7 @@
     nixpkgs,
     flake-utils,
     darwin,
+    neovim,
     home-manager,
     ...
   } @ inputs: let
@@ -84,7 +86,26 @@
       homeManagerModules = [];
       nixosModules = [];
       nixosConfigurations = {};
-      darwinConfigurations = {};
+      darwinConfigurations = {
+        "MacBookAirM2" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./darwin/hosts/MacBookAirM2
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+        "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./darwin/hosts/adminnoMacBook-Pro
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+      };
       overlays = {};
     };
 }
