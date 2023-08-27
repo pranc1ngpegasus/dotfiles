@@ -9,6 +9,10 @@
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+    };
   };
 
   outputs = {...}: {
