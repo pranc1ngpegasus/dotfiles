@@ -16,6 +16,7 @@
       gh
       ghq
       hub
+      jq
       mmv-go
       nodejs
       outputs.packages.${pkgs.system}.devenv
