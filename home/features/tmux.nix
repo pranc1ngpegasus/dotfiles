@@ -8,9 +8,9 @@
     keyMode = "vi";
     prefix = "C-q";
     terminal = "screen-256color";
-    shell = "${pkgs.fish}/bin/fish";
+    shell = "${pkgs.zsh}/bin/zsh";
     extraConfig = ''
-      set -g default-command "${pkgs.fish}/bin/fish"
+      set -g default-command "${pkgs.zsh}/bin/zsh"
       set-option -sa terminal-overrides ',screen-256color:RGB'
       # status line
       ## common

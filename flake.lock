@@ -39,54 +39,6 @@
         "type": "github"
       }
     },
-    "fish-fzf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1620776412,
-        "narHash": "sha256-28QW/WTLckR4lEfHv6dSotwkAKpNJFCShxmKFGQQ1Ew=",
-        "owner": "jethrokuan",
-        "repo": "fzf",
-        "rev": "479fa67d7439b23095e01b64987ae79a91a4e283",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jethrokuan",
-        "repo": "fzf",
-        "type": "github"
-      }
-    },
-    "fish-ghq": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1626409029,
-        "narHash": "sha256-6b1zmjtemNLNPx4qsXtm27AbtjwIZWkzJAo21/aVZzM=",
-        "owner": "decors",
-        "repo": "fish-ghq",
-        "rev": "cafaaabe63c124bf0714f89ec715cfe9ece87fa2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "decors",
-        "repo": "fish-ghq",
-        "type": "github"
-      }
-    },
-    "fish-rust": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1606672278,
-        "narHash": "sha256-fvKL10euckjVeaGqvZMzOB6WCdqiKQl3mN0fk0Okn18=",
-        "owner": "halostatue",
-        "repo": "fish-rust",
-        "rev": "f5c7c73463786aa7328e4991f699790261583637",
-        "type": "github"
-      },
-      "original": {
-        "owner": "halostatue",
-        "repo": "fish-rust",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -465,15 +417,13 @@
       "inputs": {
         "darwin": "darwin",
         "devenv": "devenv",
-        "fish-fzf": "fish-fzf",
-        "fish-ghq": "fish-ghq",
-        "fish-rust": "fish-rust",
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils_2",
         "home-manager": "home-manager",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs_3",
-        "pre-commit-hooks": "pre-commit-hooks_2"
+        "pre-commit-hooks": "pre-commit-hooks_2",
+        "zsh-ghq-fzf": "zsh-ghq-fzf"
       }
     },
     "systems": {
@@ -518,6 +468,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "zsh-ghq-fzf": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694322970,
+        "narHash": "sha256-OOX3UqU3rP6fQ6Cbbg3067EkaSsPfHIfBxltMBxHg04=",
+        "owner": "Pranc1ngPegasus",
+        "repo": "zsh-ghq-fzf",
+        "rev": "2d6ebfa25c54db23574d1af17030aadee141ffec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Pranc1ngPegasus",
+        "repo": "zsh-ghq-fzf",
         "type": "github"
       }
     }
