@@ -12,6 +12,7 @@
       _1password
       alejandra
       delta
+      fnm
       gh
       ghq
       hub
