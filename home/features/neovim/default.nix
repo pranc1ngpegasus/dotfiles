@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  outputs,
   ...
 }: {
   xdg.configFile = let
@@ -22,14 +21,15 @@
   in
     getConfigFiles ./.;
 
-  home = {
-    sessionVariables = {
-      EDITOR = "nvim";
+  programs = {
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      extraPackages = with pkgs; [
+        gcc
+        gnumake
+      ];
+      vimAlias = true;
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
   };
 }

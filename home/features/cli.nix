@@ -1,12 +1,13 @@
 {
-  pkgs,
   outputs,
+  pkgs,
   ...
 }: {
   home = {
-    sessionVariables = {
-      NIXPKGS_ALLOW_UNFREE = 1;
-    };
+    sessionPath = [
+      "$HOME/.tfenv/bin"
+    ];
+
     packages = with pkgs; [
       _1password
       alejandra
@@ -15,43 +16,25 @@
       ghq
       hub
       mmv-go
+      nodejs
       outputs.packages.${pkgs.system}.devenv
       ripgrep
       rustup
       tailscale
       tig
       tree
+      yarn
     ];
   };
 
   programs = {
     direnv = {
       enable = true;
-      nix-direnv = {
-        enable = true;
-      };
-    };
-
-    go = {
-      enable = true;
-      package = pkgs.go_1_20;
+      nix-direnv.enable = true;
     };
 
     home-manager = {
       enable = true;
-    };
-
-    jq = {
-      enable = true;
-    };
-
-    zsh = {
-      enable = true;
-      initExtra = ''
-        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-        fi
-      '';
     };
   };
 }

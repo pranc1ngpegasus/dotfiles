@@ -1,8 +1,8 @@
 {...}: {
   imports = [
+    ./home-manager.nix
     ./nix.nix
     ./nixpkgs.nix
-    ./home-manager.nix
   ];
 
   environment = {
@@ -10,10 +10,8 @@
   };
 
   services = {
-    nix-daemon.enable = true;
-  };
-
-  system = {
-    stateVersion = 4;
+    nix-daemon = {
+      enable = true;
+    };
   };
 }

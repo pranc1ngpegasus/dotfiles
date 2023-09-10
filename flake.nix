@@ -1,9 +1,14 @@
 {
-  description = "My system configuration";
+  description = "Pranc1ngPegasus's system configuration";
 
   inputs = {
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-22.11";
+      url = "github:NixOS/nixpkgs";
+    };
+
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
     };
 
     flake-utils = {
@@ -15,12 +20,38 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     devenv = {
-      url = "github:cachix/devenv/latest";
+      url = "github:cachix/devenv";
+    };
+
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    neovim = {
+      url = "github:neovim/neovim?dir=contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    fish-ghq = {
+      url = "github:decors/fish-ghq";
+      flake = false;
+    };
+
+    fish-fzf = {
+      url = "github:jethrokuan/fzf";
+      flake = false;
+    };
+
+    fish-rust = {
+      url = "github:halostatue/fish-rust";
+      flake = false;
     };
   };
 
@@ -29,93 +60,19 @@
     nixpkgs,
     flake-utils,
     darwin,
+    neovim,
     home-manager,
     ...
   } @ inputs: let
     inherit (self) outputs;
   in
-    flake-utils.lib.eachDefaultSystem
-    (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-      };
-    in {
+    flake-utils.lib.eachDefaultSystem (system: {
       packages = {
         inherit (inputs.devenv.packages.${system}) devenv;
-      };
-
-      homeConfigurations = {
-        pranc1ngpegasus = let
-          pkgs = import nixpkgs {
-            inherit system;
-          };
-        in
-          home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-
-            extraSpecialArgs = {
-              inherit inputs outputs;
-            };
-
-            modules = [
-              ./home/users/pranc1ngpegasus/home.nix
-            ];
-          };
-        temma.fukaya = let
-          pkgs = import nixpkgs {
-            inherit system;
-          };
-        in
-          home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-
-            extraSpecialArgs = {
-              inherit inputs outputs;
-            };
-
-            modules = [
-              ./home/users/temma.fukaya/home.nix
-            ];
-          };
+        neovim = inputs.neovim.packages.${system}.default;
       };
     })
     // {
-      darwinConfigurations = {
-        "FVFHQ1JRQ05N" = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-
-          modules = [
-            ./darwin/hosts/FVFHQ1JRQ05N
-          ];
-
-          specialArgs = {
-            inherit inputs outputs;
-          };
-        };
-        "MacBookAirM2" = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-
-          modules = [
-            ./darwin/hosts/MacBookAirM2
-          ];
-
-          specialArgs = {
-            inherit inputs outputs;
-          };
-        };
-        "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-
-          modules = [
-            ./darwin/hosts/adminnoMacBook-Pro
-          ];
-
-          specialArgs = {
-            inherit inputs outputs;
-          };
-        };
-      };
-
       nixConfig = {
         extra-substituers = [
           "https://nix-community.cachix.org"
@@ -126,5 +83,29 @@
           "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
         ];
       };
+      homeManagerModules = [];
+      nixosModules = [];
+      nixosConfigurations = {};
+      darwinConfigurations = {
+        "MacBookAirM2" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./darwin/hosts/MacBookAirM2
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+        "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./darwin/hosts/adminnoMacBook-Pro
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+      };
+      overlays = {};
     };
 }

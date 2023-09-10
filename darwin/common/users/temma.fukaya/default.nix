@@ -10,7 +10,7 @@
   users = {
     users = {
       "temma.fukaya" = {
-        name = "Temma Fukaya";
+        name = "temma.fukaya";
         home = "/Users/temma.fukaya";
       };
     };
@@ -18,7 +18,8 @@
 
   home-manager = {
     users = {
-      "temma.fukaya" = ../../../home/users/temma.fukaya/${config.networking.hostName}.nix;
+      "temma.fukaya" = import ../../../../home/users/temma.fukaya/${config.networking.hostName}.nix;
     };
   };
 }
+
