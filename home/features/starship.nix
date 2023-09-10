@@ -27,17 +27,6 @@
 
       git_status = {
         format = "([$all_status$ahead_behind]($style) )";
-        # conflicted = "";
-        # ahead = "";
-        # behind = "";
-        # diverged = "";
-        # up_to_date = "✓";
-        # untracked = "";
-        # stashed = "";
-        # modified = "🔥";
-        # staged = "";
-        # renamed = "";
-        # deleted = "";
       };
 
       package = {
