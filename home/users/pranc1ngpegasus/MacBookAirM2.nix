@@ -2,13 +2,13 @@
   imports = [
     ../../features/bat.nix
     ../../features/cli.nix
-    ../../features/fish.nix
     ../../features/fzf.nix
     ../../features/git.nix
     ../../features/lazygit.nix
     ../../features/neovim
     ../../features/tmux.nix
     ../../features/wezterm
+    ../../features/zsh.nix
   ];
 
   manual = {

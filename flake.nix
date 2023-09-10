@@ -39,18 +39,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    fish-ghq = {
-      url = "github:decors/fish-ghq";
-      flake = false;
-    };
-
-    fish-fzf = {
-      url = "github:jethrokuan/fzf";
-      flake = false;
-    };
-
-    fish-rust = {
-      url = "github:halostatue/fish-rust";
+    zsh-ghq-fzf = {
+      url = "github:Pranc1ngPegasus/zsh-ghq-fzf";
       flake = false;
     };
   };
