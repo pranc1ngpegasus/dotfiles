@@ -6,6 +6,7 @@
     ../../features/git.nix
     ../../features/lazygit.nix
     ../../features/neovim
+    ../../features/starship.nix
     ../../features/tmux.nix
     ../../features/wezterm
     ../../features/zsh.nix
