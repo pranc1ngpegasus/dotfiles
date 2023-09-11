@@ -16,7 +16,6 @@ local options = {
   swapfile = false,
   number = true,
   scrolloff = 1000,
-  sh = 'fish',
   shiftround = true,
   shiftwidth = 2,
   smartcase = true,
