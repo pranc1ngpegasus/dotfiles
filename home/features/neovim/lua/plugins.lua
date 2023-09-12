@@ -192,18 +192,17 @@ local plugins = {
   },
   -- util
   {
-    'junegunn/fzf.vim',
+    'lotabout/skim.vim',
     config = function()
-      vim.cmd([[let g:fzf_layout = { 'down': '~40%' }]])
-      vim.cmd([[command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)]])
-
+      vim.cmd([[let g:skim_layout = { 'down': '~40%' }]])
+      -- vim.cmd([[command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)]])
     end,
     dependencies = {
-      'junegunn/fzf',
+      'lotabout/skim',
     },
     keys = {
       {"<C-f>", "<cmd>Rg<CR>"},
-      {"<Space><Space>", "<cmd>FZF<CR>"},
+      {"<Space><Space>", "<cmd>SK<CR>"},
     },
   },
   {

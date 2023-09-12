@@ -1,7 +1,7 @@
 {config, ...}: {
   home = {
     sessionVariables = {
-      GHQ_SELECTOR = "fzf-tmux";
+      GHQ_SELECTOR = "sk-tmux";
     };
   };
 
