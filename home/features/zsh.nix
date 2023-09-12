@@ -5,8 +5,8 @@
     enableAutosuggestions = true;
     plugins = [
       {
-        name = "zsh-ghq-skim";
-        src = inputs.zsh-ghq-skim;
+        name = "zsh-ghq-fzf";
+        src = inputs.zsh-ghq-fzf;
       }
     ];
   };
