@@ -2,10 +2,10 @@
   imports = [
     ../../features/bat.nix
     ../../features/cli.nix
-    ../../features/fzf.nix
     ../../features/git.nix
     ../../features/lazygit.nix
     ../../features/neovim
+    ../../features/skim.nix
     ../../features/starship.nix
     ../../features/tmux.nix
     ../../features/wezterm
