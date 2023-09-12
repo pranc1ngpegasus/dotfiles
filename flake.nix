@@ -39,8 +39,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zsh-ghq-fzf = {
-      url = "github:Pranc1ngPegasus/zsh-ghq-fzf";
+    zsh-ghq-skim = {
+      url = "github:Pranc1ngPegasus/zsh-ghq-skim";
       flake = false;
     };
   };

@@ -22,6 +22,7 @@
       outputs.packages.${pkgs.system}.devenv
       ripgrep
       rustup
+      skim
       tailscale
       tig
       tree

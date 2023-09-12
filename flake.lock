@@ -423,7 +423,7 @@
         "neovim": "neovim",
         "nixpkgs": "nixpkgs_3",
         "pre-commit-hooks": "pre-commit-hooks_2",
-        "zsh-ghq-fzf": "zsh-ghq-fzf"
+        "zsh-ghq-skim": "zsh-ghq-skim"
       }
     },
     "systems": {
@@ -471,19 +471,19 @@
         "type": "github"
       }
     },
-    "zsh-ghq-fzf": {
+    "zsh-ghq-skim": {
       "flake": false,
       "locked": {
-        "lastModified": 1694322970,
-        "narHash": "sha256-OOX3UqU3rP6fQ6Cbbg3067EkaSsPfHIfBxltMBxHg04=",
+        "lastModified": 1694505362,
+        "narHash": "sha256-mqMVKSUNIIxB6ayzEmQIgkg4OK+8JyrN6Of9b19bVDQ=",
         "owner": "Pranc1ngPegasus",
-        "repo": "zsh-ghq-fzf",
-        "rev": "2d6ebfa25c54db23574d1af17030aadee141ffec",
+        "repo": "zsh-ghq-skim",
+        "rev": "e342c6cb6b30976d5370fc40c7d0063fb0129864",
         "type": "github"
       },
       "original": {
         "owner": "Pranc1ngPegasus",
-        "repo": "zsh-ghq-fzf",
+        "repo": "zsh-ghq-skim",
         "type": "github"
       }
     }
