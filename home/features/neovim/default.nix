@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs = {
     neovim = {
       enable = true;
@@ -190,7 +187,7 @@
         cmp-vsnip
         vim-vsnip
         copilot-cmp
-	nvim-treesitter.withAllGrammars
+        nvim-treesitter.withAllGrammars
         nvim_context_vt
         vim-toml
         vim-graphql
