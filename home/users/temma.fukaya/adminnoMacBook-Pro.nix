@@ -5,10 +5,10 @@
     ../../features/fzf.nix
     ../../features/git.nix
     ../../features/lazygit.nix
-    ../../features/neovim
+    ../../features/neovim.nix
     ../../features/starship.nix
     ../../features/tmux.nix
-    ../../features/wezterm
+    ../../features/wezterm.nix
     ../../features/zsh.nix
   ];
 
