@@ -15,7 +15,6 @@
       fnm
       gh
       ghq
-      hub
       jq
       mmv-go
       nodejs
