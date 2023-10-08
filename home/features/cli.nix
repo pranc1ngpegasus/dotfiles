@@ -6,6 +6,7 @@
   home = {
     sessionPath = [
       "$HOME/.tfenv/bin"
+      "$HOME/.cargo/bin"
     ];
 
     packages = with pkgs; [
