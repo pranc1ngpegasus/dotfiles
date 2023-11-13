@@ -39,6 +39,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    deno = {
+      url = "https://github.com/denoland/deno";
+      inputs.nixpkgs.follows = "nixpkgs";
+      flake = false;
+    };
+
     zsh-ghq-fzf = {
       url = "github:Pranc1ngPegasus/zsh-ghq-fzf";
       flake = false;

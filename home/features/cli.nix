@@ -13,6 +13,7 @@
       _1password
       alejandra
       delta
+      deno
       fnm
       gh
       ghq
