@@ -56,10 +56,45 @@
   } @ inputs: let
     inherit (self) outputs;
   in
-    flake-utils.lib.eachDefaultSystem (system: {
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+    in {
       packages = {
         inherit (inputs.devenv.packages.${system}) devenv;
         neovim = inputs.neovim.packages.${system}.default;
+        bunV1 = pkgs.bun.overrideAttrs (final: prev:
+          with pkgs;
+            prev
+            // rec {
+              version = "1.0.11";
+              src = passthru.sources.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
+              passthru =
+                prev.passthru
+                // {
+                  sources =
+                    prev.passthru.sources
+                    // {
+                      "aarch64-darwin" = fetchurl {
+                        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-aarch64.zip";
+                        sha256 = "yZp/AFlOVRtZ60865utrtVv0zlerwFMhpqBh26WnfL8=";
+                      };
+                      "x86_64-darwin" = fetchurl {
+                        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-x64.zip";
+                        sha256 = "1brxbrc7dsqazmqzwlb8ym9rczr67lfk67sqnp3z66l4pwc3f0gp";
+                      };
+                      "aarch64-linux" = fetchurl {
+                        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-aarch64.zip";
+                        sha256 = "16xkf7fcfjrmzayb4crb7l6ai4jzshihi9924b70m8lid07hmlzz";
+                      };
+                      "x86_64-linux" = fetchurl {
+                        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-x64.zip";
+                        sha256 = "0b0wlxh2nmal1izw8hf239cg68ngnd0if4sqg3k7n2sdr0cpwgx5";
+                      };
+                    };
+                };
+            });
       };
     })
     // {

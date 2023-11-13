@@ -19,6 +19,7 @@
       jq
       mmv-go
       nodejs
+      outputs.packages.${pkgs.system}.bunV1
       outputs.packages.${pkgs.system}.devenv
       ripgrep
       rustup
