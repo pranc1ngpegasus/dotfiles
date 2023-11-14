@@ -7,6 +7,9 @@
     initExtra = ''
       export BUN_INSTALL="$HOME/.bun"
       export PATH="$BUN_INSTALL/bin:$PATH"
+      export DENO_INSTALL="$HOME/.deno"
+      export PATH="$DENO_INSTALL/bin:$PATH"
+      export PATH="$HOME/go/bin:$PATH"
       eval "$(fnm env --use-on-cd)"
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
     '';
