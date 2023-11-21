@@ -4,6 +4,7 @@
     ../../features/cli.nix
     ../../features/fzf.nix
     ../../features/git.nix
+    ../../features/gitui.nix
     ../../features/lazygit.nix
     ../../features/neovim.nix
     ../../features/starship.nix
