@@ -189,6 +189,13 @@
         copilot-cmp
         nvim-treesitter.withAllGrammars
         nvim_context_vt
+        {
+          plugin = vim-terraform;
+          type = "viml";
+          config = ''
+            autocmd FileType terraform autocmd BufWritePre * :TerraformFmt
+          '';
+        }
         vim-toml
         vim-graphql
         {
