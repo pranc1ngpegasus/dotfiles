@@ -203,7 +203,7 @@
           type = "viml";
           config = ''
             let g:fzf_layout = { 'down': '~40%' }
-            command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+            command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
             noremap <C-f> :Rg<CR>
             noremap <Space><Space> :FZF<CR>
           '';
