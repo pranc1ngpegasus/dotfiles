@@ -225,6 +225,13 @@
             require('copilot_cmp').setup()
           '';
         }
+        {
+          plugin = gitlinker-nvim;
+          type = "lua";
+          config = ''
+            require("gitlinker").setup()
+          '';
+        }
       ];
       vimAlias = true;
     };
