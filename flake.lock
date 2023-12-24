@@ -18,18 +18,6 @@
         "type": "github"
       }
     },
-    "deno": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-D7SEYkHCVVC1jyzwSMiu2PL643D8lHrA4/VLbW0VMrg=",
-        "type": "file",
-        "url": "https://github.com/denoland/deno"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/denoland/deno"
-      }
-    },
     "devenv": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -428,7 +416,6 @@
     "root": {
       "inputs": {
         "darwin": "darwin",
-        "deno": "deno",
         "devenv": "devenv",
         "flake-compat": "flake-compat_2",
         "flake-utils": "flake-utils_2",
