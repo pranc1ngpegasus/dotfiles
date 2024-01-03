@@ -10,7 +10,6 @@
     ../../features/neovim.nix
     ../../features/starship.nix
     ../../features/tmux.nix
-    ../../features/wezterm.nix
     ../../features/zsh.nix
   ];
 
