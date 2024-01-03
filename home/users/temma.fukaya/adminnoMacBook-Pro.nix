@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ../../features/alacritty.nix
     ../../features/bat.nix
     ../../features/cli.nix
     ../../features/fzf.nix
