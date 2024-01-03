@@ -11,7 +11,7 @@
     shell = "${pkgs.zsh}/bin/zsh";
     extraConfig = ''
       set -g default-command "${pkgs.zsh}/bin/zsh"
-      set-option -sa terminal-overrides ',screen-256color:RGB'
+      set-option -sa terminal-overrides ',alacritty:RGB'
       # status line
       ## common
       set-option -g allow-rename on
