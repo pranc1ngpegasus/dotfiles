@@ -36,6 +36,9 @@
         let g:netrw_sizestyle = "H"
         let g:netrw_timefmt = "%Y/%m/%d(%a) %H:%M:%S"
 
+        " disable sql completion
+        let g:loaded_sql_completion = 0
+
         " use ripgrep as vimgrep
         if executable('rg')
         	set grepprg=rg\ --vimgrep\ --no-heading
