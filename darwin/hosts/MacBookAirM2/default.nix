@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   imports = [
     ../../common/global
     ../../common/optional
@@ -9,18 +9,6 @@
     settings = {
       auto-optimise-store = true;
     };
-  };
-
-  fonts = {
-    fontDir.enable = true;
-
-    fonts = with pkgs; [
-      (nerdfonts.override {
-        fonts = [
-          "JetBrainsMono"
-        ];
-      })
-    ];
   };
 
   networking = {

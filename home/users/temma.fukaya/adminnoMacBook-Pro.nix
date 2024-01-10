@@ -1,6 +1,5 @@
 {...}: {
   imports = [
-    ../../features/alacritty.nix
     ../../features/bat.nix
     ../../features/cli.nix
     ../../features/fzf.nix
@@ -10,6 +9,7 @@
     ../../features/neovim.nix
     ../../features/starship.nix
     ../../features/tmux.nix
+    ../../features/wezterm.nix
     ../../features/zsh.nix
   ];
 
