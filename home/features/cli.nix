@@ -17,11 +17,16 @@
       fnm
       gh
       ghq
+      git-lfs
       google-cloud-sdk
+      httpie
       jq
       mmv-go
       nodejs
       outputs.packages.${pkgs.system}.devenv
+      pgcli
+      protobuf
+      python38
       ripgrep
       rustup
       tailscale
