@@ -186,7 +186,7 @@
         cmp-treesitter
         cmp-vsnip
         vim-vsnip
-        copilot-cmp
+        cmp-copilot
         nvim-treesitter.withAllGrammars
         nvim_context_vt
         {
@@ -219,18 +219,8 @@
         }
         editorconfig-vim
         {
-          plugin = copilot-lua;
-          type = "lua";
-          config = ''
-            require('copilot').setup()
-          '';
-        }
-        {
-          plugin = copilot-cmp;
-          type = "lua";
-          config = ''
-            require('copilot_cmp').setup()
-          '';
+          plugin = copilot-vim;
+          type = "viml";
         }
         {
           plugin = gitlinker-nvim;
