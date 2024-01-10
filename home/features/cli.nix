@@ -12,10 +12,12 @@
     packages = with pkgs; [
       _1password
       alejandra
+      awscli2
       delta
       fnm
       gh
       ghq
+      google-cloud-sdk
       jq
       mmv-go
       nodejs
