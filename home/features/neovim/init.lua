@@ -103,8 +103,11 @@ local plugins = {
     end,
   },
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
     event = "VeryLazy",
+    config = function()
+      require("copilot").setup()
+    end,
   },
   {
     "hrsh7th/nvim-cmp",
@@ -119,7 +122,7 @@ local plugins = {
       "ray-x/cmp-treesitter",
       "hrsh7th/cmp-vsnip",
       "hrsh7th/vim-vsnip",
-      "hrsh7th/cmp-copilot",
+      "zbirenbaum/copilot-cmp",
     },
     config = function()
       vim.cmd([[set completeopt=menu,menuone,noselect]])
@@ -163,7 +166,7 @@ local plugins = {
           end, { "i", "c" }),
         },
         sources = cmp.config.sources({
-          { name = "copilot",                group_index = 1, priority = 100 },
+          { name = "copilot" },
           { name = "nvim_lsp" },
           { name = "omni" },
           { name = "nvim_lsp_signature_help" },
