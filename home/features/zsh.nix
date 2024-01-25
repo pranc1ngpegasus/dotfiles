@@ -11,6 +11,7 @@
       eval "$(fnm env --use-on-cd)"
       eval $(/opt/homebrew/bin/brew shellenv)
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+      eval "$(/opt/homebrew/bin/brew shellenv)"
     '';
     plugins = [
       {
