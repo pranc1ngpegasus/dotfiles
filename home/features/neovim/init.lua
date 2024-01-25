@@ -290,6 +290,13 @@ local plugins = {
     end,
   },
   {
+    "windwp/nvim-autopairs",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-autopairs").setup()
+    end,
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "iceberg",
