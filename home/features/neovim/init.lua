@@ -87,11 +87,17 @@ local plugins = {
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
+    dependencies = {
+      "AndreM222/copilot-lualine",
+    },
     opts = function()
       return {
         options = {
           theme = "auto"
-        }
+        },
+        sections = {
+          lualine_x = { 'copilot' ,'encoding', 'fileformat', 'filetype' },
+        },
       }
     end,
   },
@@ -106,7 +112,14 @@ local plugins = {
     "zbirenbaum/copilot.lua",
     event = "VeryLazy",
     config = function()
-      require("copilot").setup()
+      require("copilot").setup({
+        suggestion = {
+          enabled = false,
+        },
+        panel = {
+          enabled = false,
+        },
+      })
     end,
   },
   {
@@ -122,7 +135,12 @@ local plugins = {
       "ray-x/cmp-treesitter",
       "hrsh7th/cmp-vsnip",
       "hrsh7th/vim-vsnip",
-      "zbirenbaum/copilot-cmp",
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+          require("copilot_cmp").setup()
+        end,
+      },
     },
     config = function()
       vim.cmd([[set completeopt=menu,menuone,noselect]])
