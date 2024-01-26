@@ -157,31 +157,9 @@ local plugins = {
           documentation = cmp.config.window.bordered(),
         },
         mapping = {
-          ["<C-n>"] = function(fallback)
-            if not cmp.select_next_item() then
-              if vim.bo.buftype ~= "prompt" and has_words_before() then
-                cmp.complete()
-              else
-                fallback()
-              end
-            end
-          end,
-          ["<C-p>"] = function(fallback)
-            if not cmp.select_prev_item() then
-              if vim.bo.buftype ~= "prompt" and has_words_before() then
-                cmp.complete()
-              else
-                fallback()
-              end
-            end
-          end,
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.confirm()
-            else
-              fallback()
-            end
-          end, { "i", "c" }),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<Tab>"] = cmp.mapping.confirm({select = true}),
         },
         sources = cmp.config.sources({
           { name = "copilot" },
