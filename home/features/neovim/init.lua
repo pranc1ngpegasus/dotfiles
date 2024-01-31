@@ -89,6 +89,7 @@ local plugins = {
     event = "VeryLazy",
     dependencies = {
       "AndreM222/copilot-lualine",
+      "arkav/lualine-lsp-progress",
     },
     opts = function()
       return {
@@ -96,6 +97,7 @@ local plugins = {
           theme = "auto"
         },
         sections = {
+          lualine_c = { 'lsp_progress' },
           lualine_x = { 'copilot' ,'encoding', 'fileformat', 'filetype' },
         },
       }
