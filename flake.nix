@@ -25,17 +25,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    devenv = {
-      url = "github:cachix/devenv";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-
     neovim = {
       url = "github:neovim/neovim?dir=contrib";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,7 +49,6 @@
   in
     flake-utils.lib.eachDefaultSystem (system: {
       packages = {
-        inherit (inputs.devenv.packages.${system}) devenv;
         neovim = inputs.neovim.packages.${system}.default;
       };
     })
@@ -68,11 +56,9 @@
       nixConfig = {
         extra-substituers = [
           "https://nix-community.cachix.org"
-          "https://devenv.cachix.org"
         ];
         extra-trusted-public-keys = [
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
         ];
       };
       homeManagerModules = [];
