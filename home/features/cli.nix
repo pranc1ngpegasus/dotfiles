@@ -23,10 +23,8 @@
       jq
       mmv-go
       nodejs
-      outputs.packages.${pkgs.system}.devenv
       pgcli
       protobuf
-      python38
       ripgrep
       rustup
       tailscale
