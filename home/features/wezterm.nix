@@ -1,7 +1,7 @@
 {...}: {
   programs.wezterm = {
     enable = true;
-    extraConfig =''
+    extraConfig = ''
       return {
         color_scheme = "iceberg-dark";
         font_size = 17.0;
