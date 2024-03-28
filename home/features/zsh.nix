@@ -3,7 +3,9 @@
     enable = true;
     defaultKeymap = "emacs";
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion = {
+      enable = true;
+    };
     initExtra = ''
       export BUN_INSTALL="$HOME/.bun"
       export PATH="$BUN_INSTALL/bin:$PATH"
