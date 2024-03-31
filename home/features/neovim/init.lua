@@ -98,7 +98,7 @@ local plugins = {
         },
         sections = {
           lualine_c = { 'lsp_progress' },
-          lualine_x = { 'copilot' ,'encoding', 'fileformat', 'filetype' },
+          lualine_x = { 'copilot', 'encoding', 'fileformat', 'filetype' },
         },
       }
     end,
@@ -161,7 +161,7 @@ local plugins = {
         mapping = {
           ["<C-n>"] = cmp.mapping.select_next_item(),
           ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<Tab>"] = cmp.mapping.confirm({select = true}),
+          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
         },
         sources = cmp.config.sources({
           { name = "copilot" },
@@ -262,29 +262,26 @@ local plugins = {
     },
   },
   {
-    "ibhagwan/fzf-lua",
+    "junegunn/fzf.vim",
+    event = "VeryLazy",
+    dependencies = {
+      "junegunn/fzf",
+    },
     keys = {
       {
         "<Space><Space>",
-        "<cmd>lua require('fzf-lua').files()<CR>",
+        "<cmd>:FZF<CR>",
       },
       {
         "<C-f>",
-        "<cmd>lua require('fzf-lua').grep_project()<CR>",
+        "<cmd>:Rg<CR>",
       },
     },
     config = function()
-      require("fzf-lua").setup({
-        winopts = {
-          height = 0.4,
-          width = 1.0,
-          row = 1,
-          col = 0.5,
-        },
-        fzf_opts = {
-          ["--layout"] = "reverse-list",
-        },
-      })
+      vim.cmd([[
+      let g:fzf_layout = { 'down': '~40%' }
+      command! -bang -nargs=* Rg call fzf#vim#grep('rg --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+      ]])
     end,
   },
   {
