@@ -10,27 +10,25 @@
     ];
 
     packages = with pkgs; [
-      _1password
       alejandra
       awscli2
-      delta
-      fnm
       gh
       ghq
-      git-lfs
+      go
       google-cloud-sdk
+      grpcurl
+      htop
       httpie
       jq
       mmv-go
+      mycli
       nodejs
       pgcli
       protobuf
       ripgrep
       rustup
-      tailscale
       tig
       tree
-      yarn
     ];
   };
 
