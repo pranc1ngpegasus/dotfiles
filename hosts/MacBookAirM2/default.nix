@@ -1,7 +1,7 @@
 {...}: {
   imports = [
-    ../../../modules/darwin
-    ../../common/users/pranc1ngpegasus
+    ../../modules/darwin
+    ../../darwin/common/users/pranc1ngpegasus
   ];
 
   networking = {

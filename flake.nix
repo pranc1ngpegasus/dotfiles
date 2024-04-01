@@ -68,7 +68,7 @@
         "MacBookAirM2" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./darwin/hosts/MacBookAirM2
+            ./hosts/MacBookAirM2
           ];
           specialArgs = {
             inherit inputs outputs;
@@ -77,7 +77,7 @@
         "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./darwin/hosts/adminnoMacBook-Pro
+            ./hosts/adminnoMacBook-Pro
           ];
           specialArgs = {
             inherit inputs outputs;
