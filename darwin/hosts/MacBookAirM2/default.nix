@@ -1,15 +1,8 @@
 {...}: {
   imports = [
-    ../../common/global
-    ../../common/optional
+    ../../../modules/darwin
     ../../common/users/pranc1ngpegasus
   ];
-
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-    };
-  };
 
   networking = {
     hostName = "MacBookAirM2";

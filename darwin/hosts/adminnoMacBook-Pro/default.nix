@@ -1,15 +1,8 @@
 {...}: {
   imports = [
-    ../../common/global
-    ../../common/optional
+    ../../../modules/darwin
     ../../common/users/temma.fukaya
   ];
-
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-    };
-  };
 
   networking = {
     hostName = "adminnoMacBook-Pro";

@@ -54,7 +54,7 @@
     })
     // {
       nixConfig = {
-        extra-substituers = [
+        extra-substituters = [
           "https://nix-community.cachix.org"
         ];
         extra-trusted-public-keys = [
@@ -84,6 +84,5 @@
           };
         };
       };
-      overlays = {};
     };
 }
