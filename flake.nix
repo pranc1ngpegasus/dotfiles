@@ -78,10 +78,10 @@
             inherit inputs outputs;
           };
         };
-        "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
+        "MacBookProM2Pro" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./hosts/adminnoMacBook-Pro
+            ./hosts/MacBookProM2Pro
             home-manager.darwinModules.home-manager
             {
               home-manager.users."temma.fukaya" = import ./home/darwin;
