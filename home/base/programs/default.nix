@@ -3,6 +3,14 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./bat
+    ./fzf
+    ./git
+    ./gitui
+    ./lazygit
+  ];
+
   home = {
     sessionPath = [
       "$HOME/.tfenv/bin"

@@ -54,7 +54,7 @@
     })
     // {
       nixConfig = {
-        extra-substituers = [
+        extra-substituters = [
           "https://nix-community.cachix.org"
         ];
         extra-trusted-public-keys = [
@@ -68,7 +68,11 @@
         "MacBookAirM2" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./darwin/hosts/MacBookAirM2
+            ./hosts/MacBookAirM2
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.users.pranc1ngpegasus = import ./home/darwin;
+            }
           ];
           specialArgs = {
             inherit inputs outputs;
@@ -77,13 +81,16 @@
         "adminnoMacBook-Pro" = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./darwin/hosts/adminnoMacBook-Pro
+            ./hosts/adminnoMacBook-Pro
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.users."temma.fukaya" = import ./home/darwin;
+            }
           ];
           specialArgs = {
             inherit inputs outputs;
           };
         };
       };
-      overlays = {};
     };
 }
