@@ -14,6 +14,18 @@
     pathsToLink = ["/Applications"];
   };
 
+  fonts = {
+    fontDir.enable = true;
+
+    fonts = with pkgs; [
+      (nerdfonts.override {
+        fonts = [
+          "JetBrainsMono"
+        ];
+      })
+    ];
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     extraSpecialArgs = {
