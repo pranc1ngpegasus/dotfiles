@@ -1,7 +1,6 @@
 {...}: {
   imports = [
     ../../modules/darwin
-    ../../darwin/common/users/temma.fukaya
   ];
 
   networking = {

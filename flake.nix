@@ -71,7 +71,7 @@
             ./hosts/MacBookAirM2
             home-manager.darwinModules.home-manager
             {
-              home-manager.users.pranc1ngpegasus = import ./home/users/pranc1ngpegasus/MacBookAirM2.nix;
+              home-manager.users.pranc1ngpegasus = import ./home/darwin;
             }
           ];
           specialArgs = {
@@ -84,7 +84,7 @@
             ./hosts/adminnoMacBook-Pro
             home-manager.darwinModules.home-manager
             {
-              home-manager.users."temma.fukaya" = import ./home/users/temma.fukaya/MacBookProM2Pro.nix;
+              home-manager.users."temma.fukaya" = import ./home/darwin;
             }
           ];
           specialArgs = {
