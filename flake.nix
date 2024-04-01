@@ -69,6 +69,10 @@
           system = "aarch64-darwin";
           modules = [
             ./hosts/MacBookAirM2
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.users.pranc1ngpegasus = import ./home/users/pranc1ngpegasus/MacBookAirM2.nix;
+            }
           ];
           specialArgs = {
             inherit inputs outputs;
@@ -78,6 +82,10 @@
           system = "aarch64-darwin";
           modules = [
             ./hosts/adminnoMacBook-Pro
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.users."temma.fukaya" = import ./home/users/temma.fukaya/MacBookProM2Pro.nix;
+            }
           ];
           specialArgs = {
             inherit inputs outputs;
