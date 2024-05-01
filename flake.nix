@@ -91,6 +91,19 @@
             inherit inputs outputs;
           };
         };
+        "bengo4com" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/bengo4com
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.users."ex_t.fukaya" = import ./home/darwin;
+            }
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
       };
     };
 }
