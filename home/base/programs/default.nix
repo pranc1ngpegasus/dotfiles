@@ -20,6 +20,7 @@
     packages = with pkgs; [
       alejandra
       awscli2
+      fnm
       gh
       ghq
       go
