@@ -62,7 +62,7 @@
         ];
       };
       homeManagerModules = [];
-      nixosModules = [];
+      nixosModules = {};
       nixosConfigurations = {};
       darwinConfigurations = {
         "MacBookAirM2" = darwin.lib.darwinSystem {
