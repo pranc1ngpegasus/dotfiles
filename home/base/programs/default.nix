@@ -31,6 +31,7 @@
       jq
       mmv-go
       mycli
+      nodePackages.pnpm
       nodejs
       pgcli
       protobuf
