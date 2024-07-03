@@ -26,7 +26,7 @@
     };
 
     neovim = {
-      url = "github:neovim/neovim?dir=contrib";
+      url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
