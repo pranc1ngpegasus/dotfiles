@@ -34,6 +34,21 @@
       url = "github:Pranc1ngPegasus/zsh-ghq-fzf";
       flake = false;
     };
+
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -43,6 +58,9 @@
     darwin,
     neovim,
     home-manager,
+    nix-homebrew,
+    homebrew-core,
+    homebrew-cask,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -72,6 +90,19 @@
             home-manager.darwinModules.home-manager
             {
               home-manager.users.pranc1ngpegasus = import ./home/darwin;
+            }
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                enable = true;
+                enableRosetta = true;
+                user = "pranc1ngpegasus";
+                taps = {
+                  "homebrew/homebrew-core" = homebrew-core;
+                  "homebrew/homebrew-cask" = homebrew-cask;
+                };
+                mutableTaps = false;
+              };
             }
           ];
           specialArgs = {
