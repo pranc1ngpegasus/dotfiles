@@ -6,7 +6,7 @@
   ...
 }: {
   imports = [
-    ../../modules/darwin
+    ../../modules/nixos
     ./hardware-configuration.nix
   ];
 
