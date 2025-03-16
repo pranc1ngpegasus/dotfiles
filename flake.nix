@@ -90,6 +90,20 @@
             inherit inputs outputs;
           };
         };
+        M4MacBookAir = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/M4MacBookAir
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.pranc1ngpegasus = import ./home/darwin;
+            }
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
       };
     };
 }
