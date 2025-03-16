@@ -52,29 +52,6 @@
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         ];
       };
-      nixosConfigurations = {
-        UM890 = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/UM890
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.pranc1ngpegasus = import ./home/nixos;
-            }
-            {
-              programs = {
-                _1password.enable = true;
-                _1password-gui.enable = true;
-                _1password-gui.polkitPolicyOwners = ["pranc1ngpegasus"];
-              };
-            }
-          ];
-          specialArgs = {
-            inherit inputs outputs;
-          };
-        };
-      };
       darwinConfigurations = {
         MacBookAirM2 = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
