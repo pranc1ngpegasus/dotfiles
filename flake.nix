@@ -53,20 +53,6 @@
         ];
       };
       darwinConfigurations = {
-        MacBookAirM2 = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            ./hosts/MacBookAirM2
-            home-manager.darwinModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.pranc1ngpegasus = import ./home/darwin;
-            }
-          ];
-          specialArgs = {
-            inherit inputs outputs;
-          };
-        };
         M4MacBookAir = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
