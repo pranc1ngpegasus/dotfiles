@@ -3,6 +3,13 @@
     ../../modules/darwin
   ];
 
+  environment = {
+    systemPackages = with pkgs; [
+      awscli
+      claude-code
+    ];
+  };
+
   networking = {
     hostName = "M4MacBookAir";
   };
