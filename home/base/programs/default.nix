@@ -17,6 +17,7 @@
       jq
       lazygit
       mmv-go
+      ni
       ripgrep
       tree
     ];
