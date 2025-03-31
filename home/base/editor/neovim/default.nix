@@ -1,20 +1,17 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
-  home = {
-    packages = with pkgs; [
-      gopls
-      nodejs
-      rust-analyzer
-    ];
-  };
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    gopls
+    nil
+    nodejs
+    rust-analyzer
+    typescript-language-server
+  ];
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    vimAlias = true;
     extraConfig = ''
-      set ambiwidth=double
+      " options
       set autoread
       set background=dark
       set clipboard=unnamed
@@ -27,7 +24,6 @@
       set incsearch
       set laststatus=3
       set nobackup
-      set noshowmode
       set noswapfile
       set number
       set scrolloff=1000
@@ -37,7 +33,6 @@
       set smartindent
       set tabstop=2
       set termguicolors
-      set title
       set wrapscan
 
       " netrw
@@ -45,15 +40,6 @@
       let g:netrw_preview = 1
       let g:netrw_sizestyle = "H"
       let g:netrw_timefmt = "%Y/%m/%d(%a) %H:%M:%S"
-
-      " disable sql completion
-      let g:loaded_sql_completion = 0
-
-      " use ripgrep as vimgrep
-      if executable('rg')
-        set grepprg=rg\ --vimgrep\ --no-heading
-        set grepformat=%f:%l:%c:%m,%f:%l:%m
-      endif
 
       " truecolor
       if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
@@ -89,32 +75,69 @@
       vim.g.skip_loading_mswin        = 1
     '';
     plugins = with pkgs.vimPlugins; [
+      # theme
       {
         plugin = iceberg-vim;
         type = "viml";
         config = ''
           colorscheme iceberg
-          set background=dark
         '';
       }
+      # show key bindings
+      {
+        plugin = which-key-nvim;
+        type = "lua";
+        config = ''
+          vim.keymap.set('n', '<leader>?', '<cmd>lua require("which-key").show({global = false})<CR>')
+        '';
+      }
+      # statusline
       {
         plugin = lualine-nvim;
         type = "lua";
         config = ''
-            require('lualine').setup({
-              options = {
-                theme = 'iceberg_dark'
-              },
-          sections = {
-            lualine_a = { 'mode' },
-            lualine_b = { 'branch', 'filename' },
-            lualine_c = { 'lsp_progress' },
-            lualine_x = { 'encoding', 'fileformat', 'filetype' },
-          },
-            })
+          require('lualine').setup({
+            sections = {
+              lualine_a = { 'mode' },
+              lualine_b = { 'branch', 'filename' },
+              lualine_c = { },
+              lualine_x = { 'filetype' },
+              lualine_y = { 'progress' },
+              lualine_z = { 'location' },
+            },
+          })
         '';
       }
-      lualine-lsp-progress
+      {
+        plugin = vim-tpipeline;
+        type = "lua";
+        config = ''
+          vim.g.tpipeline_autoembed = 1
+          vim.g.tpipeline_restore = 1
+          vim.g.tpipeline_clearstl = 1
+        '';
+      }
+      # notify
+      {
+        plugin = nvim-notify;
+        type = "lua";
+        config = ''
+          require("notify").setup({
+            max_width = 50,
+            render = "wrapped-compact",
+            stages = "slide",
+            timeout = 3000,
+          })
+        '';
+      }
+      nui-nvim
+      {
+        plugin = noice-nvim;
+        type = "lua";
+        config = ''
+          require("noice").setup()
+        '';
+      }
       # completion
       {
         plugin = copilot-lua;
@@ -192,7 +215,7 @@
         plugin = nvim-lspconfig;
         type = "lua";
         config = ''
-          local servers = {"rust_analyzer", "gopls"};
+          local servers = {"rust_analyzer", "gopls", "ts_ls", "nil"};
           local opt = {
             on_attach = function(client, bufnr)
               local opts = { noremap = true, silent = true }
@@ -213,7 +236,7 @@
           end
         '';
       }
-      nvim-treesitter.withAllGrammars
+      # fuzzy finder
       {
         plugin = fzf-vim;
         type = "viml";
@@ -224,6 +247,12 @@
           noremap <Space><Space> :FZF<CR>
         '';
       }
+      (nvim-treesitter.withPlugins (plugin:
+        with plugin; [
+          go
+          rust
+          typescript
+        ]))
       {
         plugin = gitlinker-nvim;
         type = "lua";
@@ -232,6 +261,5 @@
         '';
       }
     ];
-    vimAlias = true;
   };
 }
