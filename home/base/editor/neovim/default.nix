@@ -99,8 +99,8 @@
           require('lualine').setup({
             sections = {
               lualine_a = { 'mode' },
-              lualine_b = { 'branch', 'filename' },
-              lualine_c = { },
+              lualine_b = { 'branch' },
+              lualine_c = { 'filename' },
               lualine_x = { 'filetype' },
               lualine_y = { 'progress' },
               lualine_z = { 'location' },
@@ -234,6 +234,14 @@
           for _, server in ipairs(servers) do
             require('lspconfig')[server].setup(opt)
           end
+        '';
+      }
+      {
+        plugin = avante-nvim;
+        type = "lua";
+        config = ''
+          require("avante_lib").load()
+          require("avante").setup()
         '';
       }
       # fuzzy finder

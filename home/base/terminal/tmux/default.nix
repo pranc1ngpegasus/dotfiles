@@ -29,7 +29,7 @@
       set-option -g window-status-style "fg=default,bg=default,bold"
       ## window status left
       set-option -g status-left "#[fg=colour252,bg=colour239] Session: #S #[default]"
-      set-option -g status-left-length 20
+      set-option -g status-left-length 70
       ## window status right
       set-option -g status-right "#[fg=colour252,bg=colour239] %Y/%m/%d(%a) %H:%M:%S #[default]"
       set-option -g status-right-length 70
