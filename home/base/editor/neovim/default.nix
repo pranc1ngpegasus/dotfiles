@@ -215,7 +215,7 @@
         plugin = nvim-lspconfig;
         type = "lua";
         config = ''
-          local servers = {"rust_analyzer", "gopls", "ts_ls", "nil"};
+          local servers = {"rust_analyzer", "gopls", "ts_ls", "nil_ls"};
           local opt = {
             on_attach = function(client, bufnr)
               local opts = { noremap = true, silent = true }
