@@ -232,7 +232,23 @@
         type = "lua";
         config = ''
           require("avante_lib").load()
-          require("avante").setup()
+          require("avante").setup({
+              provider = "copilot",
+              auto_suggestions_provider = "copilot",
+              suggestion = {
+                debounce = 600,
+                throttle = 600,
+              },
+              copilot = {
+                endpoint = "https://api.githubcopilot.com",
+                model = "claude-3.5-sonnet",
+                proxy = nil,
+                allow_insecure = false,
+                timeout = 30000,
+                temperature = 0,
+                max_tokens = 20480,
+              },
+            })
         '';
       }
       # fuzzy finder
