@@ -6,7 +6,7 @@
     autosuggestion = {
       enable = true;
     };
-    initExtra = ''
+    initContent = ''
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
     '';
     plugins = [
