@@ -1,9 +1,9 @@
 {pkgs, ...}: {
   imports = [
     ./direnv
-    ./fzf
     ./git
     ./mise
+    ./skim
     ./ssh
   ];
   home = {

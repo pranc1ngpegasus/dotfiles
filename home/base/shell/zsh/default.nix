@@ -11,12 +11,12 @@
     '';
     plugins = [
       {
-        name = "zsh-ghq-fzf";
+        name = "zsh-ghq-skim";
         src = pkgs.fetchFromGitHub {
           owner = "pranc1ngpegasus";
-          repo = "zsh-ghq-fzf";
+          repo = "zsh-ghq-skim";
           rev = "main";
-          sha256 = "sha256-OOX3UqU3rP6fQ6Cbbg3067EkaSsPfHIfBxltMBxHg04=";
+          sha256 = "sha256-U/b7zdP5y1k5kADNy7hf7BYr9H7AZsL6arW1qOozdxk=";
         };
       }
     ];
