@@ -145,6 +145,7 @@
         '';
       }
       blink-cmp-copilot
+      blink-cmp-avante
       {
         plugin = blink-cmp;
         type = "lua";
@@ -189,6 +190,7 @@
                 'snippets',
                 'buffer',
                 'copilot',
+                'avante',
               },
               providers = {
                 copilot = {
@@ -197,6 +199,12 @@
                   score_offset = 100,
                   async = true,
                 },
+                avante = {
+                  name = 'avante',
+                  module = 'blink-cmp-avante',
+                  score_offset = 100,
+                  async = true,
+                }
               },
             },
           })
