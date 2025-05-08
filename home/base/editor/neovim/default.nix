@@ -268,12 +268,7 @@
           noremap <Space><Space> :Files<CR>
         '';
       }
-      (nvim-treesitter.withPlugins (plugin:
-        with plugin; [
-          go
-          rust
-          typescript
-        ]))
+      nvim-treesitter
       {
         plugin = gitlinker-nvim;
         type = "lua";
