@@ -1,13 +1,15 @@
 {pkgs, ...}: {
   programs.zsh = {
     enable = true;
+    dotDir = ".config/zsh";
     defaultKeymap = "emacs";
     enableCompletion = true;
-    autosuggestion = {
-      enable = true;
-    };
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
     initContent = ''
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+      PROMPT="%F{white}%c%f
+      %F{green}>%f "
     '';
     plugins = [
       {
