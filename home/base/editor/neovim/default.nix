@@ -247,6 +247,9 @@
                 debounce = 600,
                 throttle = 600,
               },
+              selector = {
+                provider = 'telescope',
+              },
               copilot = {
                 endpoint = "https://api.githubcopilot.com",
                 model = "claude-3.5-sonnet",
@@ -259,14 +262,13 @@
             })
         '';
       }
-      # fuzzy finder
       {
-        plugin = skim-vim;
-        type = "viml";
-        config = ''
-          noremap <C-f> :Rg<CR>
-          noremap <Space><Space> :Files<CR>
-        '';
+      plugin = telescope-nvim;
+      type = "lua";
+      config = ''
+        vim.keymap.set('n', '<Space><Space>', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true })
+        vim.keymap.set('n', '<C-f>', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
+      '';
       }
       nvim-treesitter
       {
