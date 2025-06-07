@@ -145,7 +145,6 @@
         '';
       }
       blink-cmp-copilot
-      blink-cmp-avante
       {
         plugin = blink-cmp;
         type = "lua";
@@ -190,7 +189,6 @@
                 'snippets',
                 'buffer',
                 'copilot',
-                'avante',
               },
               providers = {
                 copilot = {
@@ -199,12 +197,6 @@
                   score_offset = 100,
                   async = true,
                 },
-                avante = {
-                  name = 'avante',
-                  module = 'blink-cmp-avante',
-                  score_offset = 100,
-                  async = true,
-                }
               },
             },
           })
@@ -233,33 +225,6 @@
           for _, server in ipairs(servers) do
             require('lspconfig')[server].setup(opt)
           end
-        '';
-      }
-      {
-        plugin = avante-nvim;
-        type = "lua";
-        config = ''
-          require("avante_lib").load()
-          require("avante").setup({
-              provider = "copilot",
-              auto_suggestions_provider = "copilot",
-              suggestion = {
-                debounce = 600,
-                throttle = 600,
-              },
-              selector = {
-                provider = 'telescope',
-              },
-              copilot = {
-                endpoint = "https://api.githubcopilot.com",
-                model = "claude-3.5-sonnet",
-                proxy = nil,
-                allow_insecure = false,
-                timeout = 30000,
-                temperature = 0,
-                max_tokens = 20480,
-              },
-            })
         '';
       }
       {
