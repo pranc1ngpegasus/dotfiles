@@ -49,6 +49,8 @@ in {
       ".envrc"
       "flake.lock"
       "flake.nix"
+      "go.work"
+      "go.work.sum"
     ];
   };
 }
