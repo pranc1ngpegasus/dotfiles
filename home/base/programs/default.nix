@@ -10,6 +10,8 @@
     packages = with pkgs; [
       alejandra
       bat
+      colima
+      docker
       gh
       ghq
       htop

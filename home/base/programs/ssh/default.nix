@@ -6,10 +6,6 @@
 in {
   programs.ssh = {
     enable = true;
-    includes =
-      if pkgs.system == "aarch64-darwin"
-      then ["$HOME/.orbstack/ssh/config"]
-      else [];
     extraConfig = ''
       IdentityAgent "${_1passwordSockPath}"
     '';
