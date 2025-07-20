@@ -1,4 +1,11 @@
 {...}: {
+  networking = {
+    applicationFirewall = {
+      enable = true;
+      blockAllIncoming = true;
+    };
+  };
+
   security = {
     pam = {
       services = {
@@ -24,10 +31,6 @@
         KeyRepeat = 2;
         NSDisableAutomaticTermination = false;
         NSTextShowsControlCharacters = true;
-      };
-
-      alf = {
-        globalstate = 1;
       };
 
       menuExtraClock = {
