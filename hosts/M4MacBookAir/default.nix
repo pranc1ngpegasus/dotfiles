@@ -6,7 +6,7 @@
   environment = {
     systemPackages = with pkgs; [
       awscli
-      claude-code
+      gemini-cli
     ];
   };
 
