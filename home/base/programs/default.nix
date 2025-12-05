@@ -12,6 +12,7 @@
       bat
       colima
       docker
+      docker-buildx
       docker-compose
       gh
       ghq
