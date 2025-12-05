@@ -12,4 +12,11 @@
       enable = false;
     };
   };
+
+  targets = {
+    darwin = {
+      copyApps.enable = false;
+      linkApps.enable = true;
+    };
+  };
 }
