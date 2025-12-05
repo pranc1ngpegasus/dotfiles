@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     gopls
     nil
-    nodejs
     rust-analyzer
     typescript-language-server
   ];
@@ -48,6 +47,10 @@
       endif
     '';
     extraLuaConfig = ''
+      vim.opt.laststatus = 0
+      vim.opt.statusline = "─"
+      vim.opt.fillchars:append({ stl = "─", stlnc = "─" })
+
       -- disable unnecessary built-in plugins
       vim.g.did_indent_on             = 1
       vim.g.did_install_default_menus = 1
@@ -93,19 +96,10 @@
       }
       # statusline
       {
-        plugin = lualine-nvim;
+        plugin = incline-nvim;
         type = "lua";
         config = ''
-          require('lualine').setup({
-            sections = {
-              lualine_a = { 'mode' },
-              lualine_b = { 'branch' },
-              lualine_c = { 'filename' },
-              lualine_x = { 'filetype' },
-              lualine_y = { 'progress' },
-              lualine_z = { 'location' },
-            },
-          })
+          require('incline').setup()
         '';
       }
       # notify
@@ -117,7 +111,7 @@
             max_width = 50,
             render = "wrapped-compact",
             stages = "slide",
-            timeout = 3000,
+            timeout = 1500,
           })
         '';
       }
