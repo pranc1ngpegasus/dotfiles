@@ -14,6 +14,7 @@
       set autoread
       set background=dark
       set clipboard=unnamed
+      set cmdheight=0
       set cursorcolumn
       set cursorline
       set encoding=UTF-8
@@ -21,8 +22,9 @@
       set ignorecase
       set inccommand=split
       set incsearch
-      set laststatus=3
+      set laststatus=0
       set nobackup
+      set noshowmode
       set noswapfile
       set number
       set scrolloff=1000
@@ -47,10 +49,6 @@
       endif
     '';
     extraLuaConfig = ''
-      vim.opt.laststatus = 0
-      vim.opt.statusline = "─"
-      vim.opt.fillchars:append({ stl = "─", stlnc = "─" })
-
       -- disable unnecessary built-in plugins
       vim.g.did_indent_on             = 1
       vim.g.did_install_default_menus = 1
@@ -229,7 +227,7 @@
           vim.keymap.set('n', '<C-f>', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
         '';
       }
-      nvim-treesitter
+      nvim-treesitter.withAllGrammars
       {
         plugin = gitlinker-nvim;
         type = "lua";
