@@ -1,14 +1,7 @@
-{pkgs, ...}: {
+{...}: {
   imports = [
     ../../modules/darwin
   ];
-
-  environment = {
-    systemPackages = with pkgs; [
-      awscli
-      gemini-cli
-    ];
-  };
 
   networking = {
     hostName = "M4MacBookAir";
