@@ -25,6 +25,15 @@
           sha256 = "sha256-U/b7zdP5y1k5kADNy7hf7BYr9H7AZsL6arW1qOozdxk=";
         };
       }
+      {
+        name = "zsh-gwt-skim";
+        src = pkgs.fetchFromGitHub {
+          owner = "pranc1ngpegasus";
+          repo = "zsh-gwt-skim";
+          rev = "main";
+          sha256 = "sha256-gVdDnvEUG3JiuDDVWrDeOBlmF+C7KbQwNiIVDukT+xY=";
+        };
+      }
     ];
   };
 }
