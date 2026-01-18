@@ -51,6 +51,7 @@ in {
       "flake.nix"
       "go.work"
       "go.work.sum"
+      ".zettelkasten/"
     ];
   };
 }
