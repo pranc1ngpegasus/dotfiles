@@ -9,45 +9,6 @@
     enable = true;
     defaultEditor = true;
     vimAlias = true;
-    extraConfig = ''
-      " options
-      set autoread
-      set background=dark
-      set clipboard=unnamed
-      set cmdheight=0
-      set cursorcolumn
-      set cursorline
-      set encoding=UTF-8
-      set expandtab
-      set ignorecase
-      set inccommand=split
-      set incsearch
-      set laststatus=0
-      set nobackup
-      set noshowmode
-      set noswapfile
-      set number
-      set scrolloff=1000
-      set shiftround
-      set shiftwidth=2
-      set smartcase
-      set smartindent
-      set tabstop=2
-      set termguicolors
-      set wrapscan
-
-      " netrw
-      let g:netrw_liststyle = 3
-      let g:netrw_preview = 1
-      let g:netrw_sizestyle = "H"
-      let g:netrw_timefmt = "%Y/%m/%d(%a) %H:%M:%S"
-
-      " truecolor
-      if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
-        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-      endif
-    '';
     extraLuaConfig = ''
       -- disable unnecessary built-in plugins
       vim.g.did_indent_on             = 1
@@ -74,6 +35,45 @@
       vim.g.loaded_zip                = 1
       vim.g.loaded_zipPlugin          = 1
       vim.g.skip_loading_mswin        = 1
+
+      -- options
+      local o = vim.opt
+      o.autoread       = true
+      o.background     = "dark"
+      o.clipboard      = "unnamed"
+      o.cmdheight      = 0
+      o.cursorcolumn   = true
+      o.cursorline     = true
+      o.encoding       = "UTF-8"
+      o.expandtab      = true
+      o.ignorecase     = true
+      o.inccommand     = "split"
+      o.incsearch      = true
+      o.laststatus     = 0
+      o.backup         = false
+      o.showmode       = false
+      o.swapfile       = false
+      o.number         = true
+      o.scrolloff      = 1000
+      o.shiftround     = true
+      o.shiftwidth     = 2
+      o.smartcase      = true
+      o.smartindent    = true
+      o.tabstop        = 2
+      o.termguicolors  = true
+      o.wrapscan       = true
+
+      -- netrw
+      vim.g.netrw_liststyle = 3
+      vim.g.netrw_preview   = 1
+      vim.g.netrw_sizestyle  = "H"
+      vim.g.netrw_timefmt   = "%Y/%m/%d(%a) %H:%M:%S"
+
+      -- truecolor support in tmux/screen
+      if not vim.g.gui_running and vim.env.TERM and vim.env.TERM:match("^screen") or vim.env.TERM and vim.env.TERM:match("^tmux") then
+        vim.cmd([[let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"]])
+        vim.cmd([[let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"]])
+      end
     '';
     plugins = with pkgs.vimPlugins; [
       # theme
@@ -198,18 +198,29 @@
         plugin = nvim-lspconfig;
         type = "lua";
         config = ''
-          local servers = {"rust_analyzer", "gopls", "ts_ls", "nil_ls"};
+          local lsp_format_group = vim.api.nvim_create_augroup("LspFormat", { clear = true })
+
+          local servers = {"rust_analyzer", "gopls", "ts_ls", "nil_ls"}
           local opt = {
             on_attach = function(client, bufnr)
-              local opts = { noremap = true, silent = true }
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gc', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gf', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-              vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-              vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.format({ async = false, timeout_ms = 1000 })'
+              local opts = { buffer = bufnr, noremap = true, silent = true }
+              vim.keymap.set('n', 'ca', vim.lsp.buf.code_action, opts)
+              vim.keymap.set('n', 'gc', vim.lsp.buf.incoming_calls, opts)
+              vim.keymap.set('n', 'go', vim.lsp.buf.outgoing_calls, opts)
+              vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+              vim.keymap.set('n', 'gf', vim.lsp.buf.references, opts)
+              vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+              vim.keymap.set('n', 'gr', vim.lsp.buf.rename, opts)
+
+              if client.supports_method("textDocument/formatting") then
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                  group = lsp_format_group,
+                  buffer = bufnr,
+                  callback = function()
+                    vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
+                  end,
+                })
+              end
             end,
             capabilities = require('blink-cmp').get_lsp_capabilities()
           }
@@ -227,7 +238,27 @@
           vim.keymap.set('n', '<C-f>', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true })
         '';
       }
-      nvim-treesitter.withAllGrammars
+      (nvim-treesitter.withPlugins (p:
+        with p; [
+          bash
+          css
+          dockerfile
+          go
+          gomod
+          gosum
+          html
+          javascript
+          json
+          lua
+          make
+          markdown
+          nix
+          rust
+          toml
+          tsx
+          typescript
+          yaml
+        ]))
       {
         plugin = gitlinker-nvim;
         type = "lua";

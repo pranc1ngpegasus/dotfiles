@@ -10,21 +10,20 @@
 in {
   programs.git = {
     enable = true;
+    userName = "pranc1ngpegasus";
+    userEmail = "temma.fukaya@mokmok.dev";
+    signing = {
+      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPrxAPvOxoy8a5y3hp9iKTWGyk+qgBTYv8DgfTnqQR8/";
+      format = "ssh";
+      signByDefault = true;
+      signer = _1passwordPath;
+    };
     extraConfig = {
       core = {
         editor = "nvim";
       };
-      commit = {
-        gpgsign = true;
-      };
       ghq = {
         root = config.home.homeDirectory + "/ghq";
-      };
-      gpg = {
-        format = "ssh";
-        "ssh" = {
-          program = _1passwordPath;
-        };
       };
       init = {
         defaultBranch = "main";
@@ -34,11 +33,6 @@ in {
       };
       url."ssh://git@github.com/" = {
         insteadOf = "https://github.com/";
-      };
-      user = {
-        name = "pranc1ngpegasus";
-        email = "temma.fukaya@mokmok.dev";
-        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPrxAPvOxoy8a5y3hp9iKTWGyk+qgBTYv8DgfTnqQR8/";
       };
     };
     ignores = [

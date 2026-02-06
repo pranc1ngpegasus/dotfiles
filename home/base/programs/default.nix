@@ -6,10 +6,16 @@
     ./skim
     ./ssh
   ];
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "ansi";
+      style = "numbers,changes";
+    };
+  };
   home = {
     packages = with pkgs; [
       alejandra
-      bat
       colima
       docker
       docker-buildx

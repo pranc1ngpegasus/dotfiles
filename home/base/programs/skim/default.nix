@@ -9,7 +9,7 @@
       "--inline-info"
     ];
     fileWidgetOptions = [
-      "--preview 'head -100 {}'"
+      "--preview 'bat --color=always --style=numbers --line-range=:100 {}'"
     ];
   };
 }

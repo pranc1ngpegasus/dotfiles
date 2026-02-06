@@ -1,11 +1,7 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.zsh = {
     enable = true;
-    dotDir = "${config.xdg.configHome}/zsh";
+    dotDir = ".config/zsh";
     defaultKeymap = "emacs";
     enableCompletion = true;
     autosuggestion.enable = true;
@@ -15,7 +11,7 @@
       export PATH="$HOME/.local/share/aquaproj-aqua/bin:$PATH"
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
       PROMPT="%F{white}%c%f
-      %F{green}>%f "
+%F{green}>%f "
     '';
     plugins = [
       {
