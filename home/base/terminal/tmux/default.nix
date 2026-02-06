@@ -10,7 +10,6 @@
     terminal = "tmux-256color";
     shell = "${pkgs.zsh}/bin/zsh";
     extraConfig = ''
-      set -g default-command "${pkgs.zsh}/bin/zsh"
       set-option -ag terminal-overrides ',xterm-256color:RGB'
       # status line
       ## common

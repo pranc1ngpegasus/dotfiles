@@ -8,9 +8,10 @@ graph TD
     B --> C[modules/darwin/default.nix]
     C --> D[modules/default.nix]
     C --> E[modules/darwin/system.nix]
-    B --> F[home/darwin/default.nix]
+    A --> F[home/darwin/default.nix]
     F --> G[home/base/default.nix]
     G --> H[editor/neovim/]
+    H --> L[neovim/plugins/]
     G --> I[programs/]
     G --> J[shell/zsh/]
     G --> K[terminal/tmux/]
@@ -34,7 +35,7 @@ nix-darwin のシステムレベル設定をまとめている。`modules/defaul
 
 全プラットフォーム共通のユーザー環境設定を置く場所で、以下のサブモジュールを持つ。
 
-- `editor/neovim/` は Neovim nightly に LSP (gopls, nil, rust-analyzer, typescript-language-server) と Copilot、各種プラグインを組み合わせた設定を管理している
+- `editor/neovim/` は Neovim nightly に LSP (gopls, nil, rust-analyzer, typescript-language-server) と Copilot、各種プラグインを組み合わせた設定を管理している。プラグイン定義は `plugins/` サブディレクトリに分割されており、ui, completion, lsp, tools の 4 カテゴリで構成されている
 - `programs/` はパッケージ一覧 (`default.nix`) と、git, direnv, mise, skim, ssh といった個別ツールの設定を管理している
 - `shell/zsh/` は Zsh の設定と ghq-skim, gwt-skim プラグインを管理している
 - `terminal/tmux/` は Tmux の設定を管理している (prefix は C-q)
