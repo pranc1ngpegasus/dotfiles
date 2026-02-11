@@ -18,14 +18,20 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+    };
   };
 
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
   };
 
@@ -36,6 +42,7 @@
       nix-darwin,
       home-manager,
       neovim,
+      llm-agents,
       ...
     }@inputs:
     let
@@ -53,6 +60,12 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.users.pranc1ngpegasus = import ./home/darwin;
+            }
+            {
+              environment.systemPackages = with llm-agents.packages.aarch64-darwin; [
+                claude-code
+                codex
+              ];
             }
           ];
           specialArgs = {
