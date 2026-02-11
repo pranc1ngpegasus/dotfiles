@@ -65,7 +65,6 @@
               environment.systemPackages = with llm-agents.packages.aarch64-darwin; [
                 claude-code
                 codex
-                opencode
               ];
             }
           ];
