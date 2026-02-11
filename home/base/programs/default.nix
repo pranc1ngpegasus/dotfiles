@@ -8,12 +8,13 @@
   ];
   home = {
     packages = with pkgs; [
-      alejandra
+      nixfmt
       bat
       colima
       docker
       docker-buildx
       docker-compose
+      fd
       gh
       ghq
       htop
@@ -22,6 +23,8 @@
       lazygit
       mmv-go
       ni
+      nix-output-monitor
+      nix-tree
       ripgrep
       tree
     ];

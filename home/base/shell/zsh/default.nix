@@ -14,6 +14,14 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    history = {
+      size = 200000;
+      save = 200000;
+      ignoreAllDups = true;
+      expireDuplicatesFirst = true;
+      extended = true;
+      share = true;
+    };
     initContent = ''
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
       PROMPT="%F{white}%c%f

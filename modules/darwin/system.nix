@@ -26,10 +26,18 @@
       NSGlobalDomain = {
         "com.apple.trackpad.scaling" = 3.0;
         AppleInterfaceStyle = "Dark";
+        ApplePressAndHoldEnabled = false;
         AppleShowAllExtensions = true;
         InitialKeyRepeat = 15;
         KeyRepeat = 2;
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticDashSubstitutionEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        NSAutomaticSpellingCorrectionEnabled = false;
         NSDisableAutomaticTermination = false;
+        NSNavPanelExpandedStateForSaveMode = true;
+        NSNavPanelExpandedStateForSaveMode2 = true;
         NSTextShowsControlCharacters = true;
       };
 
@@ -39,6 +47,8 @@
 
       dock = {
         autohide = true;
+        autohide-delay = 0.0;
+        autohide-time-modifier = 0.15;
         mru-spaces = false;
         minimize-to-application = true;
         show-process-indicators = true;
@@ -47,7 +57,12 @@
 
       finder = {
         AppleShowAllExtensions = true;
+        FXDefaultSearchScope = "SCcf";
         FXEnableExtensionChangeWarning = false;
+        FXPreferredViewStyle = "clmv";
+        ShowPathbar = true;
+        ShowStatusBar = true;
+        _FXSortFoldersFirst = true;
       };
 
       trackpad = {
