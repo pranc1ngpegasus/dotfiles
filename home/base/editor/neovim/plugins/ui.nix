@@ -19,7 +19,16 @@
       plugin = incline-nvim;
       type = "lua";
       config = ''
-        require('incline').setup()
+        local incline_group = vim.api.nvim_create_augroup("incline_lazy_setup", { clear = true })
+        vim.api.nvim_create_autocmd("UIEnter", {
+          group = incline_group,
+          once = true,
+          callback = function()
+            vim.defer_fn(function()
+              require('incline').setup()
+            end, 10)
+          end,
+        })
       '';
     }
     {
@@ -39,7 +48,16 @@
       plugin = noice-nvim;
       type = "lua";
       config = ''
-        require("noice").setup()
+        local noice_group = vim.api.nvim_create_augroup("noice_lazy_setup", { clear = true })
+        vim.api.nvim_create_autocmd("UIEnter", {
+          group = noice_group,
+          once = true,
+          callback = function()
+            vim.defer_fn(function()
+              require("noice").setup()
+            end, 10)
+          end,
+        })
       '';
     }
   ];
