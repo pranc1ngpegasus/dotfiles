@@ -7,7 +7,7 @@
     enable = true;
     defaultEditor = true;
     vimAlias = true;
-    extraLuaConfig = ''
+    initLua = ''
       -- options
       vim.opt.autoread = true
       vim.opt.background = "dark"
