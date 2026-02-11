@@ -6,7 +6,6 @@
 {
   home.sessionPath = [
     "$HOME/.local/bin"
-    "$HOME/.local/share/aquaproj-aqua/bin"
   ];
   programs.zsh = {
     enable = true;
