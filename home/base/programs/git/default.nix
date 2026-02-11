@@ -13,6 +13,7 @@ in
 {
   programs.git = {
     enable = true;
+    package = pkgs.gitMinimal;
     settings = {
       core = {
         editor = "nvim";

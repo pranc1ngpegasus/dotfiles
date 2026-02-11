@@ -14,6 +14,9 @@
       ];
       # ビルドログを保持しないことでストレージを節約する
       keep-build-log = false;
+      # 不要な参照を保持しないようにしてストレージ使用量を抑える
+      keep-derivations = false;
+      keep-outputs = false;
       # 空き容量が 1 GiB を下回るとビルド中でも GC が走り、5 GiB まで回収する
       min-free = 1073741824; # 1 GiB
       max-free = 5368709120; # 5 GiB
@@ -26,7 +29,7 @@
         Hour = 2;
         Minute = 0;
       };
-      options = "--delete-older-than 30d";
+      options = "--delete-older-than 14d";
     };
 
     optimise = {
