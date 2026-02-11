@@ -1,11 +1,12 @@
-{...}: {
+{ ... }:
+{
   imports = [
     ../default.nix
     ./system.nix
   ];
 
   environment = {
-    pathsToLink = ["/Applications"];
+    pathsToLink = [ "/Applications" ];
   };
 
   system = {
