@@ -23,7 +23,7 @@ darwin-rebuild build --flake .#M4MacBookAir
 darwin-rebuild test --flake .#M4MacBookAir
 
 # Nix コードのフォーマット
-alejandra .
+nix fmt
 ```
 
 ## Architecture
@@ -43,7 +43,7 @@ alejandra .
 - 1Password が SSH agent と Git の GPG 署名を担っている
 - Docker ランタイムには colima を使用している
 - パッケージ一覧は `home/base/programs/default.nix` に集約している
-- Nix コードのフォーマットには alejandra を使用している
+- Nix コードのフォーマットには nixfmt を使用している
 
 ## Conventions
 

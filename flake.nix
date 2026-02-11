@@ -5,7 +5,7 @@
     };
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -38,6 +38,7 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
+    formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
     packages.aarch64-darwin.neovim = inputs.neovim.packages.aarch64-darwin.default;
     darwinConfigurations = {
       M4MacBookAir = nix-darwin.lib.darwinSystem {

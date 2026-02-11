@@ -17,6 +17,13 @@ in {
       commit = {
         gpgsign = true;
       };
+      diff = {
+        colorMoved = "default";
+      };
+      fetch = {
+        prune = true;
+        pruneTags = true;
+      };
       ghq = {
         root = config.home.homeDirectory + "/ghq";
       };
@@ -29,8 +36,19 @@ in {
       init = {
         defaultBranch = "main";
       };
+      merge = {
+        conflictstyle = "zdiff3";
+      };
+      rebase = {
+        autosquash = true;
+        updateRefs = true;
+      };
+      rerere = {
+        enabled = true;
+      };
       push = {
         default = "current";
+        autoSetupRemote = true;
       };
       user = {
         name = "pranc1ngpegasus";
@@ -50,5 +68,15 @@ in {
       "go.work.sum"
       ".zettelkasten/"
     ];
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      line-numbers = true;
+      side-by-side = false;
+    };
   };
 }
