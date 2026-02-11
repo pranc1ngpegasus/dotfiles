@@ -50,7 +50,7 @@ nix fmt
 - Nix モジュールを追加したら、対応する `default.nix` の imports にも追加する
 - ホスト固有の設定は `hosts/<hostname>/` に配置する
 - プラットフォーム共通の設定は `home/base/` に、プラットフォーム固有の設定は `home/darwin/` に配置する
-- `flake.lock` は `.gitignore` で除外されている
+- `flake.lock` は VCS で管理し、更新時は差分をコミットする
 
 ## Writing Rules
 
