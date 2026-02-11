@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   networking = {
     applicationFirewall = {
       enable = true;
