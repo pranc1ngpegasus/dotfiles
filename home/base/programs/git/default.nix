@@ -32,9 +32,6 @@ in {
       push = {
         default = "current";
       };
-      url."ssh://git@github.com/" = {
-        insteadOf = "https://github.com/";
-      };
       user = {
         name = "pranc1ngpegasus";
         email = "temma.fukaya@mokmok.dev";
