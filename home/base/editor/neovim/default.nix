@@ -7,6 +7,8 @@
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
+    withPython3 = false;
+    withRuby = false;
     defaultEditor = true;
     vimAlias = true;
     initLua = ''
