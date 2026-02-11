@@ -12,6 +12,10 @@
     defaultEditor = true;
     vimAlias = true;
     initLua = ''
+      pcall(function()
+        vim.loader.enable()
+      end)
+
       -- options
       vim.opt.autoread = true
       vim.opt.background = "dark"

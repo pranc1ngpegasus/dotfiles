@@ -14,7 +14,14 @@
       plugin = gitlinker-nvim;
       type = "lua";
       config = ''
-        require("gitlinker").setup()
+        local gitlinker_group = vim.api.nvim_create_augroup("gitlinker_lazy_setup", { clear = true })
+        vim.api.nvim_create_autocmd({"BufReadPost", "BufNewFile"}, {
+          group = gitlinker_group,
+          once = true,
+          callback = function()
+            require("gitlinker").setup()
+          end,
+        })
       '';
     }
   ];

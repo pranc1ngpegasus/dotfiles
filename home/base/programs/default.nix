@@ -3,7 +3,6 @@
   imports = [
     ./direnv
     ./git
-    ./mise
     ./skim
     ./ssh
   ];
