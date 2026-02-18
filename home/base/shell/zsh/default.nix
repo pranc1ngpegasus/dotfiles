@@ -33,8 +33,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "pranc1ngpegasus";
           repo = "zsh-ghq-skim";
-          rev = "186b672b4cb02e9c3ded29984a890bddd11929ae";
-          sha256 = "sha256-Ci6apbmtG6biigbOzBMU9YgTC7LLi+Um88/sHKarF40=";
+          rev = "f2bede7033983c41cffbf391bb1370bbc45418ed";
+          sha256 = "sha256-DTP+XE2KuewBw6Zx9Yx3hF0cUcFYFFTKUVSWI9PW3gM=";
         };
       }
       {
@@ -42,8 +42,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "pranc1ngpegasus";
           repo = "zsh-gwt-skim";
-          rev = "14af013c875dff94c3fdc3089e808a8785248625";
-          sha256 = "sha256-2Pf1NzgA8wW78hGDt2mzwAS1h8tdWUyt04hgvsiwvso=";
+          rev = "bebfe0337d6c33ca8ca66486ebce9773a0795994";
+          sha256 = "sha256-vCLfn/oK8MAs3OE3XOIUOnvADJ8DlFAzWRgjKPLE0RI=";
         };
       }
     ];
