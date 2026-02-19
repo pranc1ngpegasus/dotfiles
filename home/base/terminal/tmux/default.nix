@@ -12,6 +12,8 @@
     shell = "${pkgs.zsh}/bin/zsh";
     extraConfig = ''
       set-option -ag terminal-overrides ',xterm-256color:RGB'
+      # ペインを均等幅に揃える
+      bind-key = select-layout even-horizontal
       # status line
       ## common
       set-option -g allow-rename on
@@ -22,6 +24,7 @@
       set-option -g status-fg "colour255"
       set-option -g status-interval 1
       set-option -g status-justify "centre"
+      set-option -g status-position "bottom"
       ## window status
       set-option -g window-status-current-format " #I: #{pane_current_command} "
       set-option -g window-status-current-style "fg=colour252,bg=colour27,bold"
