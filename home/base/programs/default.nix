@@ -9,6 +9,7 @@
   home = {
     packages = with pkgs; [
       colima
+      comma
       docker
       docker-buildx
       docker-compose
@@ -18,6 +19,7 @@
       jq
       lazygit
       mmv-go
+      octorus
       ripgrep
     ];
   };

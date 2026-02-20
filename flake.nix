@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,6 +45,7 @@
       self,
       nixpkgs,
       nix-darwin,
+      nix-index-database,
       home-manager,
       neovim,
       llm-agents,
@@ -56,9 +62,13 @@
           system = "aarch64-darwin";
           modules = [
             ./hosts/M4MacBookAir
+            nix-index-database.darwinModules.nix-index
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
               home-manager.users.pranc1ngpegasus = import ./home/darwin;
             }
             {
