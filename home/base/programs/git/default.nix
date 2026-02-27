@@ -24,6 +24,11 @@ in
       diff = {
         colorMoved = "default";
       };
+      credential = {
+        "https://github.com" = {
+          helper = "!gh auth git-credential";
+        };
+      };
       fetch = {
         prune = true;
         pruneTags = true;
