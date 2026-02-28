@@ -38,9 +38,6 @@ in
       };
       gpg = {
         format = "ssh";
-        "ssh" = {
-          program = _1passwordPath;
-        };
       };
       init = {
         defaultBranch = "main";
@@ -62,7 +59,7 @@ in
       user = {
         name = "pranc1ngpegasus";
         email = "temma.fukaya@mokmok.dev";
-        signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPrxAPvOxoy8a5y3hp9iKTWGyk+qgBTYv8DgfTnqQR8/";
+        signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519_sign.pub";
       };
     };
     ignores = [
