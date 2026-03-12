@@ -1,5 +1,9 @@
 { ... }:
 {
+  home.sessionVariables = {
+    SKIM_TMUX_HEIGHT = "100%";
+  };
+
   programs.skim = {
     enable = true;
     enableZshIntegration = true;
