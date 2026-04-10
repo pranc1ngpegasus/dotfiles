@@ -42,43 +42,21 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       nix-darwin,
-      nix-index-database,
-      home-manager,
-      neovim,
-      llm-agents,
       ...
     }@inputs:
-    let
-      inherit (self) outputs;
-    in
     {
       formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
-      packages.aarch64-darwin.neovim = inputs.neovim.packages.aarch64-darwin.default;
+
       darwinConfigurations = {
         M4MacBookAir = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
           modules = [
             ./hosts/M4MacBookAir
-            nix-index-database.darwinModules.nix-index
-            home-manager.darwinModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-              };
-              home-manager.users.pranc1ngpegasus = import ./home/darwin;
-            }
-            {
-              environment.systemPackages = with llm-agents.packages.aarch64-darwin; [
-                claude-code
-              ];
-            }
+            ./modules/darwin
           ];
           specialArgs = {
-            inherit inputs outputs;
+            inherit inputs;
           };
         };
       };

@@ -1,9 +1,8 @@
 { pkgs, ... }:
+let
+  user = "pranc1ngpegasus";
+in
 {
-  imports = [
-    ../../modules/darwin
-  ];
-
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
   };
@@ -13,12 +12,13 @@
   };
 
   system = {
-    primaryUser = "pranc1ngpegasus";
+    primaryUser = user;
+    stateVersion = 5;
   };
 
-  users.users.pranc1ngpegasus = {
-    name = "pranc1ngpegasus";
-    home = "/Users/pranc1ngpegasus";
+  users.users.${user} = {
+    name = user;
+    home = "/Users/${user}";
     shell = pkgs.bashInteractive;
   };
 }
