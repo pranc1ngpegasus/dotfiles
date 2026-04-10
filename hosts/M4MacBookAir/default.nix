@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ../../modules/darwin
@@ -19,5 +19,6 @@
   users.users.pranc1ngpegasus = {
     name = "pranc1ngpegasus";
     home = "/Users/pranc1ngpegasus";
+    shell = pkgs.bashInteractive;
   };
 }

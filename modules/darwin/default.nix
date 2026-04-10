@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ../default.nix
@@ -7,6 +7,7 @@
 
   environment = {
     pathsToLink = [ "/Applications" ];
+    shells = [ pkgs.bashInteractive ];
   };
 
   system = {

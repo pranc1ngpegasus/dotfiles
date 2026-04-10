@@ -9,7 +9,7 @@
     keyMode = "vi";
     prefix = "C-q";
     terminal = "tmux-256color";
-    shell = "${pkgs.zsh}/bin/zsh";
+    shell = "${pkgs.bashInteractive}/bin/bash";
     extraConfig = ''
       set-option -ag terminal-overrides ',xterm-256color:RGB'
       # ペインを均等幅に揃える
