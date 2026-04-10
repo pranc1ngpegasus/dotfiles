@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    ./atuin
     ./direnv
     ./git
     ./skim
