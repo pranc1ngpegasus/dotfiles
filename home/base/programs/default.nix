@@ -3,8 +3,8 @@
   imports = [
     ./atuin
     ./direnv
+    ./fzf
     ./git
-    ./skim
     ./ssh
   ];
   home = {
