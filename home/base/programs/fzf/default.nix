@@ -15,12 +15,12 @@
       "--preview 'head -100 {}'"
     ];
 
-    # tmux 内では fzf-tmux の popup を使う
+    # tmux 内では画面下部 40% を split して fzf-tmux を表示する (全幅、popup ではない)
     tmux = {
       enableShellIntegration = true;
       shellIntegrationOptions = [
-        "-p"
-        "80%,60%"
+        "-d"
+        "40%"
       ];
     };
   };
