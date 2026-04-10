@@ -7,6 +7,11 @@
   programs.bash = {
     enable = true;
 
+    shellAliases = {
+      vi = "nvim";
+      vim = "nvim";
+    };
+
     historySize = 200000;
     historyFileSize = 200000;
 

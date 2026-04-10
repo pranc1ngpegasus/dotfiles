@@ -10,8 +10,6 @@
     withPython3 = false;
     withRuby = false;
     defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
     initLua = ''
       pcall(function()
         vim.loader.enable()
