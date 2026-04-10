@@ -10,6 +10,12 @@
     shells = [ pkgs.bashInteractive ];
   };
 
+  fonts = {
+    packages = [
+      pkgs.nerd-fonts.jetbrains-mono
+    ];
+  };
+
   system = {
     stateVersion = 5;
   };
