@@ -1,22 +1,12 @@
-{ pkgs, ... }:
 {
   imports = [
-    ../default.nix
-    ./system.nix
+    ../common
+    ./environment.nix
+    ./fonts.nix
+    ./system-defaults.nix
+    ./security.nix
+    ./home-manager.nix
+    ./llm-agents.nix
+    ./neovim-overlay.nix
   ];
-
-  environment = {
-    pathsToLink = [ "/Applications" ];
-    shells = [ pkgs.bashInteractive ];
-  };
-
-  fonts = {
-    packages = [
-      pkgs.nerd-fonts.jetbrains-mono
-    ];
-  };
-
-  system = {
-    stateVersion = 5;
-  };
 }
