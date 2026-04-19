@@ -20,10 +20,6 @@
           once = true,
           callback = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
-            local blink_ok, blink = pcall(require, "blink-cmp")
-            if blink_ok then
-              capabilities = blink.get_lsp_capabilities(capabilities)
-            end
 
             local format_group = vim.api.nvim_create_augroup("user_lsp_format_on_save", { clear = false })
             local opt = {

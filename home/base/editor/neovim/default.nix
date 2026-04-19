@@ -41,6 +41,29 @@
       vim.opt.termguicolors = true
       vim.opt.wrapscan = true
 
+      -- completion
+      vim.o.pumborder = "rounded"
+      vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" }
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client and client:supports_method("textDocument/completion") then
+            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+          end
+        end,
+      })
+
+      -- workaround: add border to the documentation popup
+      local orig_complete_set = vim.api.nvim__complete_set
+      vim.api.nvim__complete_set = function(...)
+        local result = orig_complete_set(...)
+        if result and result.winid then
+          pcall(vim.api.nvim_win_set_config, result.winid, { border = "rounded" })
+        end
+        return result
+      end
+
       -- netrw
       vim.g.netrw_liststyle = 3
       vim.g.netrw_preview = 1
