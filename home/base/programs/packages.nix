@@ -13,8 +13,8 @@
       jq
       lazygit
       mmv-go
-      octorus
       ripgrep
+      rtk
     ];
   };
 }
