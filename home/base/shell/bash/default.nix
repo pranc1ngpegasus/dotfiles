@@ -30,6 +30,19 @@
     initExtra = ''
       PS1='\[\e[37m\]\w\[\e[0m\]\n\[\e[32m\]>\[\e[0m\] '
 
+      # Ghostty の bash integration は bash 5.1+ で PROMPT_COMMAND を配列に
+      # 切り替える。一方で bash-preexec (atuin が依存) の install ロジックは
+      # PROMPT_COMMAND が配列だと install string を要素 [1] 以降から取り除けず、
+      # 毎プロンプトで `trap - DEBUG` が走って DEBUG trap が消えてしまう。
+      # 結果として atuin の preexec hook が発火しなくなり、直前のコマンドが
+      # 履歴に残らない。bash-preexec が読み込まれる前に文字列へ正規化する。
+      if [[ "$(declare -p PROMPT_COMMAND 2>/dev/null)" == "declare -a"* ]]; then
+        _prompt_command_joined=$(IFS=';'; printf '%s' "''${PROMPT_COMMAND[*]}")
+        unset PROMPT_COMMAND
+        PROMPT_COMMAND="$_prompt_command_joined"
+        unset _prompt_command_joined
+      fi
+
       PROMPT_COMMAND="history -a; history -n; ''${PROMPT_COMMAND:-}"
 
       # `ghq cd` で ghq list を fzf-tmux に流してファジーに選び、選択した repo に即 cd する。
