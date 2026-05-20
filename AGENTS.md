@@ -44,6 +44,7 @@ nix fmt
 - Docker ランタイムには colima を使用している
 - パッケージ一覧は `home/base/programs/default.nix` に集約している
 - Nix コードのフォーマットには nixfmt を使用している
+- プロジェクトの開発環境変数は sops + age + age-plugin-se で暗号化し、Secure Enclave に鍵を委ねている。direnv stdlib に `use sops` を生やしているので `.envrc` から呼び出せる。詳細は [docs/secrets.md](docs/secrets.md) を参照
 
 ## Conventions
 

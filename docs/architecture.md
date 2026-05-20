@@ -53,7 +53,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 全プラットフォーム共通のユーザー環境設定を置く場所で、以下のサブモジュールを持つ。
 
 - `editor/neovim/` は Neovim nightly に LSP (gopls, nil, rust-analyzer, typescript-language-server) と各種プラグインを組み合わせた設定を管理している。プラグイン定義は `plugins/` サブディレクトリに分割されており、ui, completion, lsp, tools の 4 カテゴリで構成されている
-- `programs/` は個別ツールの設定を管理している。`default.nix` はサブモジュールを束ねる import list のみ、`packages.nix` が CLI パッケージ一覧 (`home.packages`) を保持する。サブモジュールとして atuin, direnv, fzf, git, ssh が並ぶ
+- `programs/` は個別ツールの設定を管理している。`default.nix` はサブモジュールを束ねる import list のみ、`packages.nix` が CLI パッケージ一覧 (`home.packages`) を保持する。サブモジュールとして atuin, direnv, fzf, git, sops, ssh が並ぶ。`sops/` は sops、age、age-plugin-se の導入と direnv stdlib への `use sops` ヘルパー追加を担当する
 - `shell/bash/` は Bash の設定を管理している。history は atuin が、Ctrl+G / Ctrl+W の fuzzy cd は fzf-tmux が担う
 - `terminal/tmux/` は Tmux の設定を管理している (prefix は C-q)
 
