@@ -29,6 +29,15 @@
       fi
       watch_file "$path"
 
+      # SOPS_AGE_KEY_FILE は home.sessionVariables でも設定しているが、
+      # darwin-rebuild 直後に shell を reload していない場合や、direnv が継承する
+      # 環境にまだ反映されていない場合に備えて、関数内でも同じ既定値を補う。
+      local key_file=''${SOPS_AGE_KEY_FILE:-$HOME/.config/sops/age/keys.txt}
+      if [[ ! -f "$key_file" ]]; then
+        log_error "use sops: age identity not found at $key_file. Generate one with: age-plugin-se keygen --access-control any-biometry-and-passcode -o $key_file"
+        return 1
+      fi
+
       local fmt
       case "$path" in
         *.json) fmt=json ;;
@@ -40,7 +49,7 @@
       # direnv の dotenv loader に渡したあとすぐに削除する。
       local tmpfile
       tmpfile=$(mktemp -t direnv-sops.XXXXXX) || return 1
-      if ! sops decrypt --input-type "$fmt" --output-type dotenv "$path" > "$tmpfile"; then
+      if ! SOPS_AGE_KEY_FILE="$key_file" sops decrypt --input-type "$fmt" --output-type dotenv "$path" > "$tmpfile"; then
         rm -f "$tmpfile"
         log_error "use sops: failed to decrypt $path"
         return 1
