@@ -1,0 +1,39 @@
+name: dependabot-auto-merge
+
+# Dependabot が開いた flake.lock 更新 PR を、ビルドが通った場合にだけ自動マージする。
+on:
+  pull_request: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # darwin システムをビルドして、更新後の flake.lock で構成が壊れていないか検証する
+  build:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    # aarch64-darwin 構成をビルドするため Apple Silicon の macOS ランナーを使う
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build darwin configuration
+        run: |
+          nix build --accept-flake-config --print-build-logs \
+            '.#darwinConfigurations.M4MacBookAir.system'
+
+  # ビルド job が成功したときだけ実行される (needs により gate される)
+  merge:
+    needs: build
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Squash merge the PR
+        run: gh pr merge --squash --delete-branch "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
