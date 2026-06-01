@@ -20,6 +20,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       BINARY_CACHE_SECRET_KEY: ${{ secrets.BINARY_CACHE_SECRET_KEY }}
       S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
+      NIX_CACHE_BUCKET: ${{ secrets.NIX_CACHE_BUCKET }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: DeterminateSystems/determinate-nix-action@4eea0b33e3d1f02ecfe37cf16e7204c424009606 # v3.21.0
@@ -34,7 +35,7 @@ jobs:
         shell: bash
         if: always()
       - run: |
-          nix copy --all --to "https://nixcache.pranc1ngpegasus.com?profile=$AWS_PROFILE_NAME&endpoint=$S3_API_ENDPOINT&compression=zstd"
+          nix copy --all --to "$S3_API_ENDPOINT/${NIX_CACHE_BUCKET}?profile=$AWS_PROFILE_NAME&endpoint=$S3_API_ENDPOINT&compression=zstd&secret-key=./secret.key"
         shell: bash
         if: always()
   dependabot-auto-merge:
