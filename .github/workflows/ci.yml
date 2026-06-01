@@ -20,6 +20,7 @@ jobs:
       - uses: ./.github/actions/setup-nix
       - run: nix build --accept-flake-config --print-build-logs '.#darwinConfigurations.M4MacBookAir.system'
       - uses: ./.github/actions/nix-cache-push
+        if: always()
   dependabot-auto-merge:
     needs: build
     if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
