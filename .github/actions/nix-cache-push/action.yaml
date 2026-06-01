@@ -10,5 +10,5 @@ runs:
         nix store sign --recursive --key-file ./secret.key
       shell: bash
     - run: |
-        nix copy --all --to "https://nixcache.pranc1ngpegasus.com?compression=zstd"
+        nix copy --all --to "https://nixcache.pranc1ngpegasus.com?profile=$AWS_PROFILE_NAME&endpoint=$S3_API_ENDPOINT&compression=zstd"
       shell: bash
