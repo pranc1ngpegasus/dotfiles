@@ -31,8 +31,9 @@ jobs:
         shell: bash
       - run: nix build --accept-flake-config --print-build-logs '.#darwinConfigurations.M4MacBookAir.system'
       - run: |
-          printf '%s\n' "$BINARY_CACHE_SECRET_KEY" > ./secret.key
-          nix copy --all --to "s3://${NIX_CACHE_BUCKET}?profile=${AWS_PROFILE_NAME}&endpoint=${S3_API_ENDPOINT}&region=auto&compression=zstd&secret-key=./secret.key"
+          secret_key_path="${RUNNER_TEMP}/secret.key"
+          printf '%s\n' "$BINARY_CACHE_SECRET_KEY" > "$secret_key_path"
+          nix copy --all --to "s3://${NIX_CACHE_BUCKET}?profile=${AWS_PROFILE_NAME}&endpoint=${S3_API_ENDPOINT}&region=auto&compression=zstd&secret-key=${secret_key_path}"
         shell: bash
         if: always()
   dependabot-auto-merge:
