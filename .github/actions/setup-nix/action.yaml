@@ -7,3 +7,4 @@ runs:
     - run: |
         nix shell nixpkgs#awscli2 --command aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
         nix shell nixpkgs#awscli2 --command aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
+      shell: bash
