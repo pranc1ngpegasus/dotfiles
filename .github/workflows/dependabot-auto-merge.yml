@@ -1,39 +1,23 @@
 name: dependabot-auto-merge
-
-# Dependabot が開いた flake.lock 更新 PR を、ビルドが通った場合にだけ自動マージする。
 on:
   pull_request: {}
-
 permissions:
   contents: write
   pull-requests: write
-
 jobs:
-  # darwin システムをビルドして、更新後の flake.lock で構成が壊れていないか検証する
   build:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
-    # aarch64-darwin 構成をビルドするため Apple Silicon の macOS ランナーを使う
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
-
-      - name: Build darwin configuration
-        run: |
-          nix build --accept-flake-config --print-build-logs \
-            '.#darwinConfigurations.M4MacBookAir.system'
-
-  # ビルド job が成功したときだけ実行される (needs により gate される)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: ./.github/actions/setup-nix
+      - run: nix build --accept-flake-config --print-build-logs '.#darwinConfigurations.M4MacBookAir.system'
   merge:
     needs: build
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Squash merge the PR
-        run: gh pr merge --squash --delete-branch "$PR_URL"
+      - run: gh pr merge --squash --delete-branch "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
