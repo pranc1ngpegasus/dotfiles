@@ -20,7 +20,7 @@ jobs:
       - run: |
           nix shell nixpkgs#awscli2 --command aws --profile $AWS_PROFILE_NAME configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
           nix shell nixpkgs#awscli2 --command aws --profile $AWS_PROFILE_NAME configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
-      shell: bash
+        shell: bash
       - run: nix build --accept-flake-config --print-build-logs '.#darwinConfigurations.M4MacBookAir.system'
       - run: |
           echo $BINARY_CACHE_SECRET_KEY > ./secret.key
