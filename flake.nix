@@ -33,12 +33,10 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://cache.numtide.com"
-      "https://nixcache.pranc1ngpegasus.com"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-      "nixcache.pranc1ngpegasus.com:8Abh5vJ7PA4D4x4lrIoA4c9pdMgko9ZXcEKUo6+M9yw="
     ];
   };
 
