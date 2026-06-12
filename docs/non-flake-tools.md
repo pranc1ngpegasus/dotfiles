@@ -25,13 +25,6 @@
 - 公式: https://choosy.app/
 - インストール: macOS アプリとして手動インストール
 
-## Ghostty
-
-- 用途: GPU アクセラレーション対応のターミナルエミュレータ
-- 詳細: macOS では Metal によるGPU レンダリングを使用。プラットフォームネイティブな UI、タブ・分割ペイン、Kitty graphics/keyboard protocol、Nerd Fonts のビルトインサポートなどを備える
-- 公式: https://ghostty.org/
-- インストール: macOS アプリとして手動インストール
-
 ## Karabiner-Elements
 
 - 用途: macOS 向けキーボードカスタマイズツール
