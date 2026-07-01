@@ -28,7 +28,7 @@ graph TD
 
 ### flake.nix
 
-リポジトリ全体のエントリーポイントにあたる。nixpkgs, nix-darwin, home-manager, neovim-nightly-overlay, llm-agents などの inputs を定義し、`darwinConfigurations.M4MacBookAir` を出力する。出力本体は `./hosts/M4MacBookAir` と `./modules/darwin` を import するだけの薄い骨格にとどめ、具体的な設定は各モジュール側に集約している。
+リポジトリ全体のエントリーポイントにあたる。nixpkgs, nix-darwin, home-manager, neovim-nightly-overlay, llm-agents, codebase-memory-mcp などの inputs を定義し、`darwinConfigurations.M4MacBookAir` を出力する。出力本体は `./hosts/M4MacBookAir` と `./modules/darwin` を import するだけの薄い骨格にとどめ、具体的な設定は各モジュール側に集約している。
 
 ### hosts/
 
@@ -45,7 +45,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
   - `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain, dock, finder, trackpad, menuExtraClock) を設定する
   - `security.nix` は Application Firewall、Touch ID による sudo 認証、Caps Lock のリマップを設定する
   - `home-manager.nix` は home-manager の nix-darwin 統合 (`useGlobalPkgs`, `backupFileExtension`, `extraSpecialArgs`, ユーザーエントリ) を定義する
-  - `llm-agents.nix` は nix-index-database モジュールの import と `claude-code` の systemPackages への注入を担当する
+  - `llm-agents.nix` は nix-index-database モジュールの import と Codex、Antigravity、codebase-memory-mcp などの LLM 開発支援ツールの systemPackages への注入を担当する
   - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
 
 ### home/base/

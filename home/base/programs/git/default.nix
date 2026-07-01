@@ -64,6 +64,7 @@
       "go.work"
       "go.work.sum"
       ".zettelkasten/"
+      ".codebase-memory"
     ];
   };
 
