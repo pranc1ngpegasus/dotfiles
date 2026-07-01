@@ -64,11 +64,10 @@
         return result
       end
 
-      -- netrw
-      vim.g.netrw_liststyle = 3
-      vim.g.netrw_preview = 1
-      vim.g.netrw_sizestyle = "H"
-      vim.g.netrw_timefmt = "%Y/%m/%d(%a) %H:%M:%S"
+      -- file explorer
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      vim.g.loaded_nvim_dir_plugin = 1
 
       -- disable unnecessary built-in plugins
       vim.g.did_indent_on             = 1
