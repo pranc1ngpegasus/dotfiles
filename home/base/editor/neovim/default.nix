@@ -67,7 +67,126 @@
       -- file explorer
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
-      vim.g.loaded_nvim_dir_plugin = 1
+
+      local dir_view = {
+        width = 36,
+        winid = nil,
+      }
+
+      local function edit_dir(path)
+        vim.api.nvim_cmd({ cmd = "edit", args = { path }, magic = { file = false, bar = false } }, {})
+      end
+
+      local function is_dir_view_window(win)
+        if not vim.api.nvim_win_is_valid(win) then
+          return false
+        end
+        local ok, value = pcall(vim.api.nvim_win_get_var, win, "nvim_dir_view")
+        return ok and value == true
+      end
+
+      local function find_dir_view_window()
+        if dir_view.winid and is_dir_view_window(dir_view.winid) then
+          return dir_view.winid
+        end
+
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          if is_dir_view_window(win) then
+            dir_view.winid = win
+            return win
+          end
+        end
+
+        dir_view.winid = nil
+        return nil
+      end
+
+      local function configure_dir_view_window(win)
+        vim.api.nvim_win_set_var(win, "nvim_dir_view", true)
+        vim.api.nvim_win_set_width(win, dir_view.width)
+        vim.api.nvim_win_call(win, function()
+          vim.opt_local.number = false
+          vim.opt_local.relativenumber = false
+          vim.opt_local.signcolumn = "no"
+          vim.opt_local.foldcolumn = "0"
+          vim.opt_local.statuscolumn = ""
+          vim.opt_local.winfixwidth = true
+          vim.opt_local.cursorline = true
+        end)
+      end
+
+      local function select_dir_entry(name)
+        if not name or name == "" then
+          return
+        end
+
+        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+        for lnum, line in ipairs(lines) do
+          if line == name or line == name .. "/" then
+            vim.api.nvim_win_set_cursor(0, { lnum, 0 })
+            return
+          end
+        end
+      end
+
+      local function open_dir_view(path, entry)
+        local dir = vim.fs.normalize(vim.fs.abspath(path or vim.fn.getcwd()))
+        local win = find_dir_view_window()
+
+        if win then
+          vim.api.nvim_set_current_win(win)
+          edit_dir(dir)
+          configure_dir_view_window(win)
+          select_dir_entry(entry)
+          return
+        end
+
+        vim.cmd("topleft vertical " .. dir_view.width .. "split")
+        win = vim.api.nvim_get_current_win()
+        dir_view.winid = win
+        edit_dir(dir)
+        configure_dir_view_window(win)
+        select_dir_entry(entry)
+      end
+
+      local function current_path_parts()
+        local path = vim.api.nvim_buf_get_name(0)
+        if path == "" then
+          return vim.fn.getcwd(), nil
+        end
+
+        if vim.fn.isdirectory(path) == 1 then
+          return path, nil
+        end
+
+        return vim.fs.dirname(path), vim.fs.basename(path)
+      end
+
+      local function toggle_dir_view()
+        local win = find_dir_view_window()
+        if win then
+          if #vim.api.nvim_tabpage_list_wins(0) > 1 then
+            vim.api.nvim_win_close(win, true)
+          else
+            vim.api.nvim_set_current_win(win)
+            vim.cmd.enew()
+          end
+          dir_view.winid = nil
+          return
+        end
+
+        open_dir_view(vim.fn.getcwd(), nil)
+      end
+
+      local function reveal_in_dir_view()
+        local dir, entry = current_path_parts()
+        open_dir_view(dir, entry)
+      end
+
+      vim.api.nvim_create_user_command("DirViewToggle", toggle_dir_view, {})
+      vim.api.nvim_create_user_command("DirViewReveal", reveal_in_dir_view, {})
+      vim.keymap.set("n", "<leader>e", toggle_dir_view, { noremap = true, silent = true, desc = "Toggle directory view" })
+      vim.keymap.set("n", "<leader>E", reveal_in_dir_view, { noremap = true, silent = true, desc = "Reveal file in directory view" })
 
       -- disable unnecessary built-in plugins
       vim.g.did_indent_on             = 1
