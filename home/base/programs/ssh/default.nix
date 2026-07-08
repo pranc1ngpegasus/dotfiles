@@ -3,15 +3,13 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."github.com" = {
-      addKeysToAgent = "yes";
-      extraOptions = {
-        UseKeychain = "yes";
-      };
-      hostname = "github.com";
-      identitiesOnly = true;
-      identityFile = "~/.ssh/id_ed25519_auth";
-      user = "git";
+    settings."github.com" = {
+      AddKeysToAgent = "yes";
+      HostName = "github.com";
+      IdentitiesOnly = true;
+      IdentityFile = "~/.ssh/id_ed25519_auth";
+      UseKeychain = "yes";
+      User = "git";
     };
   };
 }

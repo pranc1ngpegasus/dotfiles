@@ -11,9 +11,12 @@
       "--layout reverse"
       "--inline-info"
     ];
-    fileWidgetOptions = [
+    fileWidget.options = [
       "--preview 'head -100 {}'"
     ];
+
+    # Ctrl-R は Atuin に任せ、fzf の履歴ウィジェットだけ無効にする。
+    historyWidget.command = "";
 
     # tmux 内では画面下部 40% を split して fzf-tmux を表示する (全幅、popup ではない)
     tmux = {
