@@ -10,6 +10,7 @@
     shellAliases = {
       vi = "nvim";
       vim = "nvim";
+      wn = "gwt new";
     };
 
     historySize = 200000;
@@ -60,20 +61,43 @@
 
       # `gwt cd` で現在の git リポジトリの worktree 一覧を fzf-tmux に流して
       # ファジーに選び、選択した worktree に即 cd する。
+      # `gwt new [base]` でメイン worktree と同じ階層にランダムな名前の
+      # worktree を作る。base を省略した場合は origin/main を使う。
       gwt() {
-        if [[ "$1" == "cd" ]]; then
-          if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-            printf 'gwt cd: not a git repository\n' >&2
+        case "$1" in
+          cd)
+            if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+              printf 'gwt cd: not a git repository\n' >&2
+              return 1
+            fi
+            local selection dir
+            selection=$(git worktree list | fzf-tmux -d 40% --prompt 'worktree> ') \
+              && dir=''${selection%% *} \
+              && [[ -n "$dir" ]] && cd "$dir"
+            ;;
+          new)
+            if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+              printf 'gwt new: not a git repository\n' >&2
+              return 1
+            fi
+            local worktree_list main_worktree name destination base
+            worktree_list="$(git worktree list --porcelain)" || return
+            main_worktree="$(
+              printf '%s\n' "$worktree_list" |
+                sed -n '1s/^worktree //p'
+            )"
+
+            base="''${2:-origin/main}"
+            name="$(basename "$main_worktree")-$(openssl rand -hex 3)"
+            destination="$(dirname "$main_worktree")/$name"
+
+            git worktree add "$destination" "$base"
+            ;;
+          *)
+            printf 'gwt: unknown subcommand: %s\n' "$1" >&2
             return 1
-          fi
-          local selection dir
-          selection=$(git worktree list | fzf-tmux -d 40% --prompt 'worktree> ') \
-            && dir=''${selection%% *} \
-            && [[ -n "$dir" ]] && cd "$dir"
-        else
-          printf 'gwt: unknown subcommand: %s\n' "$1" >&2
-          return 1
-        fi
+            ;;
+        esac
       }
 
       # Ctrl+G / Ctrl+W でそれぞれ `ghq cd` / `gwt cd` を readline にそのまま流し込む。
