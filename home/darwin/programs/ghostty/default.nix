@@ -12,6 +12,7 @@
       font-size = 17;
       macos-titlebar-style = "native";
       font-feature = "-calt -dlig -liga";
+      # desktop-notifications = "true";
     };
   };
 }
