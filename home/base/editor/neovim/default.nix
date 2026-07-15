@@ -115,16 +115,6 @@
       vim.o.pumborder = "rounded"
       vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" }
 
-      -- workaround: add border to the documentation popup
-      local orig_complete_set = vim.api.nvim__complete_set
-      vim.api.nvim__complete_set = function(...)
-        local result = orig_complete_set(...)
-        if result and result.winid then
-          pcall(vim.api.nvim_win_set_config, result.winid, { border = "rounded" })
-        end
-        return result
-      end
-
       -- disable unnecessary built-in plugins
       vim.g.did_indent_on             = 1
       vim.g.did_install_default_menus = 1
