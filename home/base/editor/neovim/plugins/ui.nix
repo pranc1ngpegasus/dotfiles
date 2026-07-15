@@ -6,58 +6,10 @@
       type = "viml";
       config = ''
         colorscheme iceberg
-      '';
-    }
-    {
-      plugin = which-key-nvim;
-      type = "lua";
-      config = ''
-        vim.keymap.set('n', '<leader>?', '<cmd>lua require("which-key").show({global = false})<CR>')
-      '';
-    }
-    {
-      plugin = incline-nvim;
-      type = "lua";
-      config = ''
-        local incline_group = vim.api.nvim_create_augroup("incline_lazy_setup", { clear = true })
-        vim.api.nvim_create_autocmd("UIEnter", {
-          group = incline_group,
-          once = true,
-          callback = function()
-            vim.defer_fn(function()
-              require('incline').setup()
-            end, 10)
-          end,
-        })
-      '';
-    }
-    {
-      plugin = nvim-notify;
-      type = "lua";
-      config = ''
-        require("notify").setup({
-          max_width = 50,
-          render = "wrapped-compact",
-          stages = "slide",
-          timeout = 1500,
-        })
-      '';
-    }
-    nui-nvim
-    {
-      plugin = noice-nvim;
-      type = "lua";
-      config = ''
-        local noice_group = vim.api.nvim_create_augroup("noice_lazy_setup", { clear = true })
-        vim.api.nvim_create_autocmd("UIEnter", {
-          group = noice_group,
-          once = true,
-          callback = function()
-            vim.defer_fn(function()
-              require("noice").setup()
-            end, 10)
-          end,
-        })
+        highlight StatusLine cterm=NONE ctermbg=235 ctermfg=242 gui=NONE guibg=#1e2132 guifg=#6b7089
+        highlight StatusLineNC cterm=NONE ctermbg=234 ctermfg=239 gui=NONE guibg=#17171b guifg=#444b71
+        highlight! link StatusLineTerm StatusLine
+        highlight! link StatusLineTermNC StatusLineNC
       '';
     }
   ];

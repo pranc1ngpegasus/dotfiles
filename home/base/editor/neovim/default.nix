@@ -19,7 +19,7 @@
       vim.opt.autoread = true
       vim.opt.background = "dark"
       vim.opt.clipboard = "unnamed"
-      vim.opt.cmdheight = 0
+      vim.opt.cmdheight = 1
       vim.opt.cursorcolumn = true
       vim.opt.cursorline = true
       vim.opt.encoding = "UTF-8"
@@ -27,11 +27,12 @@
       vim.opt.ignorecase = true
       vim.opt.inccommand = "split"
       vim.opt.incsearch = true
-      vim.opt.laststatus = 0
+      vim.opt.laststatus = 3
       vim.opt.backup = false
       vim.opt.showmode = false
       vim.opt.swapfile = false
       vim.opt.number = true
+      vim.opt.ruler = true
       vim.opt.scrolloff = 1000
       vim.opt.shiftround = true
       vim.opt.shiftwidth = 2
@@ -44,15 +45,6 @@
       -- completion
       vim.o.pumborder = "rounded"
       vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" }
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(ev)
-          local client = vim.lsp.get_client_by_id(ev.data.client_id)
-          if client and client:supports_method("textDocument/completion") then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-          end
-        end,
-      })
 
       -- workaround: add border to the documentation popup
       local orig_complete_set = vim.api.nvim__complete_set
