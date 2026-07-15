@@ -29,7 +29,6 @@
         plugin = nvim-lspconfig;
         type = "lua";
         config = ''
-          local servers = {"rust_analyzer", "gopls", "ts_ls", "nil_ls"}
           local format_group = vim.api.nvim_create_augroup("user_lsp_format_on_save", { clear = false })
 
           vim.api.nvim_create_autocmd("LspAttach", {
@@ -50,9 +49,7 @@
             end,
           })
 
-          for _, server in ipairs(servers) do
-            vim.lsp.enable(server)
-          end
+          vim.lsp.enable({ "rust_analyzer", "gopls", "ts_ls", "nil_ls" })
         '';
       }
       {
