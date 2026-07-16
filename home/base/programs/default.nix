@@ -5,6 +5,7 @@
     ./direnv
     ./fzf
     ./git
+    ./nh
     ./ssh
   ];
 }
