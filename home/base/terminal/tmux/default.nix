@@ -15,7 +15,6 @@
       set-option -ag terminal-overrides ',xterm-256color:RGB'
       set-option -g allow-passthrough on
       set-option -g allow-rename on
-      set-option -g alternate-screen off
       set-option -g automatic-rename on
       set-option -g extended-keys on
       set-option -g focus-events on
@@ -23,7 +22,7 @@
       set-option -g pane-border-style "fg=#1e2132"
       set-option -g renumber-windows on
       set-option -g status-interval 1
-      set-option -g status-left "#[fg=#c6c8d1] #h #[fg=#6b7089]#{b:pane_current_path} "
+      set-option -g status-left "#[fg=#c6c8d1] #h "
       set-option -g status-left-length 40
       set-option -g status-position bottom
       set-option -g status-right "#[fg=#39ffb6,bold] %Y/%m/%d %H:%M "
