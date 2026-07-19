@@ -8,43 +8,23 @@
     enable = true;
     package = pkgs.gitMinimal;
     settings = {
-      core = {
-        editor = "nvim";
-      };
-      commit = {
-        gpgsign = true;
-      };
-      diff = {
-        colorMoved = "default";
-      };
-      credential = {
-        "https://github.com" = {
-          helper = "!gh auth git-credential";
-        };
-      };
+      core.editor = "nvim";
+      commit.gpgsign = true;
+      diff.colorMoved = "default";
+      credential."https://github.com".helper = "!gh auth git-credential";
       fetch = {
         prune = true;
         pruneTags = true;
       };
-      ghq = {
-        root = config.home.homeDirectory + "/ghq";
-      };
-      gpg = {
-        format = "ssh";
-      };
-      init = {
-        defaultBranch = "main";
-      };
-      merge = {
-        conflictstyle = "zdiff3";
-      };
+      ghq.root = config.home.homeDirectory + "/ghq";
+      gpg.format = "ssh";
+      init.defaultBranch = "main";
+      merge.conflictstyle = "zdiff3";
       rebase = {
         autosquash = true;
         updateRefs = true;
       };
-      rerere = {
-        enabled = true;
-      };
+      rerere.enabled = true;
       push = {
         default = "current";
         autoSetupRemote = true;

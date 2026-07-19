@@ -9,8 +9,8 @@
 - 公式: https://1password.com/
 - インストール: macOS アプリとして手動インストール
 - 設定箇所:
-  - `home/base/programs/ssh/default.nix` (SSH Identity Agent)
-  - `home/base/programs/git/default.nix` (GPG 署名)
+  - `home/base/programs/ssh.nix` (SSH Identity Agent)
+  - `home/base/programs/git.nix` (GPG 署名)
 
 ## Google Chrome
 

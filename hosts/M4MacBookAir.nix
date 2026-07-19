@@ -3,13 +3,9 @@ let
   user = "pranc1ngpegasus";
 in
 {
-  nixpkgs = {
-    hostPlatform = "aarch64-darwin";
-  };
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
-  networking = {
-    hostName = "M4MacBookAir";
-  };
+  networking.hostName = "M4MacBookAir";
 
   system = {
     primaryUser = user;

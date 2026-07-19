@@ -1,7 +1,10 @@
 {
   inputs = {
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
     nix-darwin = {
@@ -24,9 +27,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-    };
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     codebase-memory-mcp = {
       url = "github:DeusData/codebase-memory-mcp";
@@ -46,24 +47,13 @@
   };
 
   outputs =
-    {
-      nixpkgs,
-      nix-darwin,
-      ...
-    }@inputs:
-    {
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        ./flake/darwin-configurations.nix
+        ./flake/formatter.nix
+      ];
 
-      darwinConfigurations = {
-        M4MacBookAir = nix-darwin.lib.darwinSystem {
-          modules = [
-            ./hosts/M4MacBookAir
-            ./modules/darwin
-          ];
-          specialArgs = {
-            inherit inputs;
-          };
-        };
-      };
+      systems = [ "aarch64-darwin" ];
     };
 }

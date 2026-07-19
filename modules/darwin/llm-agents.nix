@@ -25,6 +25,7 @@ in
       inputs.codebase-memory-mcp.packages.${pkgs.system}.default
       codexCli
       inputs.llm-agents.packages.${pkgs.system}.opencode
+      inputs.llm-agents.packages.${pkgs.system}.grok
     ];
   };
 }

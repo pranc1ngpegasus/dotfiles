@@ -3,7 +3,7 @@
   imports = [
     ../base
     inputs.nix-index-database.homeModules.nix-index
-    ./programs/ghostty
+    ./ghostty.nix
   ];
 
   home = {

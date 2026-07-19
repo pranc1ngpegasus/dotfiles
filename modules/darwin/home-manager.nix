@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 {
   imports = [
     inputs.home-manager.darwinModules.home-manager
@@ -10,6 +10,6 @@
     extraSpecialArgs = {
       inherit inputs;
     };
-    users.pranc1ngpegasus = import ../../home/darwin;
+    users.${config.system.primaryUser} = import ../../home/darwin;
   };
 }

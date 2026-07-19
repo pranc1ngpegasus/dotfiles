@@ -1,9 +1,9 @@
 { ... }:
 {
   imports = [
-    ./editor
-    ./programs
-    ./shell
-    ./terminal
+    ./editor.nix
+    ./programs.nix
+    ./bash.nix
+    ./tmux.nix
   ];
 }

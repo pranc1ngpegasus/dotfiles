@@ -1,6 +1,6 @@
 {
   imports = [
-    ../common
+    ../common.nix
     ./environment.nix
     ./fonts.nix
     ./system-defaults.nix

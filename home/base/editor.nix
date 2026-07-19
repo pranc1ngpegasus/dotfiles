@@ -95,7 +95,6 @@
         vim.loader.enable()
       end)
 
-      -- options
       vim.opt.clipboard = "unnamed"
       vim.opt.cmdheight = 0
       vim.opt.cursorcolumn = true
@@ -115,7 +114,6 @@
       vim.opt.tabstop = 2
       vim.opt.termguicolors = true
 
-      -- completion
       vim.o.pumborder = "rounded"
       vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy", "popup" }
     '';
