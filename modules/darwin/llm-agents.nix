@@ -2,7 +2,7 @@
 let
   codexCli = pkgs.symlinkJoin {
     name = "codex-cli";
-    paths = [ inputs.llm-agents.packages.${pkgs.system}.codex ];
+    paths = [ inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram "$out/bin/codex" \
@@ -22,10 +22,10 @@ in
 
   environment = {
     systemPackages = [
-      inputs.codebase-memory-mcp.packages.${pkgs.system}.default
+      inputs.codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default
       codexCli
-      inputs.llm-agents.packages.${pkgs.system}.opencode
-      inputs.llm-agents.packages.${pkgs.system}.grok
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok
     ];
   };
 }
