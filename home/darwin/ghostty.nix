@@ -11,6 +11,7 @@
       macos-titlebar-style = "native";
       font-feature = "-calt -dlig -liga";
       desktop-notifications = "true";
+      env = [ "LC_TERMINAL=ghostty" ];
     };
   };
 }

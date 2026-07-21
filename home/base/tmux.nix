@@ -29,6 +29,7 @@
       set-option -g status-right "#[fg=#39ffb6,bold] %Y/%m/%d %H:%M "
       set-option -g status-right-length 20
       set-option -g status-style "fg=#444b71,bg=#0f1117"
+      set-option -ag update-environment " LC_TERMINAL"
       set-option -g window-status-current-format " #I:#W "
       set-option -g window-status-current-style "fg=#c6c8d1,bg=#1e2132,bold"
       set-option -g window-status-format " #I:#W "
