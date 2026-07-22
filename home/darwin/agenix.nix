@@ -7,11 +7,15 @@
 }:
 let
   secretRules = import ../../secrets/secrets.nix;
-  managedSecretRules = lib.filterAttrs (
-    name: rule: lib.hasSuffix ".age" name && rule ? publicKeys && rule.publicKeys != [ ]
+  environmentSecretRules = lib.filterAttrs (
+    name: rule:
+    lib.hasSuffix ".age" name
+    && rule ? publicKeys
+    && rule.publicKeys != [ ]
+    && (rule.loadAsEnvironment or false)
   ) secretRules;
-  managedSecretNames = map (lib.removeSuffix ".age") (builtins.attrNames managedSecretRules);
-  managedSecretPaths = map (name: config.age.secrets.${name}.path) managedSecretNames;
+  environmentSecretNames = map (lib.removeSuffix ".age") (builtins.attrNames environmentSecretRules);
+  environmentSecretPaths = map (name: config.age.secrets.${name}.path) environmentSecretNames;
 in
 {
   imports = [
@@ -27,7 +31,7 @@ in
       lib.nameValuePair (lib.removeSuffix ".age" name) {
         file = ../../secrets + "/${name}";
       }
-    ) managedSecretRules;
+    ) environmentSecretRules;
   };
 
   home.packages = [
@@ -36,8 +40,10 @@ in
   ];
 
   programs.bash.initExtra = lib.mkAfter (
-    lib.optionalString (managedSecretPaths != [ ]) ''
-      for _agenix_env_file in ${lib.concatMapStringsSep " " (path: ''"${path}"'') managedSecretPaths}; do
+    lib.optionalString (environmentSecretPaths != [ ]) ''
+      for _agenix_env_file in ${
+        lib.concatMapStringsSep " " (path: ''"${path}"'') environmentSecretPaths
+      }; do
         if [[ ! -r "$_agenix_env_file" ]]; then
           continue
         fi

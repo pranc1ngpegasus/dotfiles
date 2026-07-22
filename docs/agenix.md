@@ -30,9 +30,14 @@ let
   user = "age1...";
 in
 {
-  "example.age".publicKeys = [ user ];
+  "example.age" = {
+    publicKeys = [ user ];
+    loadAsEnvironment = true;
+  };
 }
 ```
+
+`publicKeys` は暗号化したファイルを復号できる受信者を指定する。`loadAsEnvironment` はこのリポジトリ固有の設定であり、`true` にすると home-manager がファイルを復号し、内容を Bash の環境変数として読み込む。
 
 続いて `secrets/` に移動し、秘密情報を作成する。
 
@@ -41,7 +46,7 @@ cd secrets
 agenix -e example.age -i ~/.config/agenix/age.agekey
 ```
 
-`secrets/secrets.nix` で `.age` ファイルに空でない `publicKeys` を設定すると、home-manager がそのファイルを自動的に復号対象へ追加する。復号したファイルを Bash の環境変数として読み込むため、内容は次のような `KEY=VALUE` 形式で記載する。
+`secrets/secrets.nix` で `.age` ファイルに空でない `publicKeys` と `loadAsEnvironment = true` を設定すると、home-manager がそのファイルを自動的に復号対象へ追加する。復号したファイルを Bash の環境変数として読み込むため、内容は次のような `KEY=VALUE` 形式で記載する。
 
 ```dotenv
 EXAMPLE_API_KEY=secret-value
