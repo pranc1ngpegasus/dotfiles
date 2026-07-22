@@ -28,10 +28,11 @@ nix fmt
 
 ## Architecture
 
-エントリーポイントは `flake.nix` で、主要な構成要素は以下の 3 層になっている。
+エントリーポイントは `flake.nix` で、主要な構成要素は以下の 4 層になっている。
 
-- `hosts/` はホスト固有の設定 (hostname, user) を置く場所
-- `modules/` は nix-darwin のシステム設定 (firewall, keyboard, dock 等) をまとめる場所
+- `flake/` は Flake の出力に関する定義を分離する場所で、`hosts.nix` がホストとモジュールの対応付け、`darwin-configurations.nix` が `darwinConfigurations` の生成、`formatter.nix` が formatter 出力を担当する
+- `hosts/` はホスト固有の設定 (hostname, user 等) を置く場所
+- `modules/` は nix-darwin のシステム設定 (firewall, keyboard, dock 等) をまとめる場所で、プラットフォーム非依存の設定は `common.nix`、macOS 固有の設定は `darwin/` に置く
 - `home/` は home-manager によるユーザー環境で、`base/` が全プラットフォーム共通、`darwin/` がプラットフォーム固有
 
 詳細は [docs/architecture.md](docs/architecture.md) を参照。
@@ -39,16 +40,17 @@ nix fmt
 ## Key Design Decisions
 
 - nixpkgs は unstable ブランチを使用している
-- Neovim nightly は neovim-nightly-overlay 経由で取得し、`flake.nix` の packages として公開している
+- Neovim nightly は neovim-nightly-overlay 経由で取得し、`modules/darwin/neovim-overlay.nix` の overlay で `pkgs.neovim-unwrapped` を nightly ビルドに差し替えている
 - 1Password が SSH agent と Git の GPG 署名を担っている
 - Docker ランタイムには colima を使用している
-- パッケージ一覧は `home/base/programs/default.nix` に集約している
+- CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
 - Nix コードのフォーマットには nixfmt を使用している
 
 ## Conventions
 
 - Nix モジュールを追加したら、対応する `default.nix` の imports にも追加する
-- ホスト固有の設定は `hosts/<hostname>/` に配置する
+- ホスト固有の設定は `hosts/<hostname>.nix` に配置し、`flake/hosts.nix` にエントリーを追加する
+- 1 つの設定しか持たないディレクトリは作らず、関心ごとをファイルとして並べる
 - プラットフォーム共通の設定は `home/base/` に、プラットフォーム固有の設定は `home/darwin/` に配置する
 - `flake.lock` は VCS で管理し、更新時は差分をコミットする
 
