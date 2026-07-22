@@ -71,4 +71,4 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 
 ### home/darwin/
 
-darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix` を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。また、配備する暗号化ファイルと Bash へ export する環境変数の対応を明示する。
+darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix` を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。また、`environmentSecrets` の対応表から配備する暗号化ファイルと Bash へ export する環境変数を生成する。
