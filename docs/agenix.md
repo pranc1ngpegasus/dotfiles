@@ -41,13 +41,13 @@ cd secrets
 agenix -e example.age -i ~/.config/agenix/age.agekey
 ```
 
-home-manager の設定では、暗号化ファイルを次のように宣言する。
+`secrets/secrets.nix` で `.age` ファイルに空でない `publicKeys` を設定すると、home-manager がそのファイルを自動的に復号対象へ追加する。復号したファイルを Bash の環境変数として読み込むため、内容は次のような `KEY=VALUE` 形式で記載する。
 
-```nix
-age.secrets.example.file = ../../secrets/example.age;
+```dotenv
+EXAMPLE_API_KEY=secret-value
 ```
 
-利用するプログラムには、`config.age.secrets.example.path` をファイルパスとして渡す。`builtins.readFile` で内容を読み込むと平文が Nix store に残るため、使用しない。
+新しく起動した Bash では、登録済みの各ファイルから有効な変数名だけを環境変数として export する。復号内容を `builtins.readFile` で読み込むと平文が Nix store に残るため、使用しない。
 
 公開鍵を変更した場合は、秘密鍵を明示して全ファイルを再暗号化する。
 
