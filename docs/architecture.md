@@ -21,6 +21,7 @@ graph TD
     darwin --> neovimOverlay[modules/darwin/neovim-overlay.nix]
     homeManager --> darwinHome[home/darwin/default.nix]
     darwinHome --> baseHome[home/base/default.nix]
+    darwinHome --> agenix[home/darwin/agenix.nix]
     baseHome --> editor[editor.nix]
     baseHome --> programs[programs/]
     baseHome --> bash[bash.nix]
@@ -70,4 +71,4 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 
 ### home/darwin/
 
-darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/` と `ghostty.nix` を import している。
+darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix` を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。

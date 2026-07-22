@@ -3,6 +3,7 @@
   imports = [
     ../base
     inputs.nix-index-database.homeModules.nix-index
+    ./agenix.nix
     ./ghostty.nix
   ];
 
