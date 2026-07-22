@@ -30,14 +30,11 @@ let
   user = "age1...";
 in
 {
-  "example.age" = {
-    publicKeys = [ user ];
-    loadAsEnvironment = true;
-  };
+  "example.age".publicKeys = [ user ];
 }
 ```
 
-`publicKeys` は暗号化したファイルを復号できる受信者を指定する。`loadAsEnvironment` はこのリポジトリ固有の設定であり、`true` にすると home-manager がファイルを復号し、内容を Bash の環境変数として読み込む。
+`publicKeys` は暗号化したファイルを復号できる受信者だけを指定する。どの秘密情報をこのマシンへ配備するかは、home-manager の `age.secrets` で別途明示する。
 
 続いて `secrets/` に移動し、秘密情報を作成する。
 
@@ -46,13 +43,15 @@ cd secrets
 agenix -e example.age -i ~/.config/agenix/age.agekey
 ```
 
-`secrets/secrets.nix` で `.age` ファイルに空でない `publicKeys` と `loadAsEnvironment = true` を設定すると、home-manager がそのファイルを自動的に復号対象へ追加する。復号したファイルを Bash の環境変数として読み込むため、内容は次のような `KEY=VALUE` 形式で記載する。
+API キーのような単一の値は、変数名や引用符を付けずに値だけを暗号化ファイルへ保存する。
 
-```dotenv
-EXAMPLE_API_KEY=secret-value
+```text
+secret-value
 ```
 
-新しく起動した Bash では、登録済みの各ファイルから有効な変数名だけを環境変数として export する。復号内容を `builtins.readFile` で読み込むと平文が Nix store に残るため、使用しない。
+home-manager では、暗号化ファイルと環境変数の対応を明示する。このリポジトリでは `sakana-api-key.age` を `age.secrets.sakana-api-key` として配備し、新しく起動した Bash で `SAKANA_API_KEY` に export する。利用するプログラムが secret ファイルのパスを直接受け取れる場合は、環境変数ではなく `config.age.secrets.<name>.path` を渡す方が公開範囲を狭くできる。
+
+復号内容を `builtins.readFile` で読み込むと平文が Nix store に残るため、使用しない。
 
 公開鍵を変更した場合は、秘密鍵を明示して全ファイルを再暗号化する。
 
