@@ -1,24 +1,30 @@
 name: ci
 on:
-  pull_request: {}
+  pull_request:
   push:
     branches:
       - master
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-ci
   cancel-in-progress: true
 permissions:
   contents: read
 jobs:
   build:
-    runs-on: macos-latest
+    name: build
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest
     permissions:
       contents: read
       id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ./.github/actions/setup-nix
-      - run: nix build --accept-flake-config --print-build-logs '.#darwinConfigurations.M4MacBookAir.system'
+      - run: nix flake check
   dependabot-auto-merge:
     needs: build
     if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
