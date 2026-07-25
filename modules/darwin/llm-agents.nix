@@ -23,6 +23,7 @@ in
   environment = {
     systemPackages = [
       inputs.codebase-memory-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.codex-gateway.packages.${pkgs.stdenv.hostPlatform.system}.default
       codexCli
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok

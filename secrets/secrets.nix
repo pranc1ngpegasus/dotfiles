@@ -3,4 +3,5 @@ let
 in
 {
   "sakana-api-key.age".publicKeys = [ pranc1ngpegasus ];
+  "codex-bridge-api-key.age".publicKeys = [ pranc1ngpegasus ];
 }
