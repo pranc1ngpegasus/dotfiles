@@ -22,11 +22,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.darwin.follows = "nix-darwin";
-      inputs.home-manager.follows = "home-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        darwin.follows = "nix-darwin";
+        home-manager.follows = "home-manager";
+      };
     };
 
     neovim = {
@@ -62,10 +69,41 @@
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        ./flake/darwin-configurations.nix
-        ./flake/formatter.nix
+        inputs.git-hooks.flakeModule
       ];
 
       systems = [ "aarch64-darwin" ];
+
+      flake = {
+        darwinConfigurations = {
+          M4MacBookAir = inputs.nix-darwin.lib.darwinSystem {
+            modules = [
+              ./hosts/M4MacBookAir.nix
+              ./modules/darwin
+            ];
+            specialArgs = { inherit inputs; };
+          };
+        };
+      };
+
+      perSystem = { config, pkgs, ... }: {
+        devShells.default = pkgs.mkShellNoCC {
+          inputsFrom = [ config.pre-commit.devShell ];
+        };
+
+        formatter = pkgs.nixfmt-tree;
+
+        pre-commit.settings = {
+          hooks = {
+            actionlint.enable = true;
+            deadnix.enable = true;
+            statix.enable = true;
+            statix.excludes = [
+              ".direnv"
+            ];
+          };
+          package = pkgs.prek;
+        };
+      };
     };
 }
