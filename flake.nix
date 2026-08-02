@@ -22,6 +22,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -70,6 +75,7 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.git-hooks.flakeModule
+        inputs.treefmt-nix.flakeModule
       ];
 
       systems = [ "aarch64-darwin" ];
@@ -91,7 +97,12 @@
           inputsFrom = [ config.pre-commit.devShell ];
         };
 
-        formatter = pkgs.nixfmt-tree;
+        treefmt = {
+          projectRootFile = "flake.nix";
+          programs = {
+            nixfmt.enable = true;
+          };
+        };
 
         pre-commit.settings = {
           hooks = {
