@@ -8,7 +8,7 @@
 let
   environmentSecrets = {
     SAKANA_API_KEY = ../../secrets/sakana-api-key.age;
-    CODEX_BRIDGE_API_KEY = ../../secrets/codex-bridge-api-key.age;
+    FIREWORKS_API_KEY = ../../secrets/fireworks-api-key.age;
   };
   environmentSecretNames = builtins.attrNames environmentSecrets;
   secretName = file: lib.removeSuffix ".age" (builtins.baseNameOf file);
