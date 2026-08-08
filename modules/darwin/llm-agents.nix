@@ -22,6 +22,8 @@ in
 
   environment = {
     systemPackages = [
+      inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.ren.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.codex-gateway.packages.${pkgs.stdenv.hostPlatform.system}.default
       codexCli
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok

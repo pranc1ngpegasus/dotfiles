@@ -57,6 +57,10 @@
       url = "github:DeusData/codebase-memory-mcp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ccusage.url = "github:ccusage/ccusage";
+
+    ren.url = "github:mokmok-dev/ren";
   };
 
   nixConfig = {
