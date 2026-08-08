@@ -7,6 +7,7 @@
     ./security.nix
     ./home-manager.nix
     ./llm-agents.nix
+    ./fireconnect.nix
     ./neovim-overlay.nix
   ];
 }

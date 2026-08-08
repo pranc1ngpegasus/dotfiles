@@ -56,6 +56,12 @@
     ccusage.url = "github:ccusage/ccusage";
 
     ren.url = "github:mokmok-dev/ren";
+
+    # リポジトリ自体に flake.nix がないため、ビルド元のソースとしてのみ使う
+    fireconnect = {
+      url = "github:fw-ai/fireconnect";
+      flake = false;
+    };
   };
 
   nixConfig = {
@@ -71,49 +77,56 @@
 
   outputs =
     inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        inputs.git-hooks.flakeModule
-        inputs.treefmt-nix.flakeModule
-      ];
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      { config, ... }:
+      {
+        imports = [
+          inputs.git-hooks.flakeModule
+          inputs.treefmt-nix.flakeModule
+          ./flake/fireconnect.nix
+        ];
 
-      systems = [ "aarch64-darwin" ];
+        systems = [ "aarch64-darwin" ];
 
-      flake = {
-        darwinConfigurations = {
-          M4MacBookAir = inputs.nix-darwin.lib.darwinSystem {
-            modules = [
-              ./hosts/M4MacBookAir.nix
-              ./modules/darwin
-            ];
-            specialArgs = { inherit inputs; };
-          };
-        };
-      };
-
-      perSystem = { config, pkgs, ... }: {
-        devShells.default = pkgs.mkShellNoCC {
-          inputsFrom = [ config.pre-commit.devShell ];
-        };
-
-        treefmt = {
-          projectRootFile = "flake.nix";
-          programs = {
-            nixfmt.enable = true;
+        flake = {
+          darwinConfigurations = {
+            M4MacBookAir = inputs.nix-darwin.lib.darwinSystem {
+              modules = [
+                ./hosts/M4MacBookAir.nix
+                ./modules/darwin
+              ];
+              specialArgs = {
+                inherit inputs;
+                fireconnect = (config.perSystem "aarch64-darwin").packages.fireconnect;
+              };
+            };
           };
         };
 
-        pre-commit.settings = {
-          hooks = {
-            actionlint.enable = true;
-            deadnix.enable = true;
-            statix.enable = true;
-            statix.excludes = [
-              ".direnv"
-            ];
+        perSystem = { config, pkgs, ... }: {
+          devShells.default = pkgs.mkShellNoCC {
+            inputsFrom = [ config.pre-commit.devShell ];
           };
-          package = pkgs.prek;
+
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              nixfmt.enable = true;
+            };
+          };
+
+          pre-commit.settings = {
+            hooks = {
+              actionlint.enable = true;
+              deadnix.enable = true;
+              statix.enable = true;
+              statix.excludes = [
+                ".direnv"
+              ];
+            };
+            package = pkgs.prek;
+          };
         };
-      };
-    };
+      }
+    );
 }
