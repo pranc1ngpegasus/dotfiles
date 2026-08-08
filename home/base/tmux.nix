@@ -16,8 +16,9 @@
       set-option -g allow-passthrough on
       set-option -g allow-rename on
       set-option -g automatic-rename on
-      set-option -g alternate-screen off
+      set-option -g alternate-screen on
       set-option -g extended-keys on
+      set-option -g extended-keys-format csi-u
       set-option -g focus-events on
       set-option -g pane-active-border-style "fg=#84a0c6"
       set-option -g pane-border-style "fg=#1e2132"
