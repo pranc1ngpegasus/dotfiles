@@ -48,11 +48,6 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    codex-gateway = {
-      url = "github:pranc1ngpegasus/codex-gateway";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     codebase-memory-mcp = {
       url = "github:DeusData/codebase-memory-mcp";
       inputs.nixpkgs.follows = "nixpkgs";

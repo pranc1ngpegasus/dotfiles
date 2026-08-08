@@ -154,30 +154,6 @@
         "type": "github"
       }
     },
-    "codex-gateway": {
-      "inputs": {
-        "crane": "crane_2",
-        "flake-parts": "flake-parts_3",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": "rust-overlay_2",
-        "treefmt-nix": "treefmt-nix_3"
-      },
-      "locked": {
-        "lastModified": 1785599675,
-        "narHash": "sha256-21g68eBzB4iyuVTyuelWwNfM0KAWbRBnwVmGmw3fA8o=",
-        "owner": "pranc1ngpegasus",
-        "repo": "codex-gateway",
-        "rev": "3832ef487e5b4cc319dce207a2dbaf301978f930",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pranc1ngpegasus",
-        "repo": "codex-gateway",
-        "type": "github"
-      }
-    },
     "crane": {
       "locked": {
         "lastModified": 1784407669,
@@ -194,21 +170,6 @@
       }
     },
     "crane_2": {
-      "locked": {
-        "lastModified": 1785541369,
-        "narHash": "sha256-6VCYI5xashcnAR1lambqt9FGh0F6kYhg1P2Z0VDlr48=",
-        "owner": "ipetkov",
-        "repo": "crane",
-        "rev": "508ff4829aefddee8ea62291e86b144b58365724",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ipetkov",
-        "repo": "crane",
-        "type": "github"
-      }
-    },
-    "crane_3": {
       "locked": {
         "lastModified": 1783203018,
         "narHash": "sha256-G6R9IT/xwFuu+CYBWDUAok6AdC4ERC4ZfPPFtEpxnZE=",
@@ -298,27 +259,6 @@
     "flake-parts_3": {
       "inputs": {
         "nixpkgs-lib": [
-          "codex-gateway",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1782949081,
-        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_4": {
-      "inputs": {
-        "nixpkgs-lib": [
           "nixpkgs"
         ]
       },
@@ -336,7 +276,7 @@
         "type": "github"
       }
     },
-    "flake-parts_5": {
+    "flake-parts_4": {
       "inputs": {
         "nixpkgs-lib": [
           "llm-agents",
@@ -357,7 +297,7 @@
         "type": "github"
       }
     },
-    "flake-parts_6": {
+    "flake-parts_5": {
       "inputs": {
         "nixpkgs-lib": [
           "neovim",
@@ -378,7 +318,7 @@
         "type": "github"
       }
     },
-    "flake-parts_7": {
+    "flake-parts_6": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib_2"
       },
@@ -500,10 +440,10 @@
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix_2",
-        "flake-parts": "flake-parts_5",
+        "flake-parts": "flake-parts_4",
         "nixpkgs": "nixpkgs_2",
         "systems": "systems_3",
-        "treefmt-nix": "treefmt-nix_4"
+        "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
         "lastModified": 1785393846,
@@ -537,7 +477,7 @@
     },
     "neovim": {
       "inputs": {
-        "flake-parts": "flake-parts_6",
+        "flake-parts": "flake-parts_5",
         "neovim-src": "neovim-src",
         "nixpkgs": [
           "nixpkgs"
@@ -725,11 +665,11 @@
     },
     "ren": {
       "inputs": {
-        "flake-parts": "flake-parts_7",
+        "flake-parts": "flake-parts_6",
         "nixpkgs": "nixpkgs_4",
         "rust-flake": "rust-flake",
-        "rust-overlay": "rust-overlay_3",
-        "treefmt-nix": "treefmt-nix_5"
+        "rust-overlay": "rust-overlay_2",
+        "treefmt-nix": "treefmt-nix_4"
       },
       "locked": {
         "lastModified": 1786152778,
@@ -750,8 +690,7 @@
         "agenix": "agenix",
         "ccusage": "ccusage",
         "codebase-memory-mcp": "codebase-memory-mcp",
-        "codex-gateway": "codex-gateway",
-        "flake-parts": "flake-parts_4",
+        "flake-parts": "flake-parts_3",
         "git-hooks": "git-hooks_2",
         "home-manager": "home-manager_2",
         "llm-agents": "llm-agents",
@@ -760,12 +699,12 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_3",
         "ren": "ren",
-        "treefmt-nix": "treefmt-nix_6"
+        "treefmt-nix": "treefmt-nix_5"
       }
     },
     "rust-flake": {
       "inputs": {
-        "crane": "crane_3",
+        "crane": "crane_2",
         "nixpkgs": [
           "ren",
           "nixpkgs"
@@ -811,27 +750,6 @@
       }
     },
     "rust-overlay_2": {
-      "inputs": {
-        "nixpkgs": [
-          "codex-gateway",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785476452,
-        "narHash": "sha256-/CXwCFPS41rb/JI2VitKCgVK6V5E6/sfw5ke3B9zyVQ=",
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "rev": "6ef009bf4c4873cdc1a621826722bdea7c03e62c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "rust-overlay_3": {
       "inputs": {
         "nixpkgs": [
           "ren",
@@ -943,27 +861,6 @@
     "treefmt-nix_3": {
       "inputs": {
         "nixpkgs": [
-          "codex-gateway",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1784369104,
-        "narHash": "sha256-47cxbcZODibHv3rELFQ9vZly0vUNkND/atn/U7HLeb0=",
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "rev": "df3c0640565d04a0261253cdd89fce78ec50168a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "treefmt-nix_4": {
-      "inputs": {
-        "nixpkgs": [
           "llm-agents",
           "nixpkgs"
         ]
@@ -982,7 +879,7 @@
         "type": "github"
       }
     },
-    "treefmt-nix_5": {
+    "treefmt-nix_4": {
       "inputs": {
         "nixpkgs": [
           "ren",
@@ -1003,7 +900,7 @@
         "type": "github"
       }
     },
-    "treefmt-nix_6": {
+    "treefmt-nix_5": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
