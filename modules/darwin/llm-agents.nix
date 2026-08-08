@@ -26,6 +26,7 @@ in
       inputs.ren.packages.${pkgs.stdenv.hostPlatform.system}.default
       codexCli
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
     ];
   };
 }
