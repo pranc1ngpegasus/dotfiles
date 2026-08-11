@@ -184,22 +184,6 @@
         "type": "github"
       }
     },
-    "fireconnect": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1785575029,
-        "narHash": "sha256-dI3i6IXSY3gjxIcd7o9C5M7FggcMs7NQe8zDzqitt0s=",
-        "owner": "fw-ai",
-        "repo": "fireconnect",
-        "rev": "df37b1264083c5b4f84e23b437a8cb844a053eed",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fw-ai",
-        "repo": "fireconnect",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -706,7 +690,6 @@
         "agenix": "agenix",
         "ccusage": "ccusage",
         "codebase-memory-mcp": "codebase-memory-mcp",
-        "fireconnect": "fireconnect",
         "flake-parts": "flake-parts_3",
         "git-hooks": "git-hooks_2",
         "home-manager": "home-manager_2",
