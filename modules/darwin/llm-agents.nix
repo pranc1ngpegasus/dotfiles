@@ -8,8 +8,10 @@
     systemPackages =
       with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
       [
+        codex
         cursor-agent
-        opencode
+        omp
+        pi
       ]
       ++ [
         inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.default
