@@ -8,5 +8,6 @@
     ./home-manager.nix
     ./llm-agents.nix
     ./neovim-overlay.nix
+    ./ollama.nix
   ];
 }
