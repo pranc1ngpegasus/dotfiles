@@ -4,4 +4,5 @@ in
 {
   "sakana-api-key.age".publicKeys = [ pranc1ngpegasus ];
   "fireworks-api-key.age".publicKeys = [ pranc1ngpegasus ];
+  "openrouter-api-key.age".publicKeys = [ pranc1ngpegasus ];
 }
