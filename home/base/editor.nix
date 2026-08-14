@@ -97,6 +97,12 @@
 
       vim.g.loaded_nvim_dir_plugin = true
 
+      -- netrw
+      vim.g.netrw_liststyle = 3
+      vim.g.netrw_preview = 1
+      vim.g.netrw_sizestyle = "H"
+      vim.g.netrw_timefmt = "%Y/%m/%d(%a) %H:%M:%S"
+
       vim.opt.clipboard = "unnamed"
       vim.opt.cmdheight = 0
       vim.opt.cursorcolumn = true
