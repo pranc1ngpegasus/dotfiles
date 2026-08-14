@@ -10,7 +10,7 @@
       [
         codex
         cursor-agent
-        pi
+        grok
       ]
       ++ [
         inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.default
