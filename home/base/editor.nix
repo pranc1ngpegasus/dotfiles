@@ -95,6 +95,8 @@
         vim.loader.enable()
       end)
 
+      vim.g.loaded_nvim_dir_plugin = true
+
       vim.opt.clipboard = "unnamed"
       vim.opt.cmdheight = 0
       vim.opt.cursorcolumn = true
