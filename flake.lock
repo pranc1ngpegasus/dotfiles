@@ -141,11 +141,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786353581,
-        "narHash": "sha256-1OpW0yi1Xn5e9YihUHlllvXA/MPibJ/gayICVSDOOv8=",
+        "lastModified": 1786715333,
+        "narHash": "sha256-LpevIehFO02vfeDMXmaWUXk0AzQhjTX5iwKrCK9H/iY=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "aa6d740a8b7c7819c045d7bab67b69456994d70e",
+        "rev": "995760b1058e5478e965c31aa42569c4e3e16d7d",
         "type": "github"
       },
       "original": {
