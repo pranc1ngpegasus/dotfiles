@@ -49,7 +49,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
   - `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain, dock, finder, trackpad, menuExtraClock) を設定する
   - `security.nix` は Application Firewall、Touch ID による sudo 認証、Caps Lock のリマップを設定する
   - `home-manager.nix` は home-manager の nix-darwin 統合 (`useGlobalPkgs`, `backupFileExtension`, `extraSpecialArgs`, ユーザーエントリ) を定義する
-  - `llm-agents.nix` は nix-index-database モジュールの import と Codex、Cursor Agent、Grok に加えて、ccusage と ren を systemPackages へ注入する
+  - `llm-agents.nix` は Codex、Cursor Agent、Grok に加えて、ccusage と ren を systemPackages へ注入する
   - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
   - `ollama.nix` は ollama を launchd エージェントとして起動する設定を担当する
 
