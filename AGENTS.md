@@ -49,7 +49,7 @@ nix fmt
 ## Conventions
 
 - Nix モジュールを追加したら、対応する `default.nix` の imports にも追加する
-- ホスト固有の設定は `hosts/<hostname>.nix` に配置し、`flake/hosts.nix` にエントリーを追加する
+- ホスト固有の設定は `hosts/<hostname>.nix` に配置し、`flake.nix` の `darwinConfigurations` にエントリーを追加する
 - 1 つの設定しか持たないディレクトリは作らず、関心ごとをファイルとして並べる
 - プラットフォーム共通の設定は `home/base/` に、プラットフォーム固有の設定は `home/darwin/` に配置する
 - `flake.lock` は VCS で管理し、更新時は差分をコミットする
