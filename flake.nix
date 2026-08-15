@@ -48,11 +48,6 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    codebase-memory-mcp = {
-      url = "github:DeusData/codebase-memory-mcp";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     ccusage.url = "github:ccusage/ccusage";
 
     ren.url = "github:mokmok-dev/ren";
