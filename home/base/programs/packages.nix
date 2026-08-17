@@ -11,6 +11,7 @@
       ghq
       httpie
       jq
+      lazygit
       mmv-go
       ripgrep
     ];
