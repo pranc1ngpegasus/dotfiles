@@ -41,7 +41,7 @@ nix fmt
 
 - nixpkgs は unstable ブランチを使用している
 - Neovim nightly は neovim-nightly-overlay 経由で取得し、`modules/darwin/neovim-overlay.nix` の overlay で `pkgs.neovim-unwrapped` を nightly ビルドに差し替えている
-- 1Password が SSH agent と Git の GPG 署名を担っている
+- GitHub への認証は `gh auth git-credential` による HTTPS 認証を使う。Git の SSH 署名は nix-secure-enclave-key で Secure Enclave 内の鍵を使って行い、秘密鍵はディスクに置かない
 - Docker ランタイムには colima を使用している
 - CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
 - Nix コードのフォーマットには nixfmt を使用している

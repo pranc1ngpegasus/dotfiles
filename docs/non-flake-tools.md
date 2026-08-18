@@ -4,13 +4,10 @@
 
 ## 1Password
 
-- 用途: パスワードマネージャー / SSH エージェント / Git コミット署名
-- 詳細: SSH 秘密鍵を 1Password 内に保管し、SSH エージェントとして動作する。秘密鍵がアプリ外に出ることなく Touch ID で認証できる。Git の GPG 署名 (SSH 形式) にも対応
+- 用途: パスワードマネージャー
+- 詳細: 各サービスのパスワードや認証情報の保管に使う。SSH エージェントや Git コミット署名には使わず、Git の署名は Secure Enclave 内の鍵 (nix-secure-enclave-key) で行う
 - 公式: https://1password.com/
 - インストール: macOS アプリとして手動インストール
-- 設定箇所:
-  - `home/base/programs/ssh.nix` (SSH Identity Agent)
-  - `home/base/programs/git.nix` (GPG 署名)
 
 ## Google Chrome
 

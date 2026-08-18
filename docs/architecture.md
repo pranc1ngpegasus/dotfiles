@@ -21,6 +21,7 @@ graph TD
     darwinHome --> baseHome[home/base/default.nix]
     darwinHome --> agenix[home/darwin/agenix.nix]
     darwinHome --> ghostty[home/darwin/ghostty.nix]
+    darwinHome --> secureEnclaveKey[home/darwin/secure-enclave-key.nix]
     baseHome --> editor[editor.nix]
     baseHome --> programs[programs/]
     baseHome --> bash[bash.nix]
@@ -64,4 +65,4 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 
 ### home/darwin/
 
-darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix` と nix-index-database の home module を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。また、`environmentSecrets` の対応表から配備する暗号化ファイルと Bash へ export する環境変数を生成する。
+darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix`、`secure-enclave-key.nix` と nix-index-database の home module を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。また、`environmentSecrets` の対応表から配備する暗号化ファイルと Bash へ export する環境変数を生成する。`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import し、Secure Enclave 内の鍵による Git の SSH 署名を設定する。
