@@ -46,6 +46,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-secure-enclave-key.url = "github:ryoppippi/nix-secure-enclave-key";
+
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     ccusage.url = "github:ccusage/ccusage";
