@@ -10,7 +10,6 @@
       ]
       ++ [
         inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.ren.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
   };
 }

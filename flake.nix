@@ -49,8 +49,6 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     ccusage.url = "github:ccusage/ccusage";
-
-    ren.url = "github:mokmok-dev/ren";
   };
 
   nixConfig = {
