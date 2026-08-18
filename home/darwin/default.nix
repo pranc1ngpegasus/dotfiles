@@ -5,6 +5,7 @@
     inputs.nix-index-database.homeModules.nix-index
     ./agenix.nix
     ./ghostty.nix
+    ./secure-enclave-key.nix
   ];
 
   home = {
