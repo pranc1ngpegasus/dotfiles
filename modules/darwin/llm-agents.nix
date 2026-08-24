@@ -7,6 +7,7 @@
         codex
         cursor-agent
         grok
+        opencode
       ]
       ++ [
         inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.default
