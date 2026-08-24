@@ -7,7 +7,6 @@
 }:
 let
   environmentSecrets = {
-    SAKANA_API_KEY = ../../secrets/sakana-api-key.age;
     FIREWORKS_API_KEY = ../../secrets/fireworks-api-key.age;
     OPENROUTER_API_KEY = ../../secrets/openrouter-api-key.age;
     OPENCODE_API_KEY = ../../secrets/opencode-api-key.age;
