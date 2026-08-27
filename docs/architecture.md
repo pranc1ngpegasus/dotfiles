@@ -16,7 +16,6 @@ graph TD
     darwin --> homeManager[modules/darwin/home-manager.nix]
     darwin --> agents[modules/darwin/llm-agents.nix]
     darwin --> neovimOverlay[modules/darwin/neovim-overlay.nix]
-    darwin --> ollama[modules/darwin/ollama.nix]
     homeManager --> darwinHome[home/darwin/default.nix]
     darwinHome --> baseHome[home/base/default.nix]
     darwinHome --> agenix[home/darwin/agenix.nix]
@@ -52,7 +51,6 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
   - `home-manager.nix` は home-manager の nix-darwin 統合 (`useGlobalPkgs`, `backupFileExtension`, `extraSpecialArgs`, ユーザーエントリ) を定義する
   - `llm-agents.nix` は Codex、Cursor Agent、Grok に加えて、ccusage と ren を systemPackages へ注入する
   - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
-  - `ollama.nix` は ollama を launchd エージェントとして起動する設定を担当する
 
 ### home/base/
 
