@@ -33,6 +33,18 @@ graph TD
 
 リポジトリ全体のエントリーポイントにあたる。Flake の仕様上、静的に宣言する必要がある inputs と `nixConfig` を定義し、`flake-parts.lib.mkFlake` で出力を合成する。出力は flake.nix 内に直接定義しており、`git-hooks` と `treefmt-nix` の flake module を import したうえで、`flake` 属性に `darwinConfigurations` を、`perSystem` に `devShells`、`treefmt`、`pre-commit` を並べている。`darwinConfigurations` のモジュールリストには `hosts/M4MacBookAir.nix` と `modules/darwin` を指定し、`specialArgs` を通して inputs を渡している。
 
+### FlakeHub cache
+
+入力の配達と事前ビルド成果物の取得に FlakeHub のキャッシュを利用している。nixpkgs は、Determinate Nix がグローバルに登録した substituter (`https://cache.flakehub.com`) が有効になっており、`/etc/nix/nix.conf` の `extra-substituters` と FlakeHub の public key がその設定に含まれている。
+
+inputs の参照方は flake ごとに切り分けている。
+
+- `nixpkgs` は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。これは以前の `github:NixOS/nixpkgs/nixpkgs-unstable` と同じ rolling 挙動を持ちながら、FlakeHub のキャッシュから事前ビルドを引けるようになっている。更新は `nix flake update nixpkgs` で行う
+- `flake-parts`、`treefmt-nix`、`git-hooks` は FlakeHub の公開リリースにピン留めしている。これはビルド支援用の安定版であり、rolling nixpkgs と互換性が保たれている
+- `nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある
+
+CI は `.github/workflows/flakehub-push.yml` がこの flake の出力 (`darwinConfigurations`、`devShells`) を FlakeHub のキャッシュへ発行する。`visibility: private` で非公開に保ち、`rolling: true` で `master` の最新状態を常にキャッシュへ反映している。
+
 ### hosts/
 
 マシンごとのホスト固有設定を置く場所。`hostPlatform`、`hostName`、`primaryUser`、`stateVersion`、ユーザーアカウントなど、そのホストに紐づく情報だけを持つ。新しいマシンを追加するときは `hosts/<hostname>.nix` を作成し、`flake.nix` の `darwinConfigurations` にエントリーを追加する。

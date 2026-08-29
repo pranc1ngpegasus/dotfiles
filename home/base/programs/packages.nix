@@ -7,6 +7,7 @@
       docker
       docker-buildx
       docker-compose
+      fh
       gh
       ghq
       httpie

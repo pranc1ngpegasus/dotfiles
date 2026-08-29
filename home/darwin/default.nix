@@ -9,7 +9,7 @@
   ];
 
   home = {
-    stateVersion = "25.11";
+    stateVersion = "26.11";
   };
 
   manual = {
