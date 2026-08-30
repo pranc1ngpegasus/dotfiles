@@ -13,6 +13,7 @@ graph TD
     darwin --> fonts[modules/darwin/fonts.nix]
     darwin --> defaults[modules/darwin/system-defaults.nix]
     darwin --> security[modules/darwin/security.nix]
+    darwin --> tailscale[modules/darwin/tailscale.nix]
     darwin --> homeManager[modules/darwin/home-manager.nix]
     darwin --> agents[modules/darwin/llm-agents.nix]
     darwin --> neovimOverlay[modules/darwin/neovim-overlay.nix]
@@ -60,6 +61,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
   - `fonts.nix` は `fonts.packages` で Nerd Fonts をインストールする
   - `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain, dock, finder, trackpad, menuExtraClock) を設定する
   - `security.nix` は Application Firewall、Touch ID による sudo 認証、Caps Lock のリマップを設定する
+  - `tailscale.nix` は `services.tailscale.enable` で tailscaled を launchd デーモンとして起動し、`services.tailscale.overrideLocalDns` で MagicDNS に必要なローカル DNS の上書きを有効化する。Tailnet へのログインは `sudo tailscale up` で行い、認証のための Tailscale キーは管理しない。MagicDNS の利用には Tailscale 管理コンソール側で「Override local DNS」の有効化と DNS サーバーの設定が前提となる
   - `home-manager.nix` は home-manager の nix-darwin 統合 (`useGlobalPkgs`, `backupFileExtension`, `extraSpecialArgs`, ユーザーエントリ) を定義する
   - `llm-agents.nix` は Codex、Cursor Agent、Grok に加えて、ccusage と ren を systemPackages へ注入する
   - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える

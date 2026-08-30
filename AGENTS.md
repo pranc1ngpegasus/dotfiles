@@ -32,7 +32,7 @@ nix fmt
 
 - `flake/` は Flake の出力に関する定義を分離する場所で、`hosts.nix` がホストとモジュールの対応付け、`darwin-configurations.nix` が `darwinConfigurations` の生成、`formatter.nix` が formatter 出力を担当する
 - `hosts/` はホスト固有の設定 (hostname, user 等) を置く場所
-- `modules/` は nix-darwin のシステム設定 (firewall, keyboard, dock 等) をまとめる場所で、プラットフォーム非依存の設定は `common.nix`、macOS 固有の設定は `darwin/` に置く
+- `modules/` は nix-darwin のシステム設定 (firewall, keyboard, dock, tailscale 等) をまとめる場所で、プラットフォーム非依存の設定は `common.nix`、macOS 固有の設定は `darwin/` に置く
 - `home/` は home-manager によるユーザー環境で、`base/` が全プラットフォーム共通、`darwin/` がプラットフォーム固有
 
 詳細は [docs/architecture.md](docs/architecture.md) を参照。
