@@ -8,7 +8,6 @@
 let
   environmentSecrets = {
     OPENROUTER_API_KEY = ../../secrets/openrouter-api-key.age;
-    OPENCODE_API_KEY = ../../secrets/opencode-api-key.age;
   };
   environmentSecretNames = builtins.attrNames environmentSecrets;
   secretName = file: lib.removeSuffix ".age" (builtins.baseNameOf file);

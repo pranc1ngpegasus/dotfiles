@@ -3,5 +3,4 @@ let
 in
 {
   "openrouter-api-key.age".publicKeys = [ pranc1ngpegasus ];
-  "opencode-api-key.age".publicKeys = [ pranc1ngpegasus ];
 }
