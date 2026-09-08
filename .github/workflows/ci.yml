@@ -1,39 +1,23 @@
 name: ci
 on:
   pull_request:
+  workflow_dispatch:
   push:
     branches:
       - master
+
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-ci
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
-  build:
-    name: build
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - runner: macos-latest
+  DeterminateCI:
+    uses: DeterminateSystems/ci/.github/workflows/workflow.yml@main
     permissions:
-      contents: read
       id-token: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: ./.github/actions/setup-nix
-      - run: nix flake check
-  dependabot-auto-merge:
-    needs: build
-    if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - run: gh pr merge --squash --delete-branch "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      contents: read
+    with:
+      visibility: public
