@@ -3,7 +3,7 @@
   environment = {
     systemPackages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       cursor-agent
-      opencode
+      grok
     ];
   };
 }
