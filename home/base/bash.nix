@@ -6,6 +6,7 @@ _: {
     shellAliases = {
       vi = "nvim";
       vim = "nvim";
+      grok = "ori grok";
       wn = "gwt new";
     };
     historySize = 200000;
