@@ -11,6 +11,7 @@
     terminal = "tmux-256color";
     shell = "${pkgs.bashInteractive}/bin/bash";
     extraConfig = ''
+      set-environment -gu __HM_SESS_VARS_SOURCED
       bind-key = select-layout even-horizontal
       set-option -ag terminal-overrides ',xterm-256color:RGB'
       set-option -g allow-passthrough on
