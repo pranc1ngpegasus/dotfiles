@@ -11,5 +11,6 @@
     ./environment.nix
     ./home-manager.nix
     ./neovim-overlay.nix
+    ./llm-agents.nix
   ];
 }
