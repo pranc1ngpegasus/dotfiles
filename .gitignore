@@ -2,3 +2,4 @@
 !flake.lock
 /.pre-commit-config.yaml
 /result
+msa2-pass.txt
