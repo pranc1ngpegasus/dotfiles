@@ -7,4 +7,9 @@ in
     pranc1ngpegasus
     nixos
   ];
+
+  "user-password.age".publicKeys = [
+    pranc1ngpegasus
+    nixos
+  ];
 }

@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -26,6 +27,7 @@ in
       "wheel"
       "networkmanager"
     ];
+    hashedPasswordFile = config.age.secrets.user-password.path;
     openssh.authorizedKeys.keys = [
       "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBJdfa70C6n2QYCyhv8UrhVWz1bDoLOIopadWJaDMoiU/cUi9265Qw6RZJ67NjxVhmaJHBQr8nhYFuZUt391xPsQAAAAEc3NoOg== pranc1ngpegasus@M4MacBookAir"
     ];

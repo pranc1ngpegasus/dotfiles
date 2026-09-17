@@ -2,6 +2,7 @@
   imports = [
     ./nix.nix
     ./determinate.nix
+    ./agenix.nix
     ./boot.nix
     ./networking.nix
     ./openssh.nix
