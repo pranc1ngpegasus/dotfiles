@@ -32,7 +32,7 @@
       user = {
         name = "pranc1ngpegasus";
         email = "temma.fukaya@mokmok.dev";
-        signingKey = "${config.home.homeDirectory}/.ssh/id_enclave_key";
+        signingKey = config.my.git.signingKey;
       };
     };
     ignores = [

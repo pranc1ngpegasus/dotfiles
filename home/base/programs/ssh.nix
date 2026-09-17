@@ -1,4 +1,10 @@
-_: {
+{ config, lib, ... }:
+let
+  identityFile = lib.optionalAttrs (config.my.ssh.identityFile != null) {
+    IdentityFile = config.my.ssh.identityFile;
+  };
+in
+{
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
@@ -7,20 +13,20 @@ _: {
         HostName = "github.com";
         User = "git";
         IdentitiesOnly = true;
-        IdentityFile = "~/.ssh/id_enclave_key";
-      };
+      }
+      // identityFile;
       "*.tt.ts.net" = {
         IdentitiesOnly = true;
-        IdentityFile = "~/.ssh/id_enclave_key";
         ServerAliveInterval = 60;
         ServerAliveCountMax = 3;
-      };
+      }
+      // identityFile;
       "100.*" = {
         IdentitiesOnly = true;
-        IdentityFile = "~/.ssh/id_enclave_key";
         ServerAliveInterval = 60;
         ServerAliveCountMax = 3;
-      };
+      }
+      // identityFile;
     };
   };
 }

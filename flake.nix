@@ -49,6 +49,8 @@
     nix-secure-enclave-key.url = "github:ryoppippi/nix-secure-enclave-key";
 
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 
   outputs =
@@ -59,7 +61,10 @@
         inputs.treefmt-nix.flakeModule
       ];
 
-      systems = [ "aarch64-darwin" ];
+      systems = [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
 
       flake = {
         darwinConfigurations = {
@@ -67,6 +72,16 @@
             modules = [
               ./hosts/M4MacBookAir.nix
               ./modules/darwin
+            ];
+            specialArgs = { inherit inputs; };
+          };
+        };
+
+        nixosConfigurations = {
+          nixos = inputs.nixpkgs.lib.nixosSystem {
+            modules = [
+              ./hosts/nixos.nix
+              ./modules/nixos
             ];
             specialArgs = { inherit inputs; };
           };
