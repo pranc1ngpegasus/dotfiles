@@ -17,6 +17,8 @@ in
 
   system.stateVersion = "26.05";
 
+  users.mutableUsers = false;
+
   users.users.${user} = {
     name = user;
     uid = 1000;
