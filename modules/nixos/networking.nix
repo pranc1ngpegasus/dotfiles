@@ -41,13 +41,5 @@ in
     };
   };
 
-  networking.firewall = {
-    enable = true;
-    allowedUDPPortRanges = [
-      {
-        from = 61001;
-        to = 61999;
-      }
-    ];
-  };
+  networking.firewall.enable = true;
 }

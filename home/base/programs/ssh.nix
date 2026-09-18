@@ -19,8 +19,6 @@ in
         IdentitiesOnly = true;
         ServerAliveInterval = 60;
         ServerAliveCountMax = 3;
-        "#!! UdpMode" = "yes";
-        "#!! TsshdPort" = "61001-61999";
       }
       // identityFile;
       "100.*" = {
