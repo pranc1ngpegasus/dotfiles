@@ -13,7 +13,6 @@
       jq
       lazygit
       mmv-go
-      mosh
       ripgrep
       trzsz-ssh
     ];

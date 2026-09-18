@@ -45,7 +45,7 @@ in
     enable = true;
     allowedUDPPortRanges = [
       {
-        from = 60000;
+        from = 61001;
         to = 61999;
       }
     ];
