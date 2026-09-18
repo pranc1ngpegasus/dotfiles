@@ -15,6 +15,7 @@
       mmv-go
       mosh
       ripgrep
+      trzsz-ssh
     ];
   };
 }
