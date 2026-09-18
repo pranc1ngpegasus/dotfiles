@@ -18,4 +18,6 @@
     signingIdentity = "git-signing";
     signByDefault = true;
   };
+
+  home.sessionVariables.SSH_SK_PROVIDER = "/usr/lib/ssh-keychain.dylib";
 }
