@@ -56,7 +56,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 
 - `modules/common.nix` は Nix 自体の基本設定を担当する。nix.enable、unfree 許可、タイムゾーンなどプラットフォーム非依存の設定をまとめている
 - `modules/darwin/` は macOS 固有の設定を責務単位のファイルに分割している
-  - `docker.nix` は colima を launchd エージェントとして起動する設定を担当する
+  - `docker.nix` は colima を launchd エージェントとして起動する設定を担当する。Docker のバックエンドはプラットフォームごとに切り替えており、macOS は colima を、Linux は `modules/nixos/docker.nix` の `virtualisation.docker` によるネイティブな Docker を使う。colima のパッケージは `home/darwin/docker.nix` で darwin のみに導入する
   - `environment.nix` は `environment.pathsToLink` と `environment.shells` を設定する
   - `fonts.nix` は `fonts.packages` で Nerd Fonts をインストールする
   - `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain, dock, finder, trackpad, menuExtraClock) を設定する

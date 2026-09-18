@@ -3,6 +3,7 @@
   imports = [
     ../base
     inputs.nix-index-database.homeModules.nix-index
+    ./docker.nix
     ./ghostty.nix
     ./nh.nix
     ./secure-enclave-key.nix

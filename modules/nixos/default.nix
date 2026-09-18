@@ -4,6 +4,7 @@
     ./determinate.nix
     ./agenix.nix
     ./boot.nix
+    ./docker.nix
     ./networking.nix
     ./openssh.nix
     ./tailscale.nix
