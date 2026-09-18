@@ -658,11 +658,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1789754010,
-        "narHash": "sha256-S9q0eACSh7eIZB2FlY9YICUDZnDMKGD09CxT3632ZD8=",
+        "lastModified": 1789774207,
+        "narHash": "sha256-jSmcjqAW51fnnGeCBZzhCE9S2D6GAY1VIORZ9QsniSA=",
         "owner": "mokmok-dev",
         "repo": "quash",
-        "rev": "227ffc337b077c1819a92bba9a0ae2d727894e01",
+        "rev": "1f0ed64a1b2e3af587cc5031d1c55c130fbfcef9",
         "type": "github"
       },
       "original": {
