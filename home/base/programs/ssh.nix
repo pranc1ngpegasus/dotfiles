@@ -19,7 +19,7 @@ in
         IdentitiesOnly = true;
         ServerAliveInterval = 60;
         ServerAliveCountMax = 3;
-        "#!! UdpMode" = "yes";
+        "#!! UdpMode" = "KCP";
         "#!! TsshdPort" = "61001-61999";
       }
       // identityFile;
