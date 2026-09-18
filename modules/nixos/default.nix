@@ -8,6 +8,7 @@
     ./networking.nix
     ./openssh.nix
     ./tailscale.nix
+    ./quash.nix
     ./fonts.nix
     ./environment.nix
     ./home-manager.nix

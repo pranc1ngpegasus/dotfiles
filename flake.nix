@@ -51,6 +51,11 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+
+    quash = {
+      url = "github:mokmok-dev/quash";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
