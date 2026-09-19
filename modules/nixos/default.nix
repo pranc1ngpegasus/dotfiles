@@ -9,7 +9,6 @@
     ./openssh.nix
     ./tailscale.nix
     ./eternal-terminal.nix
-    ./quash.nix
     ./fonts.nix
     ./environment.nix
     ./home-manager.nix
