@@ -73,7 +73,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 - `editor.nix` は Neovim nightly、LSP、プラグイン、エディタ設定を管理する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
 - `bash.nix` は Bash の設定を管理する。history は atuin が、Ctrl+G / Ctrl+W の fuzzy cd は fzf-tmux が担う
-- `tmux.nix` は Tmux の設定を管理する (prefix は C-q)
+- `tmux.nix` は Tmux の設定を管理する (prefix は C-q)。プラグインの tmux-yank はシステムクリップボードへ書き込むコマンドを必要とするため、Linux に限り xsel を導入する。macOS では tmux-yank が pbcopy を使うので追加のパッケージは要らない
 
 ### home/darwin/
 

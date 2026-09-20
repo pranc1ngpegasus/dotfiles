@@ -1,5 +1,12 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
+  home.packages = lib.optionals pkgs.stdenv.hostPlatform.isLinux (
+    with pkgs;
+    [
+      xsel
+    ]
+  );
+
   programs.tmux = {
     aggressiveResize = true;
     clock24 = true;
