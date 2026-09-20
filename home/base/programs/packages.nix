@@ -6,7 +6,6 @@
       docker
       docker-buildx
       docker-compose
-      eternal-terminal
       fh
       gh
       ghq

@@ -31,5 +31,4 @@ mosh user@server.tailNNN.tt.ts.net
 
 - mosh は最初に SSH で接続する。Tailscale の MagicDNS 名 (`*.tt.ts.net`) と Tailscale IP (`100.x.x.x`) 宛の接続には、`home/base/programs/ssh.nix` で Secure Enclave 鍵 (`~/.ssh/id_enclave_key`) による公開鍵認証の設定が済んでいる。それ以外の宛先やエージェント転送が必要な場合は `programs/ssh.nix` を調整する
 - 接続先サーバーにこの Mac のロケール (LANG や LC_CTYPE で指定したもの) が存在しない場合、起動時に "The locale requested by ... isn't available" のエラーが出ることがある。その場合は `LANG=en_US.UTF-8 mosh user@host` のようにロケールを明示して接続する
-- セッションは UDP を使うため、TCP しか通らない環境 (一部の制限付きネットワーク) では確立できない。その場合は [Tailscale 経由の Eternal Terminal 接続](tailscale-eternal-terminal.md) を使う。Eternal Terminal は TCP で接続するため、UDP がブロックされた環境でもセッションを維持できる
 - mosh はサーバー側にインストールされている必要があるため、接続先がこのフレーク管理外の場合はサーバー側に別途 `mosh` をインストールする
