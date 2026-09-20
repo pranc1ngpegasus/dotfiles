@@ -78,3 +78,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
 ### home/darwin/
 
 darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix`、`secure-enclave-key.nix` と nix-index-database の home module を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。また、`environmentSecrets` の対応表から配備する暗号化ファイルと Bash へ export する環境変数を生成する。`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import し、Secure Enclave 内の鍵による Git の SSH 署名を設定する。
+
+### home/linux/
+
+Linux 固有の home-manager 設定を置く場所。`home/base/` と nix-index-database の home module を import する。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。Moshi からの接続手順は [moshi.md](moshi.md) を参照。

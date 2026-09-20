@@ -2,6 +2,7 @@
 {
   imports = [
     ../base
+    ./moshi-hook.nix
     inputs.nix-index-database.homeModules.nix-index
   ];
 
