@@ -43,6 +43,7 @@ in
 
   networking.firewall = {
     enable = true;
+    allowedUDPPorts = [ 3610 ];
     allowedUDPPortRanges = [
       {
         from = 60000;
