@@ -13,6 +13,8 @@ in
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  my.primaryUser = user;
+
   networking.hostName = "nixos";
 
   system.stateVersion = "26.05";

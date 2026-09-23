@@ -5,6 +5,8 @@ in
 {
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  my.primaryUser = user;
+
   networking.hostName = "M4MacBookAir";
 
   system = {

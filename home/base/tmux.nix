@@ -31,6 +31,7 @@
       set-option -g pane-active-border-style "fg=#84a0c6"
       set-option -g pane-border-style "fg=#1e2132"
       set-option -g renumber-windows on
+      set-option -g set-clipboard on
       set-option -g status-interval 1
       set-option -g status-left "#[fg=#c6c8d1] #h "
       set-option -g status-left-length 40

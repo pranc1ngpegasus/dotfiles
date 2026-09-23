@@ -73,7 +73,10 @@
               ./hosts/M4MacBookAir.nix
               ./modules/darwin
             ];
-            specialArgs = { inherit inputs; };
+            specialArgs = {
+              inherit inputs;
+              isDarwin = true;
+            };
           };
         };
 
@@ -83,7 +86,10 @@
               ./hosts/nixos.nix
               ./modules/nixos
             ];
-            specialArgs = { inherit inputs; };
+            specialArgs = {
+              inherit inputs;
+              isDarwin = false;
+            };
           };
         };
       };

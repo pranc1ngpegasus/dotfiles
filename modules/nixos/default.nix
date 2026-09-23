@@ -1,17 +1,20 @@
 {
   imports = [
-    ./nix.nix
-    ./determinate.nix
+    ../common.nix
+    ../environment.nix
+    ../fonts.nix
+    ../home-manager.nix
+    ../llm-agents.nix
+    ../neovim-overlay.nix
+    ../tailscale.nix
     ./agenix.nix
     ./boot.nix
+    ./determinate.nix
     ./docker.nix
+    ./environment.nix
     ./networking.nix
+    ./nix.nix
     ./openssh.nix
     ./tailscale.nix
-    ./fonts.nix
-    ./environment.nix
-    ./home-manager.nix
-    ./neovim-overlay.nix
-    ./llm-agents.nix
   ];
 }

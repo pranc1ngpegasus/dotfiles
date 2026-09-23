@@ -1,7 +1,3 @@
-{ pkgs, ... }:
-{
-  environment = {
-    pathsToLink = [ "/Applications" ];
-    shells = [ pkgs.bashInteractive ];
-  };
+_: {
+  environment.pathsToLink = [ "/Applications" ];
 }

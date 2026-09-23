@@ -10,7 +10,7 @@ graph LR
     serve -->|"http://127.0.0.1:3080"| web[dsh web<br>systemd ユーザーサービス]
 ```
 
-- `home/linux/dsh-web.nix` は `llm-agents.nix` から `dsh` を導入し、`dsh web` を systemd ユーザーサービス (`dsh-web`) として常駐させる。Web UI は loopback の 3080 番ポートだけで待ち受ける
+- `home/linux/dsh-web.nix` は `inputs.llm-agents` から `dsh` を導入し、`dsh web` を systemd ユーザーサービス (`dsh-web`) として常駐させる。Web UI は loopback の 3080 番ポートだけで待ち受ける
 - `modules/nixos/tailscale.nix` は tailscaled を有効化し、`tailscale-serve` サービスで `tailscale serve --bg 3080` を実行する。これにより tailnet の `https://<MagicDNS 名>/` へのアクセスが loopback の 3080 番ポートへ転送される
 - ポート番号は両方のファイルに現れる。変更するときは揃える
 

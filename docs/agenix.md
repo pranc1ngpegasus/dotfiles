@@ -7,7 +7,11 @@
 最初に設定を適用し、`agenix` と `age` をインストールする。
 
 ```bash
+# macOS
 darwin-rebuild switch --flake .#M4MacBookAir
+
+# NixOS
+sudo nixos-rebuild switch --flake .#nixos
 ```
 
 次に、復号専用の age 鍵を作成する。
@@ -49,7 +53,7 @@ API キーのような単一の値は、変数名や引用符を付けずに値�
 secret-value
 ```
 
-home-manager では、`home/darwin/agenix.nix` の `environmentSecrets` に暗号化ファイルと環境変数の対応を記載する。
+home-manager では、`home/base/agenix.nix` の `environmentSecrets` に暗号化ファイルと環境変数の対応を記載する。
 
 ```nix
 environmentSecrets = {
@@ -67,3 +71,9 @@ environmentSecrets = {
 cd secrets
 agenix --rekey -i ~/.config/agenix/age.agekey
 ```
+
+## OS ごとの違い
+
+ユーザー単位の秘密情報は、`home/base/agenix.nix` が home-manager の agenix モジュールで両 OS とも復号する。復号鍵はどちらも `~/.config/agenix/age.agekey` である。
+
+NixOS ではシステム側にも agenix が必要になる。`modules/nixos/agenix.nix` が `inputs.agenix.nixosModules.default` を import し、`user-password` を root 所有のファイルとして復号して `users.users.<user>.hashedPasswordFile` に渡す。`users.mutableUsers = false` と組み合わせることで、ユーザーのパスワードを宣言的に管理する。macOS 側にはシステムの agenix を置かず、ユーザー単位の秘密だけを扱う。

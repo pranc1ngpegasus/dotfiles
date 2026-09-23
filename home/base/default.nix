@@ -1,4 +1,5 @@
-_: {
+{ inputs, ... }:
+{
   imports = [
     ./options.nix
     ./agenix.nix
@@ -7,5 +8,8 @@ _: {
     ./programs.nix
     ./bash.nix
     ./tmux.nix
+    inputs.nix-index-database.homeModules.nix-index
   ];
+
+  home.stateVersion = "26.11";
 }

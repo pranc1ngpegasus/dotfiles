@@ -1,6 +1,3 @@
 _: {
-  services.tailscale = {
-    enable = true;
-    overrideLocalDns = true;
-  };
+  services.tailscale.overrideLocalDns = true;
 }

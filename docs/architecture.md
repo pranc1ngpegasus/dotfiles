@@ -1,87 +1,121 @@
 # Architecture
 
-## モジュール依存関係
+## 全体像
 
 ```mermaid
 graph TD
-    flake[flake.nix] --> parts[flake-parts]
-    flake --> host[hosts/M4MacBookAir.nix]
-    flake --> darwin[modules/darwin/default.nix]
-    darwin --> common[modules/common.nix]
-    darwin --> docker[modules/darwin/docker.nix]
-    darwin --> environment[modules/darwin/environment.nix]
-    darwin --> fonts[modules/darwin/fonts.nix]
-    darwin --> defaults[modules/darwin/system-defaults.nix]
-    darwin --> security[modules/darwin/security.nix]
-    darwin --> tailscale[modules/darwin/tailscale.nix]
-    darwin --> homeManager[modules/darwin/home-manager.nix]
-    darwin --> agents[modules/darwin/llm-agents.nix]
-    darwin --> neovimOverlay[modules/darwin/neovim-overlay.nix]
-    homeManager --> darwinHome[home/darwin/default.nix]
-    darwinHome --> baseHome[home/base/default.nix]
-    darwinHome --> agenix[home/darwin/agenix.nix]
-    darwinHome --> ghostty[home/darwin/ghostty.nix]
-    darwinHome --> secureEnclaveKey[home/darwin/secure-enclave-key.nix]
-    baseHome --> editor[editor.nix]
-    baseHome --> programs[programs/]
-    baseHome --> bash[bash.nix]
-    baseHome --> tmux[tmux.nix]
+    flake["flake.nix"] --> darwinCfg["darwinConfigurations.M4MacBookAir"]
+    flake --> nixosCfg["nixosConfigurations.nixos"]
+    darwinCfg --> darwinHost["hosts/M4MacBookAir.nix"]
+    darwinCfg --> darwinMods["modules/darwin"]
+    nixosCfg --> nixosHost["hosts/nixos.nix"]
+    nixosCfg --> nixosMods["modules/nixos"]
+    darwinMods --> commonMods["modules/ 直下の共通モジュール"]
+    nixosMods --> commonMods
+    commonMods --> hm["modules/home-manager.nix"]
+    hm --> darwinHome["home/darwin"]
+    hm --> linuxHome["home/linux"]
+    darwinHome --> baseHome["home/base"]
+    linuxHome --> baseHome
 ```
 
-## 各層の役割
+## flake.nix
 
-### flake.nix
+リポジトリ全体のエントリーポイントである。inputs を宣言し、`flake-parts.lib.mkFlake` で出力を合成する。`flake` 属性に `darwinConfigurations` と `nixosConfigurations` を並べ、どちらも `hosts/<host>.nix` と対応する `modules/<os>` をモジュールリストに指定する。`specialArgs` では `inputs` に加えて `isDarwin` を渡し、共通モジュールが OS を判定できるようにしている。`imports` を `pkgs` で条件分岐すると `pkgs` の解決が config の評価を要求して循環するため、プラットフォームの判定はこの `specialArgs` に寄せている。
 
-リポジトリ全体のエントリーポイントにあたる。Flake の仕様上、静的に宣言する必要がある inputs と `nixConfig` を定義し、`flake-parts.lib.mkFlake` で出力を合成する。出力は flake.nix 内に直接定義しており、`git-hooks` と `treefmt-nix` の flake module を import したうえで、`flake` 属性に `darwinConfigurations` を、`perSystem` に `devShells`、`treefmt`、`pre-commit` を並べている。`darwinConfigurations` のモジュールリストには `hosts/M4MacBookAir.nix` と `modules/darwin` を指定し、`specialArgs` を通して inputs を渡している。
+`perSystem` には `devShells`、`treefmt` (nixfmt)、`pre-commit` (actionlint、deadnix、statix) を定義する。
 
-### FlakeHub cache
+## Determinate Nix と FlakeHub
 
-入力の配達と事前ビルド成果物の取得に FlakeHub のキャッシュを利用している。nixpkgs は、Determinate Nix がグローバルに登録した substituter (`https://cache.flakehub.com`) が有効になっており、`/etc/nix/nix.conf` の `extra-substituters` と FlakeHub の public key がその設定に含まれている。
+Nix の配布は両 OS とも Determinate Nix で、`modules/darwin/determinate.nix` と `modules/nixos/determinate.nix` が flake input の `determinate` モジュールを import する。FlakeHub の substituter、lazy-trees、並列評価、Determinate Nixd による自動 GC などの最適化と、OS ごとの構成方法は [determinate-nix.md](determinate-nix.md) にまとめている。
 
-inputs の参照方は flake ごとに切り分けている。
+nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。`nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある。
 
-- `nixpkgs` は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。これは以前の `github:NixOS/nixpkgs/nixpkgs-unstable` と同じ rolling 挙動を持ちながら、FlakeHub のキャッシュから事前ビルドを引けるようになっている。更新は `nix flake update nixpkgs` で行う
-- `flake-parts`、`treefmt-nix`、`git-hooks` は FlakeHub の公開リリースにピン留めしている。これはビルド支援用の安定版であり、rolling nixpkgs と互換性が保たれている
-- `nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある
+## hosts/
 
-CI は `.github/workflows/flakehub-push.yml` がこの flake の出力 (`darwinConfigurations`、`devShells`) を FlakeHub のキャッシュへ発行する。`visibility: private` で非公開に保ち、`rolling: true` で `master` の最新状態を常にキャッシュへ反映している。
+マシンごとのホスト固有設定を置く場所である。`hostPlatform`、`hostName`、`my.primaryUser`、`stateVersion`、ユーザーアカウントなど、そのホストに紐づく情報だけを持つ。新しいマシンを追加するときは `hosts/<hostname>.nix` を作成し、`flake.nix` の対応する構成にエントリーを追加する。`my.primaryUser` は `modules/common.nix` が定義するオプションで、home-manager へ割り当てるユーザー名を OS に依存せず参照するために使う。
 
-### hosts/
+## modules/
 
-マシンごとのホスト固有設定を置く場所。`hostPlatform`、`hostName`、`primaryUser`、`stateVersion`、ユーザーアカウントなど、そのホストに紐づく情報だけを持つ。新しいマシンを追加するときは `hosts/<hostname>.nix` を作成し、`flake.nix` の `darwinConfigurations` にエントリーを追加する。
+システムレベルの設定を責務ごとのファイルに分割している。直下のファイルは全プラットフォーム共通で、`darwin/` と `nixos/` は OS 固有である。
 
-### modules/
+### modules/ 直下の共通モジュール
 
-システムレベル設定を責務ごとに分割している。
+- `common.nix` は unfree パッケージの許可、タイムゾーン、`my.primaryUser` オプションを定義する
+- `environment.nix` は `environment.shells` に bashInteractive を設定する
+- `fonts.nix` は JetBrainsMono Nerd Font をインストールする
+- `llm-agents.nix` は `inputs.llm-agents` から grok を引いて systemPackages へ入れる
+- `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
+- `tailscale.nix` は tailscaled を有効化する
+- `home-manager.nix` は `isDarwin` に応じて home-manager の darwin / nixos モジュールを import し、`useGlobalPkgs`、`backupFileExtension`、`extraSpecialArgs` と `my.primaryUser` のユーザー割り当てを共通化する。`useUserPackages` は NixOS のときだけ有効にする
 
-- `modules/common.nix` は Nix 自体の基本設定を担当する。nix.enable、unfree 許可、タイムゾーンなどプラットフォーム非依存の設定をまとめている
-- `modules/darwin/` は macOS 固有の設定を責務単位のファイルに分割している
-  - `docker.nix` は colima を launchd エージェントとして起動する設定を担当する。Docker のバックエンドはプラットフォームごとに切り替えており、macOS は colima を、Linux は `modules/nixos/docker.nix` の `virtualisation.docker` によるネイティブな Docker を使う。colima のパッケージは `home/darwin/docker.nix` で darwin のみに導入する
-  - `environment.nix` は `environment.pathsToLink` と `environment.shells` を設定する
-  - `fonts.nix` は `fonts.packages` で Nerd Fonts をインストールする
-  - `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain, dock, finder, trackpad, menuExtraClock) を設定する
-  - `security.nix` は Application Firewall、Touch ID による sudo 認証、Caps Lock のリマップを設定する
-  - `tailscale.nix` は `services.tailscale.enable` で tailscaled を launchd デーモンとして起動し、`services.tailscale.overrideLocalDns` で MagicDNS に必要なローカル DNS の上書きを有効化する。Tailnet へのログインは `sudo tailscale up` で行い、認証のための Tailscale キーは管理しない。MagicDNS の利用には Tailscale 管理コンソール側で「Override local DNS」の有効化と DNS サーバーの設定が前提となる
-  - `home-manager.nix` は home-manager の nix-darwin 統合 (`useGlobalPkgs`, `backupFileExtension`, `extraSpecialArgs`, ユーザーエントリ) を定義する
-  - `llm-agents.nix` は Codex、Cursor Agent、Grok に加えて、ccusage と ren を systemPackages へ注入する
-  - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
-- `modules/nixos/` は NixOS 固有の設定を責務単位のファイルに分割している。`tailscale.nix` は tailscaled を有効化し、あわせて `tailscale-serve` サービスで dsh の Web UI を tailnet へ公開する。ポート番号は `home/linux/dsh-web.nix` の `dsh web` と揃える必要があり、手順は [dsh.md](dsh.md) を参照
+### modules/darwin
 
-### home/base/
+macOS 固有の設定を責務単位に分割している。
 
-全プラットフォーム共通のユーザー環境設定を置く場所である。1 つの設定しか持たないディレクトリは作らず、関心ごとをファイルとして並べる。
+- `determinate.nix` は Determinate Nix の nix-darwin モジュールを import し、自動 GC の方針を宣言する
+- `docker.nix` は colima を launchd エージェントとして起動する
+- `environment.nix` は `environment.pathsToLink` に `/Applications` を加える
+- `security.nix` は Application Firewall、Touch ID による sudo 認証、Caps Lock の Control へのリマップを設定する
+- `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain、dock、finder、trackpad、menuExtraClock) を設定する
+- `tailscale.nix` は `services.tailscale.overrideLocalDns` を有効にし、MagicDNS に必要なローカル DNS の上書きを行う。Tailnet へのログインは `sudo tailscale up` で行い、認証のための Tailscale キーは管理しない
 
+### modules/nixos
+
+NixOS 固有の設定を責務単位に分割している。
+
+- `determinate.nix` は Determinate Nix の NixOS モジュールを import する
+- `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
+- `boot.nix` は systemd-boot を設定する
+- `docker.nix` は `virtualisation.docker` を有効にする
+- `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
+- `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する
+- `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
+- `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
+- `tailscale.nix` は `tailscale-serve` サービスで dsh の Web UI を tailnet へ公開する。ポート番号は `home/linux/dsh-web.nix` の `dsh web` と揃える必要があり、手順は [dsh.md](dsh.md) を参照
+
+## home/
+
+home-manager によるユーザー環境である。
+
+### home/base
+
+全プラットフォーム共通の設定を置く。`default.nix` は各モジュールと nix-index-database の home モジュールを import し、`home.stateVersion` を定義する。
+
+- `options.nix` は `my.ssh.identityFile` と `my.git.signingKey` のオプションを定義する
+- `agenix.nix` は agenix の home-manager モジュールを import し、復号用の age 鍵のパス、関連 CLI パッケージ、`environmentSecrets` の対応表から生成する `age.secrets` と Bash の export 処理を設定する
 - `editor.nix` は Neovim nightly、LSP、プラグイン、エディタ設定を管理する
+- `locale.nix` は `LANG` を設定する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
 - `bash.nix` は Bash の設定を管理する。history は atuin が、Ctrl+G / Ctrl+W の fuzzy cd は fzf-tmux が担う
-- `tmux.nix` は Tmux の設定を管理する (prefix は C-q)。プラグインの tmux-yank はシステムクリップボードへ書き込むコマンドを必要とするため、Linux に限り xsel を導入する。macOS では tmux-yank が pbcopy を使うので追加のパッケージは要らない
+- `tmux.nix` は Tmux の設定を管理する (prefix は C-q)。tmux-yank がシステムクリップボードへ書き込むため、Linux に限り xsel を導入する。macOS では tmux-yank が pbcopy を使うので追加のパッケージは要らない
 
-### home/darwin/
+### home/darwin
 
-darwin 固有の home-manager 設定を置く場所。state version と linkApps の設定を行い、`home/base/`、`agenix.nix`、`ghostty.nix`、`secure-enclave-key.nix` と nix-index-database の home module を import している。`agenix.nix` は agenix の home-manager モジュール、復号用の age 鍵のパス、関連 CLI パッケージを設定する。また、`environmentSecrets` の対応表から配備する暗号化ファイルと Bash へ export する環境変数を生成する。`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import し、Secure Enclave 内の鍵による Git の SSH 署名を設定する。
+macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設定を、`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import して Secure Enclave 内の鍵による Git の SSH 署名を、`docker.nix` は colima を導入する。`nh.nix` は launchd が `nh clean` の各オプションを個別の引数として渡すように `ProgramArguments` を上書きする。
 
-### home/linux/
+### home/linux
 
-Linux 固有の home-manager 設定を置く場所。`home/base/` と nix-index-database の home module を import する。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。Moshi からの接続手順は [moshi.md](moshi.md) を参照。
+Linux 固有の home-manager 設定を置く。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。接続手順は [moshi.md](moshi.md) を参照。
 
-`dsh-web.nix` は `llm-agents.nix` から `dsh` を導入し、`dsh web` を systemd ユーザーサービスとして常駐させる。Tailscale Serve は `Host` ヘッダをそのまま転送するため、起動時に tailscaled から MagicDNS 名を取り出して `--trusted-host` に渡す。公開は `modules/nixos/tailscale.nix` の `tailscale-serve` が担い、手順は [dsh.md](dsh.md) を参照。
+`dsh-web.nix` は `inputs.llm-agents` から `dsh` を導入し、`dsh web` を systemd ユーザーサービスとして常駐させる。Tailscale Serve は `Host` ヘッダをそのまま転送するため、起動時に tailscaled から MagicDNS 名を取り出して `--trusted-host` に渡す。公開は `modules/nixos/tailscale.nix` の `tailscale-serve` が担い、手順は [dsh.md](dsh.md) を参照。
+
+## OS ごとの差異
+
+共通化したうえで残る差異は次のとおりである。共通の仕組みを直下に置き、差異だけを OS 固有のファイルに閉じ込めている。
+
+| 関心 | macOS | NixOS | 置き場所 |
+| --- | --- | --- | --- |
+| Nix の配布 | Determinate の nix-darwin モジュール。nix-darwin に nix.conf を管理させない | Determinate の NixOS モジュール。`nix.package` を差し替え、nix.conf を nix.custom.conf へリダイレクトする | `modules/darwin/determinate.nix`、`modules/nixos/determinate.nix` |
+| Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
+| Docker | colima を launchd エージェントで起動する | `virtualisation.docker` を使う | `modules/darwin/docker.nix`、`modules/nixos/docker.nix` |
+| ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
+| 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
+| ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
+| 常駐アプリ | colima、Ghostty | dsh-web、moshi-hook | `home/darwin/`、`home/linux/` |
+| Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
+| フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
+
+## CI
+
+`.github/workflows/ci.yml` は `DeterminateSystems/ci` の reusable workflow を `visibility: public` で呼び、FlakeHub Cache を使った評価とビルドを行う。`.github/workflows/auto-merge.yml` は dependabot の PR を自動マージし、`.github/dependabot.yml` は flake inputs をグループ化して毎日更新する。
