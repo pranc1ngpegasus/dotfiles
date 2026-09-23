@@ -45,6 +45,27 @@ determinateNix.customSettings = {
 };
 ```
 
+### 既存の macOS へ初めて適用するとき
+
+Determinate のインストーラは `/etc/nix/nix.custom.conf` を先に作成している。nix-darwin がこのファイルの管理を引き継ぐとき、内容が既知でないと `/etc` の衝突チェックで activation が中断する。
+
+```text
+error: Unexpected files in /etc, aborting activation
+The following files have unrecognized content and would be overwritten:
+
+  /etc/nix/nix.custom.conf
+```
+
+まず中身を確認し、自分で追加した設定が無ければ一度だけ退避してから再適用する。
+
+```bash
+sudo cat /etc/nix/nix.custom.conf
+sudo mv /etc/nix/nix.custom.conf{,.before-nix-darwin}
+darwin-rebuild switch --flake .#M4MacBookAir
+```
+
+設定が入っていた場合は、先に `determinateNix.customSettings` へ移してから退避する。`/etc/nix/nix.conf` は `!include nix.custom.conf` で読み込んでおり、`!include` はファイルが無くても失敗しないため、退避しても Nix は動き続ける。適用後はこのファイルが nix-darwin の生成物へ置き換わり、追記は `determinateNix.customSettings` に一本化される。
+
 ## native Linux builder (任意)
 
 Determinate Nix は Apple Silicon 上で Linux の derivation をビルドする native Linux builder を提供する。このリポジトリでは有効化していない。使うときは `modules/darwin/determinate.nix` に次を足す。
