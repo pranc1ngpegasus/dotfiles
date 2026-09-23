@@ -52,7 +52,7 @@ CI は `.github/workflows/flakehub-push.yml` がこの flake の出力 (`darwinC
 
 ### modules/
 
-nix-darwin のシステムレベル設定を責務ごとに分割している。
+システムレベル設定を責務ごとに分割している。
 
 - `modules/common.nix` は Nix 自体の基本設定を担当する。nix.enable、unfree 許可、タイムゾーンなどプラットフォーム非依存の設定をまとめている
 - `modules/darwin/` は macOS 固有の設定を責務単位のファイルに分割している
@@ -65,6 +65,7 @@ nix-darwin のシステムレベル設定を責務ごとに分割している。
   - `home-manager.nix` は home-manager の nix-darwin 統合 (`useGlobalPkgs`, `backupFileExtension`, `extraSpecialArgs`, ユーザーエントリ) を定義する
   - `llm-agents.nix` は Codex、Cursor Agent、Grok に加えて、ccusage と ren を systemPackages へ注入する
   - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
+- `modules/nixos/` は NixOS 固有の設定を責務単位のファイルに分割している。`tailscale.nix` は tailscaled を有効化し、あわせて `tailscale-serve` サービスで dsh の Web UI を tailnet へ公開する。ポート番号は `home/linux/dsh-web.nix` の `dsh web` と揃える必要があり、手順は [dsh.md](dsh.md) を参照
 
 ### home/base/
 
@@ -82,3 +83,5 @@ darwin 固有の home-manager 設定を置く場所。state version と linkApps
 ### home/linux/
 
 Linux 固有の home-manager 設定を置く場所。`home/base/` と nix-index-database の home module を import する。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。Moshi からの接続手順は [moshi.md](moshi.md) を参照。
+
+`dsh-web.nix` は `llm-agents.nix` から `dsh` を導入し、`dsh web` を systemd ユーザーサービスとして常駐させる。Tailscale Serve は `Host` ヘッダをそのまま転送するため、起動時に tailscaled から MagicDNS 名を取り出して `--trusted-host` に渡す。公開は `modules/nixos/tailscale.nix` の `tailscale-serve` が担い、手順は [dsh.md](dsh.md) を参照。
