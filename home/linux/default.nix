@@ -1,7 +1,6 @@
 _: {
   imports = [
     ../base
-    ./dsh-web.nix
     ./moshi-hook.nix
   ];
 

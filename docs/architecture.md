@@ -72,7 +72,6 @@ NixOS 固有の設定を責務単位に分割している。
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
-- `tailscale.nix` は `tailscale-serve` サービスで dsh の Web UI を tailnet へ公開する。ポート番号は `home/linux/dsh-web.nix` の `dsh web` と揃える必要があり、手順は [dsh.md](dsh.md) を参照
 
 ## home/
 
@@ -98,8 +97,6 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 Linux 固有の home-manager 設定を置く。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。接続手順は [moshi.md](moshi.md) を参照。
 
-`dsh-web.nix` は `inputs.llm-agents` から `dsh` を導入し、`dsh web` を systemd ユーザーサービスとして常駐させる。Tailscale Serve は `Host` ヘッダをそのまま転送するため、起動時に tailscaled から MagicDNS 名を取り出して `--trusted-host` に渡す。公開は `modules/nixos/tailscale.nix` の `tailscale-serve` が担い、手順は [dsh.md](dsh.md) を参照。
-
 ## OS ごとの差異
 
 共通化したうえで残る差異は次のとおりである。共通の仕組みを直下に置き、差異だけを OS 固有のファイルに閉じ込めている。
@@ -112,7 +109,7 @@ Linux 固有の home-manager 設定を置く。`moshi-hook.nix` は Moshi の接
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
-| 常駐アプリ | colima、Ghostty | dsh-web、moshi-hook | `home/darwin/`、`home/linux/` |
+| 常駐アプリ | colima、Ghostty | moshi-hook | `home/darwin/`、`home/linux/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
 | フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
 
