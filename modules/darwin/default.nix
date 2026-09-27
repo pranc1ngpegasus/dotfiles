@@ -8,7 +8,6 @@
     ../neovim-overlay.nix
     ../tailscale.nix
     ./determinate.nix
-    ./docker.nix
     ./environment.nix
     ./security.nix
     ./system-defaults.nix

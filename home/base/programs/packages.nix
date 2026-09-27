@@ -3,9 +3,6 @@
   home = {
     packages = with pkgs; [
       comma
-      docker
-      docker-buildx
-      docker-compose
       fh
       gh
       ghq

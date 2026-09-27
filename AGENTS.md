@@ -42,7 +42,7 @@ nix fmt
 - Nix の配布は両 OS とも Determinate Nix を使い、flake input の `determinate` モジュールで宣言的に構成する。詳細は [docs/determinate-nix.md](docs/determinate-nix.md) を参照
 - Neovim nightly は neovim-nightly-overlay 経由で取得し、`modules/neovim-overlay.nix` の overlay で `pkgs.neovim-unwrapped` を nightly ビルドに差し替えている
 - GitHub への認証は `gh auth git-credential` による HTTPS 認証を使う。macOS の Git 署名は nix-secure-enclave-key で Secure Enclave 内の鍵を使って行い、秘密鍵をディスクに置かない
-- Docker は macOS では colima、NixOS では `virtualisation.docker` を使う
+- Docker は NixOS でのみ `virtualisation.docker` を使い、CLI と buildx、compose を `home/linux/docker.nix` で導入する
 - CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
 - Nix コードのフォーマットには nixfmt を使用している
 

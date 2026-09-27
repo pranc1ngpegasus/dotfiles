@@ -1,6 +1,7 @@
 _: {
   imports = [
     ../base
+    ./docker.nix
     ./moshi-hook.nix
   ];
 

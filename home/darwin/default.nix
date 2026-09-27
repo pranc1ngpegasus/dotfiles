@@ -2,7 +2,6 @@
 {
   imports = [
     ../base
-    ./docker.nix
     ./ghostty.nix
     ./nh.nix
     ./secure-enclave-key.nix

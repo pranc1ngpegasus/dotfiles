@@ -54,7 +54,6 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 macOS 固有の設定を責務単位に分割している。
 
 - `determinate.nix` は Determinate Nix の nix-darwin モジュールを import し、自動 GC の方針を宣言する
-- `docker.nix` は colima を launchd エージェントとして起動する
 - `environment.nix` は `environment.pathsToLink` に `/Applications` を加える
 - `security.nix` は Application Firewall、Touch ID による sudo 認証、Caps Lock の Control へのリマップを設定する
 - `system-defaults.nix` は `system.defaults.*` (NSGlobalDomain、dock、finder、trackpad、menuExtraClock) を設定する
@@ -91,11 +90,11 @@ home-manager によるユーザー環境である。
 
 ### home/darwin
 
-macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設定を、`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import して Secure Enclave 内の鍵による Git の SSH 署名を、`docker.nix` は colima を導入する。`nh.nix` は launchd が `nh clean` の各オプションを個別の引数として渡すように `ProgramArguments` を上書きする。
+macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設定を、`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import して Secure Enclave 内の鍵による Git の SSH 署名を行う。`nh.nix` は launchd が `nh clean` の各オプションを個別の引数として渡すように `ProgramArguments` を上書きする。
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。接続手順は [moshi.md](moshi.md) を参照。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入する。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。接続手順は [moshi.md](moshi.md) を参照。
 
 ## OS ごとの差異
 
@@ -105,11 +104,11 @@ Linux 固有の home-manager 設定を置く。`moshi-hook.nix` は Moshi の接
 | --- | --- | --- | --- |
 | Nix の配布 | Determinate の nix-darwin モジュール。nix-darwin に nix.conf を管理させない | Determinate の NixOS モジュール。`nix.package` を差し替え、nix.conf を nix.custom.conf へリダイレクトする | `modules/darwin/determinate.nix`、`modules/nixos/determinate.nix` |
 | Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
-| Docker | colima を launchd エージェントで起動する | `virtualisation.docker` を使う | `modules/darwin/docker.nix`、`modules/nixos/docker.nix` |
+| Docker | 導入しない | `virtualisation.docker` を使い、CLI と buildx、compose を入れる | `modules/nixos/docker.nix`、`home/linux/docker.nix` |
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
-| 常駐アプリ | colima、Ghostty | moshi-hook | `home/darwin/`、`home/linux/` |
+| 常駐アプリ | Ghostty | moshi-hook | `home/darwin/`、`home/linux/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
 | フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
 
