@@ -77,6 +77,36 @@ sudo tailscale set --ssh=false
 - mosh は UDP を使うため、TCP しか通らない制限付きネットワークでは確立できない。その場合は Moshi の接続タイプを SSH に固定する
 - 接続先にこのホストのロケールが無い場合、"The locale requested by ... isn't available" のエラーが出ることがある。`LANG=en_US.UTF-8 mosh user@host` のようにロケールを明示して接続する
 
+## tmux のステータスバーと時計
+
+Moshi は接続するときに次のようなコマンドで tmux へアタッチする。この中の `set -g status-right ''` が `status-right` をグローバルに空へ上書きするため、Moshi から接続したセッションでは右下の時計が表示されなくなる。
+
+```
+mosh-server ... -- sh -lc export PATH=...; tmux -u \
+  set -g set-titles on \; set -g mouse on \; set -g status-right '' \; \
+  unbind -q -T root WheelUpStatus \; unbind -q -T root WheelDownStatus \; \
+  attach-session -t '=0'
+```
+
+これは Moshi がスワイプによるウィンドウ切り替えを検出するために、ステータスバーの内容を読める状態に保つための意図的な上書きである。tmux の設定ファイルはサーバー起動時に一度だけ読まれるため、後から上書きされると再アタッチしても時計は戻らない。
+
+`home/base/tmux.nix` の修正では、時計の文字列を `@clock` というユーザーオプションへ切り出し、`client-attached` フックで、Moshi からの接続 (`MOSHI_CLIENT=1`) のときは `status-right` を空のままにし、ローカル接続のときだけ時計を戻すようにしている。ユーザーオプションの展開には `#{T:@clock}` を使う。`#{@clock}` では strftime の指定子が展開されず、`%Y/%m/%d %H:%M` がそのまま表示されてしまう。
+
+```tmux
+set-option -g @clock "#[fg=#39ffb6,bold] %Y/%m/%d %H:%M "
+set-option -g status-right "#{T:@clock}"
+set-option -ag update-environment " MOSHI_CLIENT"
+set-hook -ag client-attached {
+  if-shell -F "#{E:MOSHI_CLIENT}" {
+    set-option -g status-right ""
+  } {
+    set-option -g status-right "#{T:@clock}"
+  }
+}
+```
+
+この分岐を効かせるには、Moshi アプリの設定で Export ENV を有効にして `MOSHI_CLIENT=1` を接続先へ渡す必要がある。有効にしていない場合、Moshi からの接続でもローカル接続と区別が付かず時計が戻るため、その場合は Moshi 側の検出が時計の表示と競合しうる。
+
 ## 参考
 
 - [Tailscale 経由の mosh 接続](tailscale-mosh.md)

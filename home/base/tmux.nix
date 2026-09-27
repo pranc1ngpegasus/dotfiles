@@ -19,6 +19,7 @@
     shell = "${pkgs.bashInteractive}/bin/bash";
     extraConfig = ''
       set-environment -gu __HM_SESS_VARS_SOURCED
+      set-option -g @clock "#[fg=#39ffb6,bold] %Y/%m/%d %H:%M "
       bind-key = select-layout even-horizontal
       set-option -ag terminal-overrides ',xterm-256color:RGB'
       set-option -g allow-passthrough on
@@ -36,10 +37,21 @@
       set-option -g status-left "#[fg=#c6c8d1] #h "
       set-option -g status-left-length 40
       set-option -g status-position bottom
-      set-option -g status-right "#[fg=#39ffb6,bold] %Y/%m/%d %H:%M "
+      set-option -g status-right "#{T:@clock}"
       set-option -g status-right-length 20
       set-option -g status-style "fg=#444b71,bg=#0f1117"
       set-option -ag update-environment " LC_TERMINAL"
+      # Moshi は接続時に status-right を空へ上書きするため、Moshi からの
+      # 接続 (MOSHI_CLIENT=1) ではそのまま空にし、ローカル接続のときだけ
+      # 時計を戻す。
+      set-option -ag update-environment " MOSHI_CLIENT"
+      set-hook -ag client-attached {
+        if-shell -F "#{E:MOSHI_CLIENT}" {
+          set-option -g status-right ""
+        } {
+          set-option -g status-right "#{T:@clock}"
+        }
+      }
       set-option -g window-status-current-format " #I:#W "
       set-option -g window-status-current-style "fg=#c6c8d1,bg=#1e2132,bold"
       set-option -g window-status-format " #I:#W "
