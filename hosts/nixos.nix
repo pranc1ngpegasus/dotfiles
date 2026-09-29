@@ -13,6 +13,10 @@ in
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  # Tailscale や mosh の接続が切断される問題への対策として、Ryzen の deep
+  # c-state (C6 など) を無効化する。
+  boot.kernelParams = [ "processor.max_cstate=1" ];
+
   my.primaryUser = user;
 
   networking.hostName = "nixos";

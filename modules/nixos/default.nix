@@ -15,5 +15,6 @@
     ./networking.nix
     ./nix.nix
     ./openssh.nix
+    ./tailscale.nix
   ];
 }
