@@ -95,7 +95,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入する。`moshi-hook.nix` は Moshi の接続先ホストに必要な `moshi-hook` を導入する。このツールは nixpkgs にも `llm-agents.nix` にも存在せず、公式が配布するビルド済みバイナリしか提供されていないため、CDN のリリースを固定して取得する。あわせて `systemd.user.services.moshi-hook` を宣言的に定義し、公式の `moshi-hook service install` が命令的に書き込むユニットを世代管理の対象にする。接続手順は [moshi.md](moshi.md) を参照。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入する。
 
 ## OS ごとの差異
 
@@ -110,7 +110,6 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | 電源管理 | なし | Ryzen の deep c-state を無効化し、ネットワークの切断を防ぐ | `hosts/nixos.nix` |
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
-| 常駐アプリ | Ghostty | moshi-hook | `home/darwin/`、`home/linux/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
 | フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
 
