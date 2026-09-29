@@ -11,7 +11,6 @@
       mmv-go
       mosh
       ripgrep
-      skills
     ];
   };
 }
