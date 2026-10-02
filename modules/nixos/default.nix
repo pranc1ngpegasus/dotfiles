@@ -9,8 +9,8 @@
     ../tailscale.nix
     ./agenix.nix
     ./boot.nix
+    ./containerd.nix
     ./determinate.nix
-    ./docker.nix
     ./environment.nix
     ./networking.nix
     ./nix.nix
