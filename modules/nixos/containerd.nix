@@ -15,6 +15,21 @@ let
     install -Dm755 ${pkgs.nerdctl.src}/extras/rootless/containerd-rootless-setuptool.sh $out/bin/containerd-rootless-setuptool.sh
   '';
 
+  # containerd.service が active になっても、containerd-rootless.sh が child_pid を書くまで
+  # には間がある。After= は containerd.service が active になった時点で満たされるため、
+  # 待たずに buildkit を起動すると setuptool が child_pid を読めずに失敗する。失敗を
+  # 重ねると systemd の既定の StartLimit に達して buildkit が起動しなくなるため、ここで待つ。
+  waitForContainerdRootless = pkgs.writeShellScriptBin "wait-for-containerd-rootless" ''
+    for _ in $(${pkgs.coreutils}/bin/seq 1 60); do
+      if [ -r "$XDG_RUNTIME_DIR/containerd-rootless/child_pid" ]; then
+        exit 0
+      fi
+      ${pkgs.coreutils}/bin/sleep 1
+    done
+    echo "containerd-rootless の child_pid が現れませんでした" >&2
+    exit 1
+  '';
+
   # systemd の path オプションは PATH を丸ごと置き換えるため、スクリプトが呼ぶ
   # バイナリをすべて列挙する必要がある。/run/wrappers は setuid の mount と
   # ケーパビリティ付きの newuidmap、newgidmap を提供する。
@@ -74,6 +89,7 @@ in
     path = commonPath ++ [ pkgs.git ];
     serviceConfig = {
       Type = "simple";
+      ExecStartPre = "${waitForContainerdRootless}/bin/wait-for-containerd-rootless";
       # rootless の nerdctl build に必要な buildkitd は containerd-rootless.sh が作った
       # 名前空間の中で動かす必要があり、setuptool の nsenter サブコマンドが child_pid を
       # 読んで RootlessKit の環境を引き継ぎながら名前空間に入る。
