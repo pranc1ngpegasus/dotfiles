@@ -34,7 +34,6 @@ in
     extraGroups = [
       "wheel"
       "networkmanager"
-      "docker"
     ];
     hashedPasswordFile = config.age.secrets.user-password.path;
     openssh.authorizedKeys.keys = [

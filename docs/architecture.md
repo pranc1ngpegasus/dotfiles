@@ -66,7 +66,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `determinate.nix` は Determinate Nix の NixOS モジュールを import する
 - `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
-- `docker.nix` は `virtualisation.docker` を有効にする
+- `containerd.nix` は rootless の containerd と buildkit を systemd のユーザーサービスとして起動する。nerdctl パッケージが同梱しない rootless 用のヘルパースクリプトはソースから取り出して配置する
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
@@ -95,7 +95,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入する。
+Linux 固有の home-manager 設定を置く。`nerdctl.nix` は nerdctl を導入する。compose は nerdctl に組み込まれているため別パッケージは要らない。
 
 ## OS ごとの差異
 
@@ -105,7 +105,7 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | --- | --- | --- | --- |
 | Nix の配布 | Determinate の nix-darwin モジュール。nix-darwin に nix.conf を管理させない | Determinate の NixOS モジュール。`nix.package` を差し替え、nix.conf を nix.custom.conf へリダイレクトする | `modules/darwin/determinate.nix`、`modules/nixos/determinate.nix` |
 | Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
-| Docker | 導入しない | `virtualisation.docker` を使い、CLI と buildx、compose を入れる | `modules/nixos/docker.nix`、`home/linux/docker.nix` |
+| コンテナ | 導入しない | rootless の containerd と buildkit をユーザーサービスで動かし、nerdctl で操作する | `modules/nixos/containerd.nix`、`home/linux/nerdctl.nix` |
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化し、ネットワークの切断を防ぐ | `hosts/nixos.nix` |
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
