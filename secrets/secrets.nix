@@ -3,11 +3,6 @@ let
   nixos = "age10c9z8cy2sgjcmayrysm4x0p0d0k5yh3y8dlhd62t3le9hv2peurqw7vlem";
 in
 {
-  "openrouter-api-key.age".publicKeys = [
-    pranc1ngpegasus
-    nixos
-  ];
-
   "ollama-api-key.age".publicKeys = [
     pranc1ngpegasus
     nixos

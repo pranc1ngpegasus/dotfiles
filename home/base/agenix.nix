@@ -7,7 +7,6 @@
 }:
 let
   environmentSecrets = {
-    OPENROUTER_API_KEY = ../../secrets/openrouter-api-key.age;
     OLLAMA_API_KEY = ../../secrets/ollama-api-key.age;
   };
   environmentSecretNames = builtins.attrNames environmentSecrets;
