@@ -41,6 +41,19 @@ in
     };
   };
 
+  # Avahi で nixos.local を mDNS に公開し、同じネットワークの端末から名前解決
+  # できるようにする。nssmdns4 を有効にすると、このホスト自身も .local の名前を
+  # 解決できるようになる。
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+
+    publish = {
+      enable = true;
+      addresses = true;
+    };
+  };
+
   networking.firewall = {
     enable = true;
     allowedUDPPorts = [ 3610 ];

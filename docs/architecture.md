@@ -68,7 +68,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `boot.nix` は systemd-boot を設定する
 - `containerd.nix` は rootless の containerd と buildkit を systemd のユーザーサービスとして起動する。nerdctl パッケージが同梱しない rootless 用のヘルパースクリプトはソースから取り出して配置する
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
-- `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する
+- `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
 - `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する
@@ -107,6 +107,7 @@ Linux 固有の home-manager 設定を置く。`nerdctl.nix` は nerdctl を導�
 | Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
 | コンテナ | 導入しない | rootless の containerd と buildkit をユーザーサービスで動かし、nerdctl で操作する | `modules/nixos/containerd.nix`、`home/linux/nerdctl.nix` |
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
+| ローカル名前解決 | Bonjour が標準で `.local` を解決する | Avahi を有効にして `nixos.local` を公開し、`nssmdns4` で `.local` を解決する | `modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化し、ネットワークの切断を防ぐ | `hosts/nixos.nix` |
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
