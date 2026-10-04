@@ -87,7 +87,7 @@ home-manager によるユーザー環境である。
 - `locale.nix` は `LANG` を設定する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
 - `bash.nix` は Bash の設定を管理する。history は atuin が、Ctrl+G / Ctrl+W の fuzzy cd は fzf-tmux が担う
-- `tmux.nix` は Tmux の設定を管理する (prefix は C-q)。tmux-yank がシステムクリップボードへ書き込むため、Linux に限り xsel を導入する。macOS では tmux-yank が pbcopy を使うので追加のパッケージは要らない
+- `tmux.nix` は Tmux の設定を管理する (prefix は C-q)。`set-clipboard on` と `terminal-features` により、コピーした内容は OSC 52 としてクライアントの端末へ送られる。これを利用して、mosh や SSH で接続した表示サーバーの無いセッションでも手元の端末のクリップボードを共有する。Linux には表示サーバーがあるときに tmux-yank と Neovim が使う xsel、xclip、wl-clipboard を導入し、表示サーバーが無いときのコピーは tmux の OSC 52 経由に切り替える。macOS では pbcopy を使う。仕組みの詳細は [tailscale-mosh.md](tailscale-mosh.md) を参照する
 
 ### home/darwin
 
