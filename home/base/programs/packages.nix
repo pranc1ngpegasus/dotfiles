@@ -5,6 +5,7 @@
       comma
       fh
       gh
+      gh-stack
       ghq
       httpie
       jq
