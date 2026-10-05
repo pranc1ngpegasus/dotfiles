@@ -1,9 +1,14 @@
 {
-  # amd-pstate-epp の performance 設定。governor は既定の powersave のままにして
-  # 周波数の下限を上げず、EPP だけを performance に寄せる。performance governor は
-  # 下限を nominal perf (この機体では 2.5 GHz) まで引き上げるため、アイドル時と
-  # 軽負荷時の発熱が増える。EPP を寄せるだけなら、ピーク性能を保ったまま低負荷時は
-  # 低いクロックに落ちる。
-  boot.kernel.sysfs.devices.system.cpu.cpufreq."policy[0-9]*".energy_performance_preference =
-    "performance";
+  # amd-pstate を passive モードにして governor を schedutil にする。active (EPP)
+  # モードでは governor が powersave と performance だけになり、schedutil は
+  # scaling_available_governors に現れないため passive モードが必要である。
+  # schedutil はスケジューラの使用率に応じて desired performance を要求するので、
+  # 軽負荷時は低いクロックに落ちて発熱が減る。
+  boot.kernelParams = [ "amd_pstate=passive" ];
+
+  # powerManagement.cpuFreqGovernor は使わない。このオプションは boot.kernelModules に
+  # cpufreq_schedutil を足すが、この kernel では schedutil が builtin
+  # (CONFIG_CPU_FREQ_GOV_SCHEDUTIL=y) で module が無く、systemd-modules-load.service が
+  # 失敗する。そのため sysfs に直接書く。
+  boot.kernel.sysfs.devices.system.cpu.cpufreq."policy[0-9]*".scaling_governor = "schedutil";
 }
