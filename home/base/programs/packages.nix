@@ -9,6 +9,7 @@
       ghq
       httpie
       jq
+      lazygit
       mmv-go
       mosh
       ripgrep
