@@ -1,7 +1,7 @@
 _: {
   imports = [
     ../base
-    ./nerdctl.nix
+    ./docker.nix
   ];
 
   my = {
