@@ -66,7 +66,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `determinate.nix` は Determinate Nix の NixOS モジュールを import する
 - `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
-- `containerd.nix` は rootless の containerd と buildkit を systemd のユーザーサービスとして起動する。nerdctl パッケージが同梱しない rootless 用のヘルパースクリプトはソースから取り出して配置する
+- `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
@@ -96,7 +96,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`nerdctl.nix` は nerdctl を導入する。compose は nerdctl に組み込まれているため別パッケージは要らない。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。
 
 ## OS ごとの差異
 
@@ -106,7 +106,7 @@ Linux 固有の home-manager 設定を置く。`nerdctl.nix` は nerdctl を導�
 | --- | --- | --- | --- |
 | Nix の配布 | Determinate の nix-darwin モジュール。nix-darwin に nix.conf を管理させない | Determinate の NixOS モジュール。`nix.package` を差し替え、nix.conf を nix.custom.conf へリダイレクトする | `modules/darwin/determinate.nix`、`modules/nixos/determinate.nix` |
 | Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
-| コンテナ | 導入しない | rootless の containerd と buildkit をユーザーサービスで動かし、nerdctl で操作する | `modules/nixos/containerd.nix`、`home/linux/nerdctl.nix` |
+| コンテナ | 導入しない | rootless の `virtualisation.docker` を systemd のユーザーサービスとして動かす | `modules/nixos/docker.nix`、`home/linux/docker.nix` |
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | ローカル名前解決 | Bonjour が標準で `.local` を解決する | Avahi を有効にして `nixos.local` を公開し、`nssmdns4` で `.local` を解決する | `modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化してネットワークの切断を防ぎ、amd-pstate を passive モードにして schedutil で周波数を制御する | `modules/nixos/power.nix`、`hosts/nixos.nix` |
