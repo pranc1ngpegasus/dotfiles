@@ -11,6 +11,7 @@ let
     stdenv
     fetchurl
     makeWrapper
+    writeShellScript
     pnpm_11
     fetchPnpmDeps
     nodejs_22
@@ -103,19 +104,75 @@ let
     meta.mainProgram = "dsh";
     meta.platforms = [ "x86_64-linux" ];
   });
+  # dsh は 0.0.0.0 での待ち受けを安全性のために拒否する (「it would expose remote
+  # code execution to the network」)。そのため dsh は 127.0.0.1:3081 で待ち受け、
+  # tailnet 側の窓口は nginx が 3080 で担う。tailnet の名前はサービス起動時に
+  # tailscaled から解決し、表示 URL と信頼する権限に渡す。
+  launch = writeShellScript "dsh-web-launch" ''
+    set -eu
+    tailscale=${pkgs.tailscale}/bin/tailscale
+    jq=${pkgs.jq}/bin/jq
+    ip="$("$tailscale" ip --4)"
+    fqdn="$("$tailscale" status --json | "$jq" -r '.Self.DNSName | rtrimstr(".")')"
+    exec ${lib.getExe dsh-shiguredo} web \
+      --no-open \
+      --host 127.0.0.1 \
+      --port 3081 \
+      --public-url "http://$fqdn:3080/" \
+      --trusted-host "$fqdn" \
+      --trusted-host "$ip"
+  '';
 in
 {
   environment.systemPackages = [ dsh-shiguredo ];
 
-  # dsh のブラウザー UI は、ページの origin がループバックのときだけ Host の設定文書を
-  # 読む。tailnet の名前や IP で開くと設定はページ内のメモリに閉じ、Settings の Models が
-  # "settings are unavailable in this browser" を返して API キーも設定できなくなる。
-  # そのためサービスは既定の 127.0.0.1:3080 で待ち受け、Mac 側の SSH ポート転送で届かせる。
+  # tailnet から届くのは 3080 だけである。LAN 側のインターフェースは開放しない。
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3080 ];
+
+  # ブラウザーが送った Host をそのまま渡す。dsh が発行する Cookie は URL の
+  # authority (ホストとポート) に紐付くため、ポートを落とすと 401 になる。
+  services.nginx = {
+    enable = true;
+    enableReload = true;
+    virtualHosts."dsh" = {
+      listen = [
+        {
+          addr = "0.0.0.0";
+          port = 3080;
+        }
+        {
+          addr = "[::]";
+          port = 3080;
+        }
+      ];
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3081";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header Host $host:$server_port;
+          proxy_read_timeout 3600s;
+          proxy_send_timeout 3600s;
+          proxy_buffering off;
+        '';
+      };
+    };
+  };
+
+  # dsh のブラウザー UI はページの origin がループバックのときだけ Host の設定文書を
+  # 読む。tailnet の名前で開いた画面では設定がページ内のメモリに閉じ、Settings の
+  # Models が "settings are unavailable in this browser" を返す。API キーの設定は
+  # ループバックの面 (Mac 側の SSH ポート転送) で行う。詳細は docs/dsh-web.md。
   systemd.services.dsh-web = {
-    description = "DeepSeek Harness Web UI (shiguredo fork)";
+    description = "DeepSeek Harness Web UI (shiguredo fork) on the tailnet";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
+    after = [
+      "tailscaled.service"
+      "network-online.target"
+    ];
+    wants = [
+      "tailscaled.service"
+      "network-online.target"
+    ];
     serviceConfig = {
       User = primaryUser;
       WorkingDirectory = userHome;
@@ -124,7 +181,7 @@ in
         "PATH=/etc/profiles/per-user/${primaryUser}/bin:/run/current-system/sw/bin:/run/wrappers/bin"
         "DOCKER_HOST=unix:///run/user/${toString userUid}/docker.sock"
       ];
-      ExecStart = "${lib.getExe dsh-shiguredo} web --no-open";
+      ExecStart = launch;
       Restart = "always";
       RestartSec = 5;
     };
