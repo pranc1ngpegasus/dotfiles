@@ -67,7 +67,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
 - `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
-- `dsh-web.nix` は shiguredo fork の DeepSeek Harness をビルドし、`dsh web` を systemd サービスとしてループバックで動かす。使うときは Mac 側の SSH ポート転送でその loopback に届かせる。詳細は [dsh-web.md](dsh-web.md) を参照する
+- `dsh-web.nix` は shiguredo fork の DeepSeek Harness をビルドして `dsh web` をループバックで動かし、nginx と tailscale0 だけのファイアウォール開放を通して tailnet に公開する。プロバイダーの設定はループバックの面で行う。詳細は [dsh-web.md](dsh-web.md) を参照する
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
@@ -111,7 +111,7 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | ローカル名前解決 | Bonjour が標準で `.local` を解決する | Avahi を有効にして `nixos.local` を公開し、`nssmdns4` で `.local` を解決する | `modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化してネットワークの切断を防ぎ、amd-pstate を passive モードにして schedutil で周波数を制御する | `modules/nixos/power.nix`、`hosts/nixos.nix` |
-| DeepSeek Harness | 導入しない | shiguredo fork をビルドして `dsh web` をループバックで動かし、Mac 側の SSH ポート転送で使う | `modules/nixos/dsh-web.nix` |
+| DeepSeek Harness | 導入しない | shiguredo fork をビルドし、nginx を介して tailnet にだけ公開する。設定はループバックの面で行う | `modules/nixos/dsh-web.nix` |
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
