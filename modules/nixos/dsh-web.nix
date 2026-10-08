@@ -11,7 +11,6 @@ let
     stdenv
     fetchurl
     makeWrapper
-    writeShellScript
     pnpm_11
     fetchPnpmDeps
     nodejs_22
@@ -104,68 +103,19 @@ let
     meta.mainProgram = "dsh";
     meta.platforms = [ "x86_64-linux" ];
   });
-
-  # tailnet のアドレスはコントロールプレーンが決めるため、サービス起動時に tailscaled から
-  # 解決する。dsh は 0.0.0.0 を受け付けないので 127.0.0.1:3081 で待ち受け、nginx が tailnet
-  # 側の 3080 から中継する。
-  launch = writeShellScript "dsh-web-launch" ''
-    set -eu
-    tailscale=${pkgs.tailscale}/bin/tailscale
-    jq=${pkgs.jq}/bin/jq
-    ip="$("$tailscale" ip --4)"
-    fqdn="$("$tailscale" status --json | "$jq" -r '.Self.DNSName | rtrimstr(".")')"
-    exec ${lib.getExe dsh-shiguredo} web \
-      --no-open \
-      --host 127.0.0.1 \
-      --port 3081 \
-      --public-url "http://$fqdn:3080/" \
-      --trusted-host "$fqdn" \
-      --trusted-host "$ip"
-  '';
 in
 {
   environment.systemPackages = [ dsh-shiguredo ];
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3080 ];
-
-  services.nginx = {
-    enable = true;
-    enableReload = true;
-    virtualHosts."dsh" = {
-      listen = [
-        {
-          addr = "0.0.0.0";
-          port = 3080;
-        }
-        {
-          addr = "[::]";
-          port = 3080;
-        }
-      ];
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3081";
-        proxyWebsockets = true;
-        extraConfig = ''
-          proxy_set_header Host $host:$server_port;
-          proxy_read_timeout 3600s;
-          proxy_send_timeout 3600s;
-          proxy_buffering off;
-        '';
-      };
-    };
-  };
-
+  # dsh のブラウザー UI は、ページの origin がループバックのときだけ Host の設定文書を
+  # 読む。tailnet の名前や IP で開くと設定はページ内のメモリに閉じ、Settings の Models が
+  # "settings are unavailable in this browser" を返して API キーも設定できなくなる。
+  # そのためサービスは既定の 127.0.0.1:3080 で待ち受け、Mac 側の SSH ポート転送で届かせる。
   systemd.services.dsh-web = {
-    description = "DeepSeek Harness Web UI (shiguredo fork) on the tailnet";
+    description = "DeepSeek Harness Web UI (shiguredo fork)";
     wantedBy = [ "multi-user.target" ];
-    after = [
-      "tailscaled.service"
-      "network-online.target"
-    ];
-    wants = [
-      "tailscaled.service"
-      "network-online.target"
-    ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
     serviceConfig = {
       User = primaryUser;
       WorkingDirectory = userHome;
@@ -174,7 +124,7 @@ in
         "PATH=/etc/profiles/per-user/${primaryUser}/bin:/run/current-system/sw/bin:/run/wrappers/bin"
         "DOCKER_HOST=unix:///run/user/${toString userUid}/docker.sock"
       ];
-      ExecStart = launch;
+      ExecStart = "${lib.getExe dsh-shiguredo} web --no-open";
       Restart = "always";
       RestartSec = 5;
     };
