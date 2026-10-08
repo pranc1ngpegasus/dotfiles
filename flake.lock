@@ -54,6 +54,23 @@
         "type": "github"
       }
     },
+    "deepseek-harness": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791277117,
+        "narHash": "sha256-8P8Zh3OVDc7TDLv4YzU6OrcPfL6sFonqwCDopCEashw=",
+        "owner": "shiguredo",
+        "repo": "deepseek-harness",
+        "rev": "001ca4f5f0362192ef03df5b5e2fe51655101169",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shiguredo",
+        "ref": "shiguredo",
+        "repo": "deepseek-harness",
+        "type": "github"
+      }
+    },
     "determinate": {
       "inputs": {
         "determinate-nixd-aarch64-darwin": "determinate-nixd-aarch64-darwin",
@@ -572,6 +589,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "deepseek-harness": "deepseek-harness",
         "determinate": "determinate",
         "flake-parts": "flake-parts_2",
         "git-hooks": "git-hooks",
