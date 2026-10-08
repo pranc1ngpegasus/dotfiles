@@ -53,6 +53,12 @@ let
     version = "0.2.1-alpha.1";
     src = deepseek-harness;
 
+    # dsh のクライアントはページの origin がループバックのときだけ Host の設定文書を
+    # 読む。tailnet の名前で開いた画面ではプロバイダーを設定できないので、デプロイが
+    # 宣言した authority (--trusted-host) をループバックと同じ扱いにする。パッチは
+    # 入力の改訂に固定されており、改訂が変わると適用に失敗してビルドが止まる。
+    patches = [ ./dsh-web-trusted-hosts.patch ];
+
     pnpmDeps = fetchPnpmDeps {
       inherit (finalAttrs) pname version src;
       pnpm = pnpm_11;
@@ -98,6 +104,8 @@ let
       export DSH_HOME=$(mktemp -d)
       $out/bin/dsh --version
       $out/bin/dsh web --help
+      # 宣言した authority を特権として扱うパッチがまだ効いているかの目印。
+      grep -q "__DSH_CONNECTION_TRUSTED_HOSTS__" $out/share/dsh/packages/client/connection/lib/client.js
       runHook postInstallCheck
     '';
 
@@ -158,10 +166,9 @@ in
     };
   };
 
-  # dsh のブラウザー UI はページの origin がループバックのときだけ Host の設定文書を
-  # 読む。tailnet の名前で開いた画面では設定がページ内のメモリに閉じ、Settings の
-  # Models が "settings are unavailable in this browser" を返す。API キーの設定は
-  # ループバックの面 (Mac 側の SSH ポート転送) で行う。詳細は docs/dsh-web.md。
+  # tailnet の名前は --trusted-host として宣言するので、パッチによりループバックと
+  # 同じ特権で設定文書を読み書きできる。nginx を経由できないときは、同じサービスへ
+  # SSH ポート転送で入るループバックの面も使える。詳細は docs/dsh-web.md。
   systemd.services.dsh-web = {
     description = "DeepSeek Harness Web UI (shiguredo fork) on the tailnet";
     wantedBy = [ "multi-user.target" ];
