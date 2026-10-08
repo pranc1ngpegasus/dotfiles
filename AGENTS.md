@@ -43,7 +43,7 @@ nix fmt
 - Neovim nightly は neovim-nightly-overlay 経由で取得し、`modules/neovim-overlay.nix` の overlay で `pkgs.neovim-unwrapped` を nightly ビルドに差し替えている
 - GitHub への認証は `gh auth git-credential` による HTTPS 認証を使う。macOS の Git 署名は nix-secure-enclave-key で Secure Enclave 内の鍵を使って行い、秘密鍵をディスクに置かない
 - コンテナ実行環境は NixOS でのみ rootless の Docker を使う。`modules/nixos/docker.nix` が `virtualisation.docker.rootless` を有効にし、CLI と buildx、compose は `home/linux/docker.nix` で導入する
-- DeepSeek Harness は shiguredo の fork を `modules/nixos/dsh-web.nix` でビルドし、`dsh web` をループバックで動かして nginx 経由で tailnet に公開する。dsh は `--host 0.0.0.0` を拒否し、tailnet の名前で開いた画面では Host の設定文書が読めないため、API キーの設定はループバックの面で行う。実行には公式の Node.js を使う。詳細は [docs/dsh-web.md](docs/dsh-web.md) を参照
+- DeepSeek Harness は shiguredo の fork を `modules/nixos/dsh-web.nix` でビルドし、`dsh web` をループバックで動かして nginx 経由で tailnet に公開する。dsh は `--host 0.0.0.0` を拒否し、クライアントはループバック以外の origin で設定文書を読まないため、宣言した authority を特権にする `dsh-web-trusted-hosts.patch` を当てる。実行には公式の Node.js を使う。詳細は [docs/dsh-web.md](docs/dsh-web.md) を参照
 - CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
 - Nix コードのフォーマットには nixfmt を使用している
 

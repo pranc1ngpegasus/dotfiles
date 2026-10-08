@@ -67,7 +67,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
 - `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
-- `dsh-web.nix` は shiguredo fork の DeepSeek Harness をビルドして `dsh web` をループバックで動かし、nginx と tailscale0 だけのファイアウォール開放を通して tailnet に公開する。プロバイダーの設定はループバックの面で行う。詳細は [dsh-web.md](dsh-web.md) を参照する
+- `dsh-web.nix` は shiguredo fork の DeepSeek Harness をビルドして `dsh web` をループバックで動かし、nginx と tailscale0 だけのファイアウォール開放を通して tailnet に公開する。tailnet の名前でも Settings を扱えるように `dsh-web-trusted-hosts.patch` を当てる。詳細は [dsh-web.md](dsh-web.md) を参照する
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
