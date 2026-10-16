@@ -50,6 +50,11 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    deepseek-harness = {
+      url = "github:shiguredo/deepseek-harness/shiguredo";
+      flake = false;
+    };
+
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 
