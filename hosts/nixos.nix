@@ -34,6 +34,7 @@ in
     extraGroups = [
       "wheel"
       "networkmanager"
+      "dialout"
     ];
     hashedPasswordFile = config.age.secrets.user-password.path;
     openssh.authorizedKeys.keys = [
