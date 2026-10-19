@@ -11,6 +11,7 @@
     ./boot.nix
     ./determinate.nix
     ./docker.nix
+    ./dsh.nix
     ./environment.nix
     ./networking.nix
     ./nix.nix

@@ -44,7 +44,7 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 - `common.nix` は unfree パッケージの許可、タイムゾーン、`my.primaryUser` オプションを定義する
 - `environment.nix` は `environment.shells` に bashInteractive を設定する
 - `fonts.nix` は JetBrainsMono Nerd Font をインストールする
-- `llm-agents.nix` は `inputs.llm-agents` から grok を引いて systemPackages へ入れる
+- `llm-agents.nix` は `inputs.llm-agents` から grok と dsh を引いて systemPackages へ入れる
 - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
 - `tailscale.nix` は tailscaled を有効化する
 - `home-manager.nix` は `isDarwin` に応じて home-manager の darwin / nixos モジュールを import し、`useGlobalPkgs`、`backupFileExtension`、`extraSpecialArgs` と `my.primaryUser` のユーザー割り当てを共通化する。`useUserPackages` は NixOS のときだけ有効にする
@@ -67,6 +67,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
 - `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
+- `dsh.nix` は DeepSeek Harness (dsh) の Web UI を `127.0.0.1:3080` で起動し、Tailscale Serve 経由で tailnet から HTTPS アクセスできるようにする
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない

@@ -1,6 +1,11 @@
 { inputs, pkgs, ... }:
+
+let
+  llmAgents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   environment.systemPackages = [
-    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok
+    llmAgents.grok
+    llmAgents.dsh
   ];
 }
