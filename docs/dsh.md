@@ -27,11 +27,13 @@ graph LR
 https://nixos.<tailnet>.ts.net/
 ```
 
-起動時に出力されるトークン付き URL を開くと、トークンがセッション cookie に交換される。トークンは dsh の再起動ごとに変わるため、初回と再起動後のアクセスでは journal から URL を取得する。
+起動時に出力されるトークン付き URL を開くと、トークンがセッション cookie に交換される。cookie は `~/.dsh/.credentials.yaml` の署名鍵で検証され、この鍵は再起動しても残るため、同じブラウザでは再起動後もそのまま使える。有効期間は既定で 30 日なので、期限が切れたときだけ journal から新しい URL を取得する。
 
 ```bash
 journalctl -u dsh-web -o cat -g 'dsh web:' | tail -n 1
 ```
+
+dsh の認証を無効にする設定はない。tailnet 内からのアクセスでも、初回はこのトークンが必要である。
 
 ## モデルの API キー
 
