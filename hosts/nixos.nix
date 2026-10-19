@@ -17,6 +17,12 @@ in
   # c-state (C6 など) を無効化する。
   boot.kernelParams = [ "processor.max_cstate=1" ];
 
+  # メモリ圧迫時に OOM killer が動くまでの余裕を作る。
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;
+  };
+
   my.primaryUser = user;
 
   networking.hostName = "nixos";
