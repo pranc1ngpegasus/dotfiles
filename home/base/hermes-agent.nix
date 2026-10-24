@@ -14,7 +14,7 @@
     package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.minimal;
     settings.model = {
       provider = "ollama-cloud";
-      default = "deepseek-v4-flash:1017";
+      default = "deepseek-v4.1-flash:1017";
     };
   };
 }
