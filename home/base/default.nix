@@ -3,6 +3,7 @@
   imports = [
     ./options.nix
     ./agenix.nix
+    ./hermes-agent.nix
     ./editor.nix
     ./locale.nix
     ./programs.nix

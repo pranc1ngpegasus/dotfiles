@@ -29,7 +29,7 @@ graph TD
 
 Nix の配布は両 OS とも Determinate Nix で、`modules/darwin/determinate.nix` と `modules/nixos/determinate.nix` が flake input の `determinate` モジュールを import する。FlakeHub の substituter、lazy-trees、並列評価、Determinate Nixd による自動 GC などの最適化と、OS ごとの構成方法は [determinate-nix.md](determinate-nix.md) にまとめている。
 
-nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。`nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある。
+nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。`nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents`、`hermes-agent` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある。
 
 ## hosts/
 
@@ -84,6 +84,7 @@ home-manager によるユーザー環境である。
 
 - `options.nix` は `my.ssh.identityFile` と `my.git.signingKey` のオプションを定義する
 - `agenix.nix` は agenix の home-manager モジュールを import し、復号用の age 鍵のパス、関連 CLI パッケージ、`environmentSecrets` の対応表から生成する `age.secrets` と Bash の export 処理を設定する
+- `hermes-agent.nix` は `inputs.hermes-agent` の home-manager モジュールを import し、CLI を導入する。パッケージは `minimal` を使い、`services.hermes-agent` で provider を Ollama Cloud、既定モデルを `deepseek-v4-pro:0813` に設定するが、gateway は有効にしない。認証は agenix が対話シェルへ export する `OLLAMA_API_KEY` をそのまま使うためである
 - `editor.nix` は Neovim nightly、LSP、プラグイン、エディタ設定を管理する
 - `locale.nix` は `LANG` を設定する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
