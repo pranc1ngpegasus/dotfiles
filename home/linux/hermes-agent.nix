@@ -18,6 +18,7 @@ let
     output="$2"
     ollama="$3"
     dashboard="$4"
+    discord="$5"
 
     if [ ! -r "$identity" ]; then
       echo "hermes-agent: cannot read $identity; the dashboard has no API key or login" >&2
@@ -30,6 +31,7 @@ let
       umask 077
       printf 'OLLAMA_API_KEY=%s\n' "$(${pkgs.age}/bin/age --decrypt -i "$identity" "$ollama")"
       ${pkgs.age}/bin/age --decrypt -i "$identity" "$dashboard"
+      ${pkgs.age}/bin/age --decrypt -i "$identity" "$discord"
     ) > "$output"
   '';
 in
@@ -42,13 +44,15 @@ in
       host = "127.0.0.1";
       port = 9119;
     };
+    gateway.enable = true;
+    extraDependencyGroups = [ "messaging" ];
     settings.dashboard.public_url = "https://nixos.tail9103a.ts.net:8443";
     environmentFiles = [ envFile ];
   };
 
   home.activation.hermesEnv = lib.mkIf config.services.hermes-agent.enable (
     lib.hm.dag.entryBefore [ "hermesAgentSetup" ] ''
-      $DRY_RUN_CMD ${envScript} ${lib.escapeShellArg identity} ${lib.escapeShellArg envFile} ${lib.escapeShellArg "${../../secrets/ollama-api-key.age}"} ${lib.escapeShellArg "${../../secrets/hermes-dashboard.age}"}
+      $DRY_RUN_CMD ${envScript} ${lib.escapeShellArg identity} ${lib.escapeShellArg envFile} ${lib.escapeShellArg "${../../secrets/ollama-api-key.age}"} ${lib.escapeShellArg "${../../secrets/hermes-dashboard.age}"} ${lib.escapeShellArg "${../../secrets/hermes-discord.age}"}
     ''
   );
 }

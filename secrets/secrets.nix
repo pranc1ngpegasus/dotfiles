@@ -17,4 +17,9 @@ in
     pranc1ngpegasus
     nixos
   ];
+
+  "hermes-discord.age".publicKeys = [
+    pranc1ngpegasus
+    nixos
+  ];
 }
