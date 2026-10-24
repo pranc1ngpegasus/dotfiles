@@ -72,7 +72,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
 - `power.nix` は amd-pstate を passive モードにして governor を schedutil にする。schedutil はスケジューラの使用率に応じて周波数を要求するため、軽負荷時の発熱を抑えられる
-- `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する
+- `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する。Hermes の dashboard を tailnet の 8443 に公開する Tailscale Serve の oneshot も定義し、tailscale0 の 8443 をファイアウォールで許可する
 
 ## home/
 
@@ -84,7 +84,7 @@ home-manager によるユーザー環境である。
 
 - `options.nix` は `my.ssh.identityFile` と `my.git.signingKey` のオプションを定義する
 - `agenix.nix` は agenix の home-manager モジュールを import し、復号用の age 鍵のパス、関連 CLI パッケージ、`environmentSecrets` の対応表から生成する `age.secrets` と Bash の export 処理を設定する
-- `hermes-agent.nix` は `inputs.hermes-agent` の home-manager モジュールを import し、CLI を導入する。パッケージは `minimal` を使い、`services.hermes-agent` で provider を Ollama Cloud、既定モデルを `deepseek-v4-pro:0813` に設定するが、gateway は有効にしない。認証は agenix が対話シェルへ export する `OLLAMA_API_KEY` をそのまま使うためである
+- `hermes-agent.nix` は `inputs.hermes-agent` の home-manager モジュールを import し、CLI を導入する。パッケージは `minimal` を使い、`services.hermes-agent` で provider を Ollama Cloud、既定モデルを `deepseek-v4-pro:0813` に設定するが、gateway は有効にしない。LLM の認証は agenix が対話シェルへ export する `OLLAMA_API_KEY` をそのまま使う。dashboard は `home/linux/hermes-agent.nix` が有効にし、basic 認証の資格情報も agenix から渡す
 - `editor.nix` は Neovim nightly、LSP、プラグイン、エディタ設定を管理する
 - `locale.nix` は `LANG` を設定する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
@@ -97,7 +97,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`hermes-agent.nix` は Hermes の dashboard を loopback で有効にし、Tailscale Serve の URL を `dashboard.public_url` に設定する。API キーと dashboard の basic 認証は activation で agenix の秘密情報から `~/.local/share/hermes/env` に組み立て、`environmentFiles` で `~/.hermes/.env` に渡す。
 
 ## OS ごとの差異
 

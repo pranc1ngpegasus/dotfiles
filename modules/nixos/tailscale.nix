@@ -49,24 +49,65 @@ let
     echo "tailscaled is connected but unresponsive; restarting it" >&2
     "$systemctl" restart tailscaled.service
   '';
+
+  waitForTailscale = pkgs.writeShellScript "wait-for-tailscale" ''
+    set -u
+
+    tailscale=${pkgs.tailscale}/bin/tailscale
+    jq=${pkgs.jq}/bin/jq
+    sleep=${pkgs.coreutils}/bin/sleep
+    seq=${pkgs.coreutils}/bin/seq
+
+    for _ in $("$seq" 1 60); do
+      state="$("$tailscale" status --json 2>/dev/null | "$jq" -r '.BackendState // empty' 2>/dev/null || true)"
+      if [ "$state" = "Running" ]; then
+        exit 0
+      fi
+      "$sleep" 2
+    done
+
+    echo "tailscaled did not reach Running; not publishing the Hermes dashboard" >&2
+    exit 1
+  '';
 in
 {
-  systemd.services.tailscale-healthcheck = {
-    description = "Tailscale health check and auto-restart";
-    after = [ "tailscaled.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = healthcheck;
-      # ハングした tailscaled の停止には時間がかかるため、余裕を持たせる。
-      TimeoutStartSec = "2min";
-    };
-  };
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8443 ];
 
-  systemd.timers.tailscale-healthcheck = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "5min";
-      OnUnitActiveSec = "5min";
+  systemd = {
+    services = {
+      tailscale-serve-hermes = {
+        description = "Publish the Hermes dashboard to the tailnet";
+        after = [ "tailscaled.service" ];
+        wants = [ "tailscaled.service" ];
+        wantedBy = [ "multi-user.target" ];
+        preStart = "${waitForTailscale}";
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          Restart = "on-failure";
+          RestartSec = 10;
+          ExecStart = "${pkgs.tailscale}/bin/tailscale serve --bg --https=8443 9119";
+        };
+      };
+
+      tailscale-healthcheck = {
+        description = "Tailscale health check and auto-restart";
+        after = [ "tailscaled.service" ];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = healthcheck;
+          # ハングした tailscaled の停止には時間がかかるため、余裕を持たせる。
+          TimeoutStartSec = "2min";
+        };
+      };
+    };
+
+    timers.tailscale-healthcheck = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "5min";
+        OnUnitActiveSec = "5min";
+      };
     };
   };
 }
