@@ -50,6 +50,11 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 

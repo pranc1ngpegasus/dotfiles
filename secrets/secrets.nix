@@ -12,4 +12,9 @@ in
     pranc1ngpegasus
     nixos
   ];
+
+  "hermes-dashboard.age".publicKeys = [
+    pranc1ngpegasus
+    nixos
+  ];
 }
