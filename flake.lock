@@ -453,11 +453,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1793010768,
-        "narHash": "sha256-1dHCOzlxTYJ2qtoR0Q8NYwCsprbuVtgKjaPTzAtLoAI=",
+        "lastModified": 1793026418,
+        "narHash": "sha256-OuOGKcqXgYy4VqdhhBL4iEO61RubFKS3zww5+f6B9Fo=",
         "owner": "mokmok-dev",
         "repo": "agent",
-        "rev": "c5a937d2a9f1e0258b93138cb75f901047b896ba",
+        "rev": "2612b10aefa21efc6e86ec7d69835345354ef4d5",
         "type": "github"
       },
       "original": {
