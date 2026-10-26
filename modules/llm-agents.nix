@@ -18,5 +18,6 @@ in
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
     pi-ollama-cloud
+    pkgs.skills
   ];
 }
