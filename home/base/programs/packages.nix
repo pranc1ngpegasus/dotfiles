@@ -9,6 +9,8 @@
       gh
       gh-stack
       ghq
+      google-cloud-sdk
+      gws
       httpie
       jq
       lazygit
