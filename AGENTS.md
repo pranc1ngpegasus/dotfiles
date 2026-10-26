@@ -44,6 +44,7 @@ nix fmt
 - GitHub への認証は `gh auth git-credential` による HTTPS 認証を使う。macOS の Git 署名は nix-secure-enclave-key で Secure Enclave 内の鍵を使って行い、秘密鍵をディスクに置かない
 - コンテナ実行環境は NixOS でのみ rootless の Docker を使う。`modules/nixos/docker.nix` が `virtualisation.docker.rootless` を有効にし、CLI と buildx、compose は `home/linux/docker.nix` で導入する
 - CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
+- mokmok のエージェントデーモンは NixOS のサービスとして動かし、設定と秘密情報の受け渡しは `modules/nixos/mokmok-agent.nix` にまとめている。詳細は [docs/mokmok-agent.md](docs/mokmok-agent.md) を参照
 - Nix コードのフォーマットには nixfmt を使用している
 
 ## Conventions

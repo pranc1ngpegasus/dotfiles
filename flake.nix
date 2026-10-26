@@ -55,6 +55,11 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    mokmok-agent = {
+      url = "github:mokmok-dev/agent";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 
