@@ -14,11 +14,13 @@ let
   # public-url は起動時に journal へ出す URL にだけ効き、信頼の判定は変えない。
   publicUrl = "https://nixos.tail9103a.ts.net";
 
-  # dsh はモデルの接続先をプロファイルのパッチとして受け取る。このホストの他の
-  # エージェントと同じく Ollama Cloud の OpenAI 互換エンドポイントを既定の経路に
-  # する。--patch はプロファイル層より後ろに適用されるので、対話で起動する dsh が
-  # 持つ自分の設定を書き換えずに、サービス側へだけ差し込める。
-  providerPatch = pkgs.writeText "dsh-ollama-cloud.yml" ''
+  # モデルの設定は Web UI の Models ページがプロファイルのパッチ
+  # (~/.dsh/profiles/web/cordis.patch.yml) に書く。パッチは対象の行の config を
+  # 丸ごと置き換え、--patch はプロファイルより後ろに重なるため、--patch で同じ行を
+  # 渡すと UI の保存が「overridden by a command-line overlay」で弾かれる。
+  # そこで既定の経路は、この行がまだ無いときだけ同じファイルへ書き込む初期値として
+  # 扱い、以後の変更は UI に任せる。
+  providerSeed = pkgs.writeText "dsh-ollama-cloud-provider.yml" ''
     - id: llm-pi-ai
       config:
         providers:
@@ -29,10 +31,50 @@ let
             apiKeyEnv: OLLAMA_API_KEY
             models:
               - id: deepseek-v4.1-flash
+  '';
+
+  defaultModelSeed = pkgs.writeText "dsh-ollama-cloud-default-model.yml" ''
     - id: agent-default-model
       config:
         provider: ollama-cloud
         model: deepseek-v4.1-flash
+  '';
+
+  seedProfile = pkgs.writeShellScript "dsh-seed-profile" ''
+    set -eu
+
+    home="''${DSH_HOME:-$HOME/.dsh}"
+    profile="$home/profiles/web"
+    patch="$profile/cordis.patch.yml"
+
+    # プロファイルがまだ無い初回は、dsh 自身にテンプレートから作らせる。
+    # --dump-config はアプリを起動せず、プロファイルの初期化だけを行う。
+    if [ ! -f "$profile/package.json" ]; then
+      ${lib.getExe dsh} --profile web --dump-config > /dev/null
+    fi
+
+    # 行がまだ無いときだけ差し込む。UI で編集した行には触らない。
+    seed_row() {
+      id="$1"
+      source="$2"
+
+      if grep -qE "^[[:space:]]*-[[:space:]]*id:[[:space:]]*[\"']?$id[\"']?[[:space:]]*$" "$patch"; then
+        return 0
+      fi
+
+      tmp="$(mktemp "$profile/.cordis.patch.XXXXXX")"
+      if [ "$(grep -vE '^[[:space:]]*(#|$)' "$patch" || true)" = "[]" ]; then
+        # 空配列だけのファイルは、ヘッダのコメントを残して行を差し替える。
+        { grep -E '^[[:space:]]*(#|$)' "$patch" || true; cat "$source"; } > "$tmp"
+      else
+        { cat "$source"; cat "$patch"; } > "$tmp"
+      fi
+      chmod 600 "$tmp"
+      mv "$tmp" "$patch"
+    }
+
+    seed_row llm-pi-ai ${providerSeed}
+    seed_row agent-default-model ${defaultModelSeed}
   '';
 
   start = pkgs.writeShellScript "dsh-web" ''
@@ -43,10 +85,7 @@ let
     OLLAMA_API_KEY="$(cat ${config.age.secrets.ollama-api-key.path})"
     export OLLAMA_API_KEY
 
-    # --patch は dsh 本体側のフラグで、アプリのフラグより先に置く必要がある。
-    # 後に置くと web アプリの引数として渡り、未知のフラグとして拒否される。
     exec ${lib.getExe dsh} web \
-      --patch ${providerPatch} \
       --host 127.0.0.1 \
       --port 3080 \
       --no-open \
@@ -63,6 +102,7 @@ in
       after = [ "agenix.service" ];
     };
     Service = {
+      ExecStartPre = seedProfile;
       ExecStart = start;
       Restart = "on-failure";
       RestartSec = 5;
