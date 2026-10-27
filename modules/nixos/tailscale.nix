@@ -70,8 +70,7 @@ let
     exit 1
   '';
 
-  # Tailscale Serve は tailnet 側のポートごとに転送先を 1 つ持つ。各サービスは
-  # 自分のポートだけを設定するため、片方を再起動しても他方の転送先は消えない。
+  # Tailscale Serve は tailnet 側のポートごとに転送先を 1 つ持つ。
   serveService =
     {
       description,
@@ -94,19 +93,10 @@ let
     };
 in
 {
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-    443
-    8443
-  ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
 
   systemd = {
     services = {
-      tailscale-serve-hermes = serveService {
-        description = "Publish the Hermes dashboard to the tailnet";
-        tailnetPort = 8443;
-        localPort = 9119;
-      };
-
       tailscale-serve-dsh = serveService {
         description = "Publish the DeepSeek Harness web UI to the tailnet";
         tailnetPort = 443;

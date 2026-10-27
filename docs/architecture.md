@@ -29,7 +29,7 @@ graph TD
 
 Nix の配布は両 OS とも Determinate Nix で、`modules/darwin/determinate.nix` と `modules/nixos/determinate.nix` が flake input の `determinate` モジュールを import する。FlakeHub の substituter、lazy-trees、並列評価、Determinate Nixd による自動 GC などの最適化と、OS ごとの構成方法は [determinate-nix.md](determinate-nix.md) にまとめている。
 
-nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。`nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents`、`hermes-agent` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある。
+nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.com/f/NixOS/nixpkgs/0.1`) を指す。`nix-darwin`、`home-manager`、`agenix`、`neovim`、`nix-index-database`、`nix-secure-enclave-key`、`llm-agents` は `github:` 追従のままにしている。これらは活発に開発されているため、FlakeHub が公開するリリースが rolling nixpkgs より遅れて互換性を失うことがある。
 
 ## hosts/
 
@@ -72,7 +72,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
 - `power.nix` は amd-pstate を passive モードにして governor を schedutil にする。schedutil はスケジューラの使用率に応じて周波数を要求するため、軽負荷時の発熱を抑えられる
-- `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する。Hermes の dashboard と dsh の Web UI を Tailscale Serve で公開する oneshot も定義し、tailscale0 の 443 番と 8443 番をファイアウォールで許可する
+- `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する。dsh の Web UI を Tailscale Serve で公開する oneshot も定義し、tailscale0 の 443 番をファイアウォールで許可する
 
 ## home/
 
@@ -84,7 +84,6 @@ home-manager によるユーザー環境である。
 
 - `options.nix` は `my.ssh.identityFile` と `my.git.signingKey` のオプションを定義する
 - `agenix.nix` は agenix の home-manager モジュールを import し、復号用の age 鍵のパス、関連 CLI パッケージ、`environmentSecrets` の対応表から生成する `age.secrets` と Bash の export 処理を設定する
-- `hermes-agent.nix` は `inputs.hermes-agent` の home-manager モジュールを import し、CLI を導入する。パッケージは `minimal` を使い、`services.hermes-agent` で provider を Ollama Cloud、既定モデルを `deepseek-v4-pro:0813` に設定する。LLM の認証は agenix が対話シェルへ export する `OLLAMA_API_KEY` をそのまま使う。dashboard と gateway は `home/linux/hermes-agent.nix` が有効にする
 - `editor.nix` は Neovim nightly、LSP、プラグイン、エディタ設定を管理する
 - `locale.nix` は `LANG` を設定する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
@@ -97,7 +96,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`dsh-web.nix` は dsh の Web UI を systemd のユーザーサービスとして loopback の 3080 番で動かし、Ollama Cloud を既定のモデル経路として `--patch` で渡す。経路の全体像と使い方は [dsh-web.md](dsh-web.md) を参照する。`hermes-agent.nix` は Hermes の dashboard と Discord の gateway を有効にし、Tailscale Serve の URL を `dashboard.public_url` に設定する。パッケージには `messaging` の依存グループを含める。API キー、dashboard の basic 認証、Discord の bot トークンと許可ユーザーは activation で agenix の秘密情報から `~/.local/share/hermes/env` に組み立て、`environmentFiles` で `~/.hermes/.env` に渡す。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`dsh-web.nix` は dsh の Web UI を systemd のユーザーサービスとして loopback の 3080 番で動かし、Ollama Cloud を既定のモデル経路として `--patch` で渡す。経路の全体像と使い方は [dsh-web.md](dsh-web.md) を参照する。
 
 ## OS ごとの差異
 
