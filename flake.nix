@@ -50,11 +50,6 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    hermes-agent = {
-      url = "github:NousResearch/hermes-agent";
-      inputs.home-manager.follows = "home-manager";
-    };
-
     mokmok-agent = {
       url = "github:mokmok-dev/agent";
       inputs.nixpkgs.follows = "nixpkgs";
