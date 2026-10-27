@@ -66,28 +66,51 @@ let
       "$sleep" 2
     done
 
-    echo "tailscaled did not reach Running; not publishing the Hermes dashboard" >&2
+    echo "tailscaled did not reach Running; not publishing the tailnet services" >&2
     exit 1
   '';
+
+  # Tailscale Serve は tailnet 側のポートごとに転送先を 1 つ持つ。各サービスは
+  # 自分のポートだけを設定するため、片方を再起動しても他方の転送先は消えない。
+  serveService =
+    {
+      description,
+      tailnetPort,
+      localPort,
+    }:
+    {
+      inherit description;
+      after = [ "tailscaled.service" ];
+      wants = [ "tailscaled.service" ];
+      wantedBy = [ "multi-user.target" ];
+      preStart = "${waitForTailscale}";
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        Restart = "on-failure";
+        RestartSec = 10;
+        ExecStart = "${pkgs.tailscale}/bin/tailscale serve --bg --https=${toString tailnetPort} ${toString localPort}";
+      };
+    };
 in
 {
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8443 ];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+    443
+    8443
+  ];
 
   systemd = {
     services = {
-      tailscale-serve-hermes = {
+      tailscale-serve-hermes = serveService {
         description = "Publish the Hermes dashboard to the tailnet";
-        after = [ "tailscaled.service" ];
-        wants = [ "tailscaled.service" ];
-        wantedBy = [ "multi-user.target" ];
-        preStart = "${waitForTailscale}";
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-          Restart = "on-failure";
-          RestartSec = 10;
-          ExecStart = "${pkgs.tailscale}/bin/tailscale serve --bg --https=8443 9119";
-        };
+        tailnetPort = 8443;
+        localPort = 9119;
+      };
+
+      tailscale-serve-dsh = serveService {
+        description = "Publish the DeepSeek Harness web UI to the tailnet";
+        tailnetPort = 443;
+        localPort = 3080;
       };
 
       tailscale-healthcheck = {
