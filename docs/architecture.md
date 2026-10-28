@@ -44,7 +44,7 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 - `common.nix` は unfree パッケージの許可、タイムゾーン、`my.primaryUser` オプションを定義する
 - `environment.nix` は `environment.shells` に bashInteractive を設定する
 - `fonts.nix` は JetBrainsMono Nerd Font をインストールする
-- `llm-agents.nix` は `inputs.llm-agents` から grok、pi を引いて systemPackages へ入れる
+- `llm-agents.nix` は `inputs.llm-agents` から grok、opencode2、pi を引いて systemPackages へ入れる
 - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
 - `tailscale.nix` は tailscaled を有効化する
 - `home-manager.nix` は `isDarwin` に応じて home-manager の darwin / nixos モジュールを import し、`useGlobalPkgs`、`backupFileExtension`、`extraSpecialArgs` と `my.primaryUser` のユーザー割り当てを共通化する。`useUserPackages` は NixOS のときだけ有効にする
@@ -72,7 +72,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
 - `power.nix` は amd-pstate を passive モードにして governor を schedutil にする。schedutil はスケジューラの使用率に応じて周波数を要求するため、軽負荷時の発熱を抑えられる
-- `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する
+- `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する。Tailscale Serve で OpenCode の Web UI を tailnet のルートに公開する oneshot サービスもここで定義する
 
 ## home/
 
@@ -96,7 +96,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`opencode.nix` は OpenCode のサーバーを systemd ユーザーサービスとして動かし、`127.0.0.1:3080` で待ち受ける。
 
 ## OS ごとの差異
 

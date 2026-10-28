@@ -2,6 +2,7 @@ _: {
   imports = [
     ../base
     ./docker.nix
+    ./opencode.nix
   ];
 
   my = {
