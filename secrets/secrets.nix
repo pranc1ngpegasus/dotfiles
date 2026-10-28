@@ -12,4 +12,9 @@ in
     pranc1ngpegasus
     nixos
   ];
+
+  "opencode-web-password.age".publicKeys = [
+    pranc1ngpegasus
+    nixos
+  ];
 }
