@@ -2,7 +2,6 @@ _: {
   imports = [
     ../base
     ./docker.nix
-    ./dsh-web.nix
   ];
 
   my = {
