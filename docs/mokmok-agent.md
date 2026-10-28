@@ -20,7 +20,7 @@ flowchart LR
 
 ## プロバイダとモデル
 
-モデルは ollama-cloud の OpenAI 互換エンドポイント (`https://ollama.com/v1`) を `deepseek-v4.1-flash` で使う。ホスト上のもう 1 つのエージェントである dsh (`home/linux/dsh-web.nix`) と同じ組み合わせなので、プロバイダを増やさずに済む。
+モデルは ollama-cloud の OpenAI 互換エンドポイント (`https://ollama.com/v1`) を `deepseek-v4.1-flash` で使う。
 
 API キーは `secrets/ollama-api-key.age` を再利用する。ホームディレクトリ側の agenix は対話シェルの環境変数へ展開するだけなので、サービスからは読めない。そのため `modules/nixos/agenix.nix` に同じファイルをシステムの秘密情報としても登録し、`LoadCredential` でサービスへ渡す。復号が終わる前に unit が起動すると credential の読み込みに失敗するので、`agenix-install-secrets.service` の後に起動するよう並べている。
 

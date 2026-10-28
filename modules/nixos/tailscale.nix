@@ -50,59 +50,10 @@ let
     "$systemctl" restart tailscaled.service
   '';
 
-  waitForTailscale = pkgs.writeShellScript "wait-for-tailscale" ''
-    set -u
-
-    tailscale=${pkgs.tailscale}/bin/tailscale
-    jq=${pkgs.jq}/bin/jq
-    sleep=${pkgs.coreutils}/bin/sleep
-    seq=${pkgs.coreutils}/bin/seq
-
-    for _ in $("$seq" 1 60); do
-      state="$("$tailscale" status --json 2>/dev/null | "$jq" -r '.BackendState // empty' 2>/dev/null || true)"
-      if [ "$state" = "Running" ]; then
-        exit 0
-      fi
-      "$sleep" 2
-    done
-
-    echo "tailscaled did not reach Running; not publishing the tailnet services" >&2
-    exit 1
-  '';
-
-  # Tailscale Serve は tailnet 側のポートごとに転送先を 1 つ持つ。
-  serveService =
-    {
-      description,
-      tailnetPort,
-      localPort,
-    }:
-    {
-      inherit description;
-      after = [ "tailscaled.service" ];
-      wants = [ "tailscaled.service" ];
-      wantedBy = [ "multi-user.target" ];
-      preStart = "${waitForTailscale}";
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        Restart = "on-failure";
-        RestartSec = 10;
-        ExecStart = "${pkgs.tailscale}/bin/tailscale serve --bg --https=${toString tailnetPort} ${toString localPort}";
-      };
-    };
 in
 {
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 443 ];
-
   systemd = {
     services = {
-      tailscale-serve-dsh = serveService {
-        description = "Publish the DeepSeek Harness web UI to the tailnet";
-        tailnetPort = 443;
-        localPort = 3080;
-      };
-
       tailscale-healthcheck = {
         description = "Tailscale health check and auto-restart";
         after = [ "tailscaled.service" ];
