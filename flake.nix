@@ -50,11 +50,6 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    mokmok-agent = {
-      url = "github:mokmok-dev/agent";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 
