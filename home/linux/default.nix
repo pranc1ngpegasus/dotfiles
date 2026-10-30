@@ -2,6 +2,7 @@ _: {
   imports = [
     ../base
     ./docker.nix
+    ./obsidian-headless.nix
     ./opencode.nix
   ];
 

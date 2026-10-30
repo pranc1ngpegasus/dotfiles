@@ -46,6 +46,7 @@ nix fmt
 - CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
 - mokmok のエージェントデーモンは NixOS のサービスとして動かし、設定と秘密情報の受け渡しは `modules/nixos/mokmok-agent.nix` にまとめている。詳細は [docs/mokmok-agent.md](docs/mokmok-agent.md) を参照
 - OpenCode のサーバーと Web UI は NixOS の systemd ユーザーサービスとして動かし、Tailscale Serve で tailnet に公開する。詳細は [docs/opencode.md](docs/opencode.md) を参照
+- Obsidian Headless は NixOS で systemd ユーザーサービスとして常駐させ、`ob sync --continuous` で vault を同期し続ける。詳細は [docs/obsidian-headless.md](docs/obsidian-headless.md) を参照
 - Nix コードのフォーマットには nixfmt を使用している
 
 ## Conventions
