@@ -47,6 +47,7 @@ nix fmt
 - mokmok のエージェントデーモンは NixOS のサービスとして動かし、設定と秘密情報の受け渡しは `modules/nixos/mokmok-agent.nix` にまとめている。詳細は [docs/mokmok-agent.md](docs/mokmok-agent.md) を参照
 - OpenCode のサーバーと Web UI は NixOS の systemd ユーザーサービスとして動かし、Tailscale Serve で tailnet に公開する。詳細は [docs/opencode.md](docs/opencode.md) を参照
 - Obsidian Headless は NixOS で systemd ユーザーサービスとして常駐させ、`ob sync --continuous` で vault を同期し続ける。詳細は [docs/obsidian-headless.md](docs/obsidian-headless.md) を参照
+- RustXNG は flake input からビルドし、mcp-searxng を介して Grok Build の MCP サーバーとして使う。詳細は [docs/rustxng.md](docs/rustxng.md) を参照
 - Nix コードのフォーマットには nixfmt を使用している
 
 ## Conventions

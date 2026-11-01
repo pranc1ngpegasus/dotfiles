@@ -6,6 +6,7 @@
     ./editor.nix
     ./locale.nix
     ./programs.nix
+    ./rustxng.nix
     ./bash.nix
     ./tmux.nix
     inputs.nix-index-database.homeModules.nix-index

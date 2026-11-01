@@ -50,6 +50,11 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    rustxng = {
+      url = "github:sahenjp/RustXNG/v0.26.0";
+      flake = false;
+    };
+
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 

@@ -4,6 +4,7 @@ _: {
     ./docker.nix
     ./obsidian-headless.nix
     ./opencode.nix
+    ./rustxng.nix
   ];
 
   my = {
