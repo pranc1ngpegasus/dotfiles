@@ -1,6 +1,7 @@
 { inputs, pkgs, ... }:
 {
   environment.systemPackages = [
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2
     pkgs.skills
