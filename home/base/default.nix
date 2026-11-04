@@ -3,6 +3,7 @@
   imports = [
     ./options.nix
     ./agenix.nix
+    ./codex.nix
     ./editor.nix
     ./locale.nix
     ./programs.nix

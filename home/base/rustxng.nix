@@ -6,6 +6,7 @@
   ...
 }:
 let
+  codex = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex;
   grok = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.grok;
 in
 {
@@ -24,6 +25,12 @@ in
   home.activation.rustxngMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run env GROK_HOME="${config.home.homeDirectory}/.grok" ${lib.getExe grok} mcp add rustxng \
       -e SEARXNG_URL=http://127.0.0.1:8888 \
+      -- ${lib.getExe pkgs.mcp-searxng}
+  '';
+
+  home.activation.codexRustxngMcp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run env CODEX_HOME="${config.home.homeDirectory}/.codex" ${lib.getExe codex} mcp add rustxng \
+      --env SEARXNG_URL=http://127.0.0.1:8888 \
       -- ${lib.getExe pkgs.mcp-searxng}
   '';
 }
