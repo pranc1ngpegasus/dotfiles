@@ -1,9 +1,9 @@
 _: {
   imports = [
     ../base
+    ./codex.nix
     ./docker.nix
     ./obsidian-headless.nix
-    ./opencode.nix
     ./rustxng.nix
   ];
 
