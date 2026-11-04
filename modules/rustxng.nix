@@ -8,7 +8,7 @@
 
         src = inputs.rustxng;
 
-        cargoHash = "sha256-OZew/HTzhBjlviJYCQknkKiAP4D5ufOkRNPA2ZedjkM=";
+        cargoHash = "sha256-StbnHCm2uxYph141nQ/gZ3XnrTZSIDh7haquazc8q1U=";
 
         meta = {
           description = "Self-hosted, SearXNG-compatible web search API";
