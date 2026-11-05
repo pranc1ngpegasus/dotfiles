@@ -44,7 +44,7 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 - `common.nix` は unfree パッケージの許可、タイムゾーン、`my.primaryUser` オプションを定義する
 - `environment.nix` は `environment.shells` に bashInteractive を設定する
 - `fonts.nix` は JetBrainsMono Nerd Font をインストールする
-- `llm-agents.nix` は `inputs.llm-agents` から grok、codex を引いて systemPackages へ入れる
+- `llm-agents.nix` は `inputs.llm-agents` から grok、codex、dsh を引いて systemPackages へ入れる
 - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
 - `rustxng.nix` は flake input の RustXNG v0.28.0 を overlay で `pkgs.rustxng` としてビルドする
 - `tailscale.nix` は tailscaled を有効化する
@@ -68,6 +68,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
 - `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
+- `dsh-web.nix` は dsh の Web UI を tailnet へ公開する Tailscale Serve の oneshot サービスを定義する。詳細は [dsh-web.md](dsh-web.md) を参照する
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
@@ -98,7 +99,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`codex.nix` は Codex の app-server を remote control 付きで systemd ユーザーサービスとして常駐させ、落ちた daemon をタイマーで復帰させる。詳細は [codex.md](codex.md) を参照する。`rustxng.nix` は RustXNG を systemd ユーザーサービスとして常駐させる。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`dsh-web.nix` は `dsh web` を systemd ユーザーサービスとして常駐させ、Tailscale Serve 経由で tailnet から使えるようにする。詳細は [dsh-web.md](dsh-web.md) を参照する。`rustxng.nix` は RustXNG を systemd ユーザーサービスとして常駐させる。
 
 ## OS ごとの差異
 
@@ -110,6 +111,7 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
 | コンテナ | 導入しない | rootless の `virtualisation.docker` を systemd のユーザーサービスとして動かす | `modules/nixos/docker.nix`、`home/linux/docker.nix` |
 | 検索 API | launchd のエージェントとして RustXNG を常駐させる | systemd のユーザーサービスとして RustXNG を常駐させる | `home/darwin/rustxng.nix`、`home/linux/rustxng.nix` |
+| Web UI | なし | dsh の Web UI を Tailscale Serve で tailnet に公開する | `modules/nixos/dsh-web.nix`、`home/linux/dsh-web.nix` |
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | ローカル名前解決 | Bonjour が標準で `.local` を解決する | Avahi を有効にして `nixos.local` を公開し、`nssmdns4` で `.local` を解決する | `modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化してネットワークの切断を防ぎ、amd-pstate を passive モードにして schedutil で周波数を制御する | `modules/nixos/power.nix`、`hosts/nixos.nix` |
