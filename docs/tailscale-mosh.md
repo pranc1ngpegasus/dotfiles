@@ -43,6 +43,16 @@ Mac でコピーした内容を接続先で使うときは、端末のペース�
 
 `xsel` と `xclip` は X11 の、`wl-copy` は Wayland のクリップボードを操作するコマンドである。mosh や SSH で接続しただけのセッションにはこれらの表示サーバーが無いので、`xsel: Can't open display` のように失敗する。`home/base/tmux.nix` は表示サーバーがある環境 (NixOS を直接操作する場合など) のためにこれらをインストールし、tmux-yank のコピーコマンドを表示サーバーの有無で切り替えている。表示サーバーが無いときは tmux の OSC 52 経由で書き込む。
 
+## レイテンシの切り分け
+
+入力してから画面が変わるまでの遅れは、サーバー側のスケジューラ待ち、サーバー側の I/O 待ち、回線の往復遅延に分けて測る。mosh-server が CPU を待っているかは `/proc/<pid>/schedstat` の 2 列目 (ランキューで待ったナノ秒) を時間を空けて 2 回読み、その差分で分かる。システム全体が I/O で止まっているかは `/proc/pressure/io` の `full` 行で分かる。回線は接続元とルーターに `ping` を打って比べる。
+
+このホストで測ったとき、mosh-server のランキュー待ちは 5 秒あたり 9 µs で、優先度は遅延の原因ではなかった。遅れの主因は、ビルドが書き出した数 GiB の dirty ページをカーネルが一気に返済する間、I/O を待つすべてのプロセスが止まることだった。`hosts/nixos.nix` は dirty ページの上限を下げて返済を細く流し、`modules/nixos/nix.nix` は nix-daemon を対話セッションより低い優先度に置いている。
+
+ビルドのログを流し続けると、tmux がその出力を解析し続けて 1 コアの半分を使い、mosh がその差分を送り続ける。`nix flake check --print-build-logs` のように大量のログを出すコマンドを mosh のセッション内で動かすと、入力の処理がその後ろで待たされる。
+
+接続元が Wi-Fi や省電力状態にあると、同じセグメントでも往復に 3 ms 程度が乗る。この値はサーバー側の設定では減らせない。
+
 ## 注意点
 
 - mosh は最初に SSH で接続する。Tailscale の MagicDNS 名 (`*.tt.ts.net`) と Tailscale IP (`100.x.x.x`) 宛の接続には、`home/base/programs/ssh.nix` で Secure Enclave 鍵 (`~/.ssh/id_enclave_key`) による公開鍵認証の設定が済んでいる。それ以外の宛先やエージェント転送が必要な場合は `programs/ssh.nix` を調整する

@@ -17,6 +17,18 @@ in
   # c-state (C6 など) を無効化する。
   boot.kernelParams = [ "processor.max_cstate=1" ];
 
+  # カーネルに溜めさせる dirty ページの上限を下げる。既定の vm.dirty_ratio=20% は
+  # 60GiB のメモリで 12GiB まで書き戻しを遅らせるため、ビルドが数 GiB を一気に
+  # 書き出すと、その返済の間 I/O を待つすべてのプロセスが止まる。上限を小さくすると
+  # 書き戻しが常時細く流れ、対話操作の待ち時間が平準化される。dirty_bytes を設定すると
+  # dirty_ratio は無視されるので、background 側も bytes で揃える。background を既定の
+  # 10% のままにすると dirty_bytes に達するまで書き戻しが始まらず、書き込み側が
+  # 同期で待たされる。
+  boot.kernel.sysctl = {
+    "vm.dirty_background_bytes" = 268435456;
+    "vm.dirty_bytes" = 1073741824;
+  };
+
   # メモリ圧迫時に OOM killer が動くまでの余裕を作る。
   zramSwap = {
     enable = true;
