@@ -51,7 +51,7 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     rustxng = {
-      url = "github:sahenjp/RustXNG/v0.28.0";
+      url = "github:sahenjp/RustXNG/v0.26.0";
       flake = false;
     };
 
