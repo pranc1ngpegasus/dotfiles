@@ -44,7 +44,7 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 - `common.nix` は unfree パッケージの許可、タイムゾーン、`my.primaryUser` オプションを定義する
 - `environment.nix` は `environment.shells` に bashInteractive を設定する
 - `fonts.nix` は JetBrainsMono Nerd Font をインストールする
-- `llm-agents.nix` は `inputs.llm-agents` から grok、codex を引いて systemPackages へ入れる
+- `llm-agents.nix` は `inputs.llm-agents` から grok、dsh を引いて systemPackages へ入れる
 - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
 - `rustxng.nix` は flake input の RustXNG v0.28.0 を overlay で `pkgs.rustxng` としてビルドする
 - `tailscale.nix` は tailscaled を有効化する
@@ -98,7 +98,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`codex.nix` は Codex の app-server を remote control 付きで systemd ユーザーサービスとして常駐させ、落ちた daemon をタイマーで復帰させる。詳細は [codex.md](codex.md) を参照する。`rustxng.nix` は RustXNG を systemd ユーザーサービスとして常駐させる。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`rustxng.nix` は RustXNG を systemd ユーザーサービスとして常駐させる。
 
 ## OS ごとの差異
 
