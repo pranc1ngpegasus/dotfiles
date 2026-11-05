@@ -46,7 +46,7 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 - `fonts.nix` は JetBrainsMono Nerd Font をインストールする
 - `llm-agents.nix` は `inputs.llm-agents` から grok、codex を引いて systemPackages へ入れる
 - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
-- `rustxng.nix` は flake input の RustXNG v0.26.0 を overlay で `pkgs.rustxng` としてビルドする
+- `rustxng.nix` は flake input の RustXNG v0.28.0 を overlay で `pkgs.rustxng` としてビルドする
 - `tailscale.nix` は tailscaled を有効化する
 - `home-manager.nix` は `isDarwin` に応じて home-manager の darwin / nixos モジュールを import し、`useGlobalPkgs`、`backupFileExtension`、`extraSpecialArgs` と `my.primaryUser` のユーザー割り当てを共通化する。`useUserPackages` は NixOS のときだけ有効にする
 

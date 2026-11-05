@@ -589,16 +589,16 @@
     "rustxng": {
       "flake": false,
       "locked": {
-        "lastModified": 1793531051,
-        "narHash": "sha256-1CKwPZsFPFfpSla/vrMMn1+eIHzYfcg/U/i7Ci7zjdI=",
+        "lastModified": 1793832912,
+        "narHash": "sha256-p5zw3YgllbBuFo+SuYc+FicWvZt+HVS6FZJLUy1CpqY=",
         "owner": "sahenjp",
         "repo": "RustXNG",
-        "rev": "fef998b69cc1882a9258a7f2cba59bf77793d729",
+        "rev": "0f2ddea9b0c5d284c0f126bd27f7d85346245082",
         "type": "github"
       },
       "original": {
         "owner": "sahenjp",
-        "ref": "v0.26.0",
+        "ref": "v0.28.0",
         "repo": "RustXNG",
         "type": "github"
       }

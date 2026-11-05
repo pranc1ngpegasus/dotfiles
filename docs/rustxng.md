@@ -26,8 +26,8 @@ Ollama Cloud 自体には [`/api/web_search`](https://docs.ollama.com/capabiliti
 
 ## ファイルの役割
 
-- `flake.nix` は RustXNG を `v0.26.0` のタグに固定した flake input を持つ。`flake = false` なのでパッケージではなくソースとして取り込む。
-- `modules/rustxng.nix` は `pkgs.rustxng` を overlay で定義する。`cargoHash` は固定したソースに対する vendor のハッシュである。
+- `flake.nix` は RustXNG を `v0.28.0` のタグに固定した flake input を持つ。`flake = false` なのでパッケージではなくソースとして取り込む。
+- `modules/rustxng.nix` は `pkgs.rustxng` を overlay で定義する。`version` は取り込んだソースの `Cargo.toml` から読むため、flake input を更新すれば自動で追従する。`cargoHash` は固定したソースに対する vendor のハッシュである。PDF の読み取りに使う `pdftotext` は Poppler を同梱して PATH に足す。
 - `home/base/rustxng.nix` は `~/.config/rustxng/settings.toml` を書き、home-manager の activation で `grok mcp add` と `codex mcp add` を実行して、それぞれのユーザー設定に MCP サーバーを登録する。RustXNG の設定は埋め込みデフォルトに重ねる差分だけを持ち、`formats` に `json` を加える。
 - `home/linux/rustxng.nix` は systemd のユーザーサービスを定義する。
 - `home/darwin/rustxng.nix` は launchd のユーザーエージェントを定義する。
@@ -108,6 +108,6 @@ RustXNG を新しいタグへ上げるときは、`flake.nix` の `url` のタ�
 nix flake update rustxng
 ```
 
-`cargoHash` はソースが変わると一致しなくなる。`modules/rustxng.nix` の `cargoHash` を `lib.fakeHash` に変えて `nixos-rebuild build --flake .#nixos` か `darwin-rebuild build --flake .#M4MacBookAir` を実行すると、Nix が期待するハッシュをエラーに出す。その値を `cargoHash` に戻す。ビルドだけを行い、`switch` は実行しない。
+`version` はソースの `Cargo.toml` から読むため、手で書き換える箇所はない。`cargoHash` はソースが変わると一致しなくなる。`modules/rustxng.nix` の `cargoHash` を `prev.lib.fakeHash` に変えて `nixos-rebuild build --flake .#nixos` か `darwin-rebuild build --flake .#M4MacBookAir` を実行すると、Nix が期待するハッシュをエラーに出す。その値を `cargoHash` に戻す。ビルドだけを行い、`switch` は実行しない。
 
 パッケージの store path が変わると各ユーザー設定の `command` も古くなる。次の switch の activation が `grok mcp add` と `codex mcp add` を再実行するため、この値は自動で更新される。
