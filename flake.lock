@@ -252,11 +252,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791909798,
-        "narHash": "sha256-VAhpCOmrun/KXimYfR8NM88bciKCui7CqHHhThSzgag=",
+        "lastModified": 1793686154,
+        "narHash": "sha256-Zb/0L3soxrkfcrywpfp0J++0WFLB3tzh0Xtx9up+VNc=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "1ba1dbfe28738c9a71c266be6efa5b89e75491a9",
+        "rev": "204b6977e00caac19e2313015a598543ca7be150",
         "type": "github"
       },
       "original": {
@@ -338,11 +338,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793577798,
-        "narHash": "sha256-DFgQRRwGWc4Jaqwh40ArLaXk0O1lCwajU+8kVgvFITM=",
+        "lastModified": 1793664170,
+        "narHash": "sha256-wj+DkbLRJ64iACjZIMxRXxfh7WqgZwbatRmMhe3Hje0=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "efa69e73f659ebd44e774925c781d295706e3228",
+        "rev": "57b69c515047758595c5ea31722ee090dfd65cc9",
         "type": "github"
       },
       "original": {
@@ -354,11 +354,11 @@
     "neovim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1793577439,
-        "narHash": "sha256-gleqzqttXM8l8FLNTngRU1l4GTsAQZMzvyRBJ7A1yZk=",
+        "lastModified": 1793648062,
+        "narHash": "sha256-Py+WcDNHCVWGc/ISJPDL5tHD3/evCGWczSAiZEpQd18=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "92ea3264657a77c4e1de270777c2c9b2fa239220",
+        "rev": "6332ba64fe56f922c5cd2d93e4cfa23673966b6d",
         "type": "github"
       },
       "original": {
@@ -435,11 +435,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1786969949,
-        "narHash": "sha256-4ehcgkd5Rv+01cDGhe42/cM9cwi4UnooKyUP5MP3k7k=",
+        "lastModified": 1793665847,
+        "narHash": "sha256-UaCYRFcKNflcdUQKu11hPKa2XWRrXQEY0uFBqESBcD8=",
         "owner": "ryoppippi",
         "repo": "nix-secure-enclave-key",
-        "rev": "7975b7d33ec2b6c733e08c87c9cb1e7945462a1c",
+        "rev": "f781258530f8775d9935f92aa2a2832f432a82a3",
         "type": "github"
       },
       "original": {
@@ -589,16 +589,16 @@
     "rustxng": {
       "flake": false,
       "locked": {
-        "lastModified": 1793531051,
-        "narHash": "sha256-1CKwPZsFPFfpSla/vrMMn1+eIHzYfcg/U/i7Ci7zjdI=",
+        "lastModified": 1793694153,
+        "narHash": "sha256-x2uXWZ0ZqbNDgqcUfnOYyGbKjYfG1wTSJCJEibBiIHI=",
         "owner": "sahenjp",
         "repo": "RustXNG",
-        "rev": "fef998b69cc1882a9258a7f2cba59bf77793d729",
+        "rev": "3a313128318f70991c5dd1f03a226e181c13b821",
         "type": "github"
       },
       "original": {
         "owner": "sahenjp",
-        "ref": "v0.26.0",
+        "ref": "v0.27.1",
         "repo": "RustXNG",
         "type": "github"
       }
