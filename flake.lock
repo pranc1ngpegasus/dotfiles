@@ -582,25 +582,7 @@
         "nix-index-database": "nix-index-database",
         "nix-secure-enclave-key": "nix-secure-enclave-key",
         "nixpkgs": "nixpkgs_5",
-        "rustxng": "rustxng",
         "treefmt-nix": "treefmt-nix_2"
-      }
-    },
-    "rustxng": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1793694153,
-        "narHash": "sha256-x2uXWZ0ZqbNDgqcUfnOYyGbKjYfG1wTSJCJEibBiIHI=",
-        "owner": "sahenjp",
-        "repo": "RustXNG",
-        "rev": "3a313128318f70991c5dd1f03a226e181c13b821",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sahenjp",
-        "ref": "v0.27.1",
-        "repo": "RustXNG",
-        "type": "github"
       }
     },
     "systems": {

@@ -6,7 +6,6 @@
     ../home-manager.nix
     ../llm-agents.nix
     ../neovim-overlay.nix
-    ../rustxng.nix
     ../tailscale.nix
     ./agenix.nix
     ./boot.nix

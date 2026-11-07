@@ -3,7 +3,6 @@ _: {
     ../base
     ./docker.nix
     ./obsidian-headless.nix
-    ./rustxng.nix
   ];
 
   my = {

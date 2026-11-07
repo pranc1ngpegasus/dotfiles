@@ -46,7 +46,6 @@ nixpkgs の input は FlakeHub の rolling チャンネル (`https://flakehub.co
 - `fonts.nix` は JetBrainsMono Nerd Font をインストールする
 - `llm-agents.nix` は `inputs.llm-agents` から grok、dsh を引いて systemPackages へ入れる
 - `neovim-overlay.nix` は neovim-nightly-overlay を `nixpkgs.overlays` に追加し、`pkgs.neovim-unwrapped` を nightly ビルドに差し替える
-- `rustxng.nix` は flake input の RustXNG v0.28.0 を overlay で `pkgs.rustxng` としてビルドする
 - `tailscale.nix` は tailscaled を有効化する
 - `home-manager.nix` は `isDarwin` に応じて home-manager の darwin / nixos モジュールを import し、`useGlobalPkgs`、`backupFileExtension`、`extraSpecialArgs` と `my.primaryUser` のユーザー割り当てを共通化する。`useUserPackages` は NixOS のときだけ有効にする
 
@@ -88,17 +87,16 @@ home-manager によるユーザー環境である。
 - `editor.nix` は Neovim nightly、LSP、プラグイン、エディタ設定を管理する
 - `locale.nix` は `LANG` を設定する
 - `programs.nix` は個別ツールの設定を束ねる。`programs/` には atuin、direnv、fzf、git、nh、ssh と CLI パッケージ一覧を置く
-- `rustxng.nix` は RustXNG の設定を書き、activation で `grok mcp add` を実行して mcp-searxng を Grok Build の MCP サーバーとして登録する
 - `bash.nix` は Bash の設定を管理する。history は atuin が、Ctrl+G / Ctrl+W の fuzzy cd は fzf-tmux が担う
 - `tmux.nix` は Tmux の設定を管理する (prefix は C-q)。`set-clipboard on` と `terminal-features` により、コピーした内容は OSC 52 としてクライアントの端末へ送られる。これを利用して、mosh や SSH で接続した表示サーバーの無いセッションでも手元の端末のクリップボードを共有する。Linux には表示サーバーがあるときに tmux-yank と Neovim が使う xsel、xclip、wl-clipboard を導入し、表示サーバーが無いときのコピーは tmux の OSC 52 経由に切り替える。macOS では pbcopy を使う。仕組みの詳細は [tailscale-mosh.md](tailscale-mosh.md) を参照する
 
 ### home/darwin
 
-macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設定を、`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import して Secure Enclave 内の鍵による Git の SSH 署名を行う。`nh.nix` は launchd が `nh clean` の各オプションを個別の引数として渡すように `ProgramArguments` を上書きする。`rustxng.nix` は RustXNG を launchd エージェントとして常駐させる。
+macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設定を、`secure-enclave-key.nix` は nix-secure-enclave-key の home-manager モジュールを import して Secure Enclave 内の鍵による Git の SSH 署名を行う。`nh.nix` は launchd が `nh clean` の各オプションを個別の引数として渡すように `ProgramArguments` を上書きする。
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`rustxng.nix` は RustXNG を systemd ユーザーサービスとして常駐させる。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。
 
 ## OS ごとの差異
 
@@ -109,7 +107,6 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | Nix の配布 | Determinate の nix-darwin モジュール。nix-darwin に nix.conf を管理させない | Determinate の NixOS モジュール。`nix.package` を差し替え、nix.conf を nix.custom.conf へリダイレクトする | `modules/darwin/determinate.nix`、`modules/nixos/determinate.nix` |
 | Nix の設定 | Determinate Nixd に任せる。自動 GC を明示する | `nix.settings` と `nix.optimise.automatic` | `modules/darwin/determinate.nix`、`modules/nixos/nix.nix` |
 | コンテナ | 導入しない | rootless の `virtualisation.docker` を systemd のユーザーサービスとして動かす | `modules/nixos/docker.nix`、`home/linux/docker.nix` |
-| 検索 API | launchd のエージェントとして RustXNG を常駐させる | systemd のユーザーサービスとして RustXNG を常駐させる | `home/darwin/rustxng.nix`、`home/linux/rustxng.nix` |
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | ローカル名前解決 | Bonjour が標準で `.local` を解決する | Avahi を有効にして `nixos.local` を公開し、`nssmdns4` で `.local` を解決する | `modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化してネットワークの切断を防ぎ、amd-pstate を passive モードにして schedutil で周波数を制御する | `modules/nixos/power.nix`、`hosts/nixos.nix` |

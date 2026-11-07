@@ -4,7 +4,6 @@
     ../base
     ./ghostty.nix
     ./nh.nix
-    ./rustxng.nix
     ./secure-enclave-key.nix
   ];
 
