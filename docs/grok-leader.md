@@ -22,4 +22,8 @@ leader は `~/.grok/leader.sock` で待ち受ける。対話的なクライア�
 
 ## 認証情報
 
-モデルの API 認証情報はクライアントが供給する。`OLLAMA_API_KEY` を持たない leader に、そのキーを持つクライアントからプロンプトを送ると応答が返ることを 2026-11-10 に確認した。そのためユニットはキーを転送しない。キーを持たないクライアントは、サービスが動いていても 401 で失敗する。
+`home/linux/grok-leader.nix` は home-manager の agenix が `$XDG_RUNTIME_DIR/agenix/ollama-api-key` に展開する `OLLAMA_API_KEY` を読んでから leader を起動する。`~/.grok/config.toml` のモデル定義は `env_key = "OLLAMA_API_KEY"` を指定しているが、この環境変数を解決するのは推論を実行するプロセスである。leader がセッション本体の推論を実行するため、キーを持たない leader ではリクエストに認証ヘッダが付かず 401 になる。クライアントが持つキーはサブエージェントには渡るが、leader のメインターンには渡らない。
+
+`Unit.After` と `Unit.Wants` に `agenix.service` を指定しているのは、秘密情報のマウントが終わる前にキーを読まないようにするためである。キーを読めない場合、スクリプトは `set -euo pipefail` で終了し、サービスは再起動を繰り返す。無認証のまま起動して 401 を返し続けるより、起動の失敗として気付けるほうがよい。
+
+キーが解決できない場合、grok はセッションの OIDC トークンを第三者エンドポイントへ送らない。そのため、ログに `Auth: Oidc` と出ていても実際にはキーが送られておらず、Ollama は未認証として 401 を返す。grok はこれを「Authentication temporarily unavailable」と表示して再試行を促すが、この場合は環境変数の欠落が原因なので再試行では直らない。
