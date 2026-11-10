@@ -96,7 +96,7 @@ macOS 固有の home-manager 設定を置く。`ghostty.nix` は Ghostty の設�
 
 ### home/linux
 
-Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。
+Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と buildx、compose を導入し、ログインシェルを経由しない対話シェルにも `DOCKER_HOST` を張る。`grok-leader.nix` は Grok の agent leader を systemd ユーザーサービスとして動かし続ける。
 
 ## OS ごとの差異
 
@@ -113,6 +113,7 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
+| Grok の agent leader | なし | systemd ユーザーサービスで常駐させる | `home/linux/grok-leader.nix` |
 | フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
 
 ## CI
