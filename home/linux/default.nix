@@ -2,6 +2,7 @@ _: {
   imports = [
     ../base
     ./docker.nix
+    ./grok-leader.nix
     ./obsidian-headless.nix
   ];
 
