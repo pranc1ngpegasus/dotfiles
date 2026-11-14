@@ -3,7 +3,6 @@ _: {
     ../base
     ./docker.nix
     ./grok-leader.nix
-    ./obsidian-headless.nix
   ];
 
   my = {
