@@ -29,12 +29,6 @@ in
     "vm.dirty_bytes" = 1073741824;
   };
 
-  # メモリ圧迫時に OOM killer が動くまでの余裕を作る。
-  zramSwap = {
-    enable = true;
-    memoryPercent = 25;
-  };
-
   my.primaryUser = user;
 
   networking.hostName = "nixos";
