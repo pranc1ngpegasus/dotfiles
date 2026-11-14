@@ -1,14 +1,9 @@
 let
   pranc1ngpegasus = "age1lumpac7m5fkv33rq287faf56f2fx9y2qjlhlcexmjm4evacgef9sugdff5";
-  nixos = "age10c9z8cy2sgjcmayrysm4x0p0d0k5yh3y8dlhd62t3le9hv2peurqw7vlem";
+  nixos = "age1p3g3fmjvt8p87pfg3mnzpw7z88g7c64kgw8y65uf5mcsvufs8gas2cr8kh";
 in
 {
   "ollama-api-key.age".publicKeys = [
-    pranc1ngpegasus
-    nixos
-  ];
-
-  "user-password.age".publicKeys = [
     pranc1ngpegasus
     nixos
   ];
