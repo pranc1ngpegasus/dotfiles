@@ -2,6 +2,7 @@ _: {
   imports = [
     ./options.nix
     ./agenix.nix
+    ./agent-browser.nix
     ./editor.nix
     ./locale.nix
     ./programs.nix
