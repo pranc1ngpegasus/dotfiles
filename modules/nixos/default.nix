@@ -12,6 +12,7 @@
     ./determinate.nix
     ./docker.nix
     ./environment.nix
+    ./kuroko.nix
     ./networking.nix
     ./nix.nix
     ./openssh.nix

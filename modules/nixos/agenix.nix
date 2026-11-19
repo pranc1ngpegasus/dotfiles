@@ -15,6 +15,14 @@
         group = "root";
         mode = "0400";
       };
+      # kuroko は Linear の webhook 署名鍵をこの環境ファイルから読む。値は
+      # サービスを動かすユーザーだけが読めればよい。
+      kuroko-env = {
+        file = ../../secrets/kuroko-env.age;
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
   };
 }

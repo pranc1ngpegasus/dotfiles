@@ -68,6 +68,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `boot.nix` は systemd-boot を設定する
 - `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
+- `kuroko.nix` は Linear の webhook を受けて grok へ委譲課題を渡すデーモンを、上流の NixOS モジュール経由でシステムサービスとして動かす
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
@@ -114,6 +115,7 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
 | Grok の agent leader | なし | systemd ユーザーサービスで常駐させる | `home/linux/grok-leader.nix` |
+| Linear の委譲課題 | なし | kuroko をシステムサービスで常駐させ、grok を headless で呼ぶ | `modules/nixos/kuroko.nix` |
 | フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
 
 ## CI

@@ -47,6 +47,7 @@ nix fmt
 - mokmok のエージェントデーモンは NixOS のサービスとして動かし、設定と秘密情報の受け渡しは `modules/nixos/mokmok-agent.nix` にまとめている。詳細は [docs/mokmok-agent.md](docs/mokmok-agent.md) を参照
 - Obsidian Headless は NixOS で systemd ユーザーサービスとして常駐させ、`ob sync --continuous` で vault を同期し続ける。詳細は [docs/obsidian-headless.md](docs/obsidian-headless.md) を参照
 - Grok の agent leader は NixOS で systemd ユーザーサービスとして常駐させ、`--no-exit-on-disconnect` と `--no-auto-update` を付けて起動する。詳細は [docs/grok-leader.md](docs/grok-leader.md) を参照
+- kuroko は Linear の webhook を受け取り、委譲された課題を grok へ渡すデーモンで、NixOS のサービスとして動かす。詳細は [docs/kuroko.md](docs/kuroko.md) を参照
 - Nix コードのフォーマットには nixfmt を使用している
 
 ## Conventions
