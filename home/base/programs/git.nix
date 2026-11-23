@@ -37,13 +37,9 @@
     };
     ignores = [
       ".DS_Store"
-      ".claude/*"
-      ".direnv"
       ".env"
       ".envrc"
-      "go.work"
-      "go.work.sum"
-      ".zettelkasten/"
+      ".grok"
     ];
   };
 }
