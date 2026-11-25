@@ -70,7 +70,7 @@
         darwinConfigurations = {
           M4MacBookAir = inputs.nix-darwin.lib.darwinSystem {
             modules = [
-              ./hosts/M4MacBookAir.nix
+              ./hosts/M4MacBookAir
               ./modules/darwin
             ];
             specialArgs = {
@@ -83,7 +83,7 @@
         nixosConfigurations = {
           nixos = inputs.nixpkgs.lib.nixosSystem {
             modules = [
-              ./hosts/nixos.nix
+              ./hosts/nixos
               ./modules/nixos
             ];
             specialArgs = {

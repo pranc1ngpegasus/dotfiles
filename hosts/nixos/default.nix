@@ -7,7 +7,7 @@ let
 in
 {
   imports = [
-    ./nixos-hardware.nix
+    ./hardware.nix
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
