@@ -72,6 +72,7 @@ NixOS 固有の設定を責務単位に分割している。
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
 - `power.nix` は amd-pstate を passive モードにして governor を schedutil にする。schedutil はスケジューラの使用率に応じて周波数を要求するため、軽負荷時の発熱を抑えられる
 - `tailscale.nix` は tailscaled のハングを検知して自動再起動する oneshot サービスと、5 分間隔で実行するタイマーを定義する
+- `zram.nix` はディスクのスワップを持たない構成で、RAM を zstd で圧縮して使う zram スワップを有効にする。上限は RAM の 50% にする
 
 ## home/
 

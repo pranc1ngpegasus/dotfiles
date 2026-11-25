@@ -15,5 +15,6 @@
     ./nix.nix
     ./openssh.nix
     ./tailscale.nix
+    ./zram.nix
   ];
 }
