@@ -64,11 +64,9 @@ macOS 固有の設定を責務単位に分割している。
 NixOS 固有の設定を責務単位に分割している。
 
 - `determinate.nix` は Determinate Nix の NixOS モジュールを import する
-- `agenix.nix` はシステム側の agenix を有効にし、`user-password` を root 所有で配備して `users.users.<user>.hashedPasswordFile` に渡す
 - `boot.nix` は systemd-boot を設定する
 - `docker.nix` は rootless の `virtualisation.docker` を有効にする。dockerd は systemd のユーザーサービスとして動き、`$XDG_RUNTIME_DIR/docker.sock` で待ち受ける
 - `environment.nix` は mosh-server を非対話の SSH セッションからも使えるように systemPackages へ入れる
-- `kuroko.nix` は Linear の webhook を受けて grok へ委譲課題を渡すデーモンを、上流の NixOS モジュール経由でシステムサービスとして動かす
 - `networking.nix` は NetworkManager とブリッジ (`br0`) のプロファイル、mosh 用の UDP ポート開放を設定する。Avahi で `nixos.local` を mDNS に公開し、`nssmdns4` で `.local` の名前解決も行う
 - `nix.nix` は `nix.settings` (experimental-features、trusted-users) と `nix.optimise.automatic` を設定する。GC は Determinate Nixd が行うため `nix.gc.automatic` は設定しない
 - `openssh.nix` は公開鍵認証のみの SSH サーバーを有効にする
@@ -111,11 +109,10 @@ Linux 固有の home-manager 設定を置く。`docker.nix` は Docker CLI と b
 | ファイアウォール | Application Firewall で受信を遮断する | mosh 用に UDP 3610 と 60000-61000 を開放する | `modules/darwin/security.nix`、`modules/nixos/networking.nix` |
 | ローカル名前解決 | Bonjour が標準で `.local` を解決する | Avahi を有効にして `nixos.local` を公開し、`nssmdns4` で `.local` を解決する | `modules/nixos/networking.nix` |
 | 電源管理 | なし | Ryzen の deep c-state を無効化してネットワークの切断を防ぎ、amd-pstate を passive モードにして schedutil で周波数を制御する | `modules/nixos/power.nix`、`hosts/nixos.nix` |
-| 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH、パスワードは agenix の hashedPasswordFile | `modules/darwin/security.nix`、`modules/nixos/openssh.nix`、`hosts/nixos.nix` |
-| ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups、mutableUsers = false | `hosts/` |
+| 認証 | Touch ID による sudo、Caps Lock のリマップ | 公開鍵認証のみの SSH | `modules/darwin/security.nix`、`modules/nixos/openssh.nix` |
+| ユーザー | `system.primaryUser` と `/Users/<user>` | uid 1000、isNormalUser、extraGroups | `hosts/` |
 | Git の署名鍵 | `~/.ssh/id_enclave_key` (Secure Enclave) | `~/.ssh/id_ed25519_signing` | `home/darwin/default.nix`、`home/linux/default.nix` |
 | Grok の agent leader | なし | systemd ユーザーサービスで常駐させる | `home/linux/grok-leader.nix` |
-| Linear の委譲課題 | なし | kuroko をシステムサービスで常駐させ、grok を headless で呼ぶ | `modules/nixos/kuroko.nix` |
 | フォント、シェル、Neovim overlay、llm-agents | 共通 | 共通 | `modules/` 直下 |
 
 ## CI

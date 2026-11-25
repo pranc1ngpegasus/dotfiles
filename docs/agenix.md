@@ -76,4 +76,4 @@ agenix --rekey -i ~/.config/agenix/age.agekey
 
 ユーザー単位の秘密情報は、`home/base/agenix.nix` が home-manager の agenix モジュールで両 OS とも復号する。復号鍵はどちらも `~/.config/agenix/age.agekey` である。
 
-NixOS ではシステム側にも agenix が必要になる。`modules/nixos/agenix.nix` が `inputs.agenix.nixosModules.default` を import し、`user-password` を root 所有のファイルとして復号して `users.users.<user>.hashedPasswordFile` に渡す。`users.mutableUsers = false` と組み合わせることで、ユーザーのパスワードを宣言的に管理する。macOS 側にはシステムの agenix を置かず、ユーザー単位の秘密だけを扱う。
+システムの agenix はどちらの OS にも置いていない。root 権限で読む秘密情報が必要になったら、`modules/nixos/agenix.nix` で `inputs.agenix.nixosModules.default` を import し、`age.secrets` を宣言する。

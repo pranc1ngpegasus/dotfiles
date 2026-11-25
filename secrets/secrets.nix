@@ -7,8 +7,4 @@ in
     m4macbookair
     nixos
   ];
-  "kuroko-env.age".publicKeys = [
-    m4macbookair
-    nixos
-  ];
 }

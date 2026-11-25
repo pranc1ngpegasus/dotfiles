@@ -51,11 +51,6 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-
-    kuroko = {
-      url = "github:mokmok-dev/kuroko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

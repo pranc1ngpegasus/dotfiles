@@ -7,12 +7,10 @@
     ../llm-agents.nix
     ../neovim-overlay.nix
     ../tailscale.nix
-    ./agenix.nix
     ./boot.nix
     ./determinate.nix
     ./docker.nix
     ./environment.nix
-    ./kuroko.nix
     ./networking.nix
     ./nix.nix
     ./openssh.nix
