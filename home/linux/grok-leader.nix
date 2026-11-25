@@ -16,6 +16,16 @@ let
   '';
 in
 {
+  # CPU アカウンティングは現在の systemd では常に有効で、`CPUAccounting=` を
+  # 書いても警告が出て無視されるため指定しない。
+  systemd.user.slices.grok-leader.Slice = {
+    MemoryAccounting = true;
+    MemoryHigh = "40G";
+    MemoryMax = "48G";
+    TasksAccounting = true;
+    TasksMax = 4096;
+  };
+
   systemd.user.services.grok-leader = {
     Unit = {
       Description = "Grok agent leader";
@@ -23,6 +33,7 @@ in
       Wants = [ "agenix.service" ];
     };
     Service = {
+      Slice = "grok-leader.slice";
       ExecStart = startLeader;
       Restart = "on-failure";
       RestartSec = 5;

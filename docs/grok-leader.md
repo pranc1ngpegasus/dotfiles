@@ -8,6 +8,22 @@ TUI が起動する leader は最後のクライアントが切断した時点�
 
 leader は `~/.grok/leader.sock` で待ち受ける。対話的なクライアントが既定で使うパスと同じなので、サービスが動いている間はクライアントがそのまま接続する。
 
+## リソースの上限
+
+leader はセッションの推論とサブエージェントの実行を抱えるため、ほかのユーザーサービスより大きなメモリを使う。そこでサービスは既定の `app.slice` ではなく、専用の `grok-leader.slice` の中で動かす。スライスを分けると、leader とその子プロセスのメモリとタスクがほかのユーザーサービスと混ざらずに計上され、上限も leader だけに掛かる。leader が暴走しても、同じスライスにいるプロセスだけが影響を受ける。
+
+`home/linux/grok-leader.nix` は `grok-leader.slice` に次の値を設定している。
+
+- `MemoryHigh=40G` はソフトリミットである。使用量がこの値を超えるとカーネルが回収を強め、プロセスを止めずに速度を落として抑え込む
+- `MemoryMax=48G` はハードリミットである。この値を超えるとスライス内のプロセスは OOM killer の対象になる
+- `TasksMax=4096` はスライス内で同時に存在できるタスク (プロセスとスレッド) の上限である
+
+サービス側は `Service.Slice = "grok-leader.slice"` だけを指定している。systemd は `Slice=` を見ると、そのスライスへの `Requires=` と `After=` を自動で追加する。そのためスライスはサービスと一緒に起動し、スライス側に `WantedBy` を書く必要はない。
+
+使用状況は `systemctl --user status grok-leader.slice` で確認できる。値だけを読むときは `systemctl --user show grok-leader.slice -p MemoryCurrent -p MemoryHigh -p MemoryMax -p TasksCurrent -p TasksMax` を使う。
+
+`CPUAccounting=yes` は書いていない。現在の systemd ではスライスの CPU アカウンティングが常に有効で、この設定を書くと警告を出して無視するためである。
+
 ## 操作
 
 `systemctl --user status grok-leader` でサービスの状態を確認し、`journalctl --user -u grok-leader` で systemd のログを読む。`grok leader list` は起動中の leader を一覧し、`grok leader info` は leader の情報を表示する。
