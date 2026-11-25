@@ -44,7 +44,6 @@ nix fmt
 - GitHub への認証は `gh auth git-credential` による HTTPS 認証を使う。macOS の Git 署名は nix-secure-enclave-key で Secure Enclave 内の鍵を使って行い、秘密鍵をディスクに置かない
 - コンテナ実行環境は NixOS でのみ rootless の Docker を使う。`modules/nixos/docker.nix` が `virtualisation.docker.rootless` を有効にし、CLI と buildx、compose は `home/linux/docker.nix` で導入する
 - CLI パッケージ一覧は `home/base/programs/packages.nix` に集約している (LSP など editor 用のパッケージは `home/base/editor.nix` に置く)
-- mokmok のエージェントデーモンは NixOS のサービスとして動かし、設定と秘密情報の受け渡しは `modules/nixos/mokmok-agent.nix` にまとめている。詳細は [docs/mokmok-agent.md](docs/mokmok-agent.md) を参照
 - Obsidian Headless は NixOS で systemd ユーザーサービスとして常駐させ、`ob sync --continuous` で vault を同期し続ける。詳細は [docs/obsidian-headless.md](docs/obsidian-headless.md) を参照
 - Grok の agent leader は NixOS で systemd ユーザーサービスとして常駐させ、`--no-exit-on-disconnect` と `--no-auto-update` を付けて起動する。詳細は [docs/grok-leader.md](docs/grok-leader.md) を参照
 - kuroko は Linear の webhook を受け取り、委譲された課題を grok へ渡すデーモンで、NixOS のサービスとして動かす。詳細は [docs/kuroko.md](docs/kuroko.md) を参照
